@@ -21,29 +21,45 @@ public class TankMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //move forward - currently very shitty
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetAxis("LeftThumbStick") < 0)
+        //move forward - currently very shitty on keyboard
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+        if (Input.GetAxis("LeftThumbStick") < 0)
         {
             modSpeed = speed * -Input.GetAxis("LeftThumbStick");
             transform.Translate(Vector3.forward * modSpeed * Time.deltaTime);
         }
 
         //move backward - see move forward
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetAxis("LeftThumbStick") > 0)
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            transform.Translate(Vector3.back * speed * Time.deltaTime);
+        }
+        if (Input.GetAxis("LeftThumbStick") > 0)
         {
             modSpeed = speed * Input.GetAxis("LeftThumbStick");
             transform.Translate(Vector3.back * modSpeed * Time.deltaTime);
         }
 
         //rotate left
-        if (Input.GetKey(KeyCode.A) || Input.GetAxis("RightThumbStick") < 0)
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(0f, (-1 * rotateSpeed), 0f);
+        }
+        if (Input.GetAxis("RightThumbStick") < 0)
         {
             modRotateSpeed = rotateSpeed * -Input.GetAxis("RightThumbStick");
             transform.Rotate(0f, (-1 * modRotateSpeed), 0f);
         }
 
         //rotate right
-        if (Input.GetKey(KeyCode.D) || Input.GetAxis("RightThumbStick") > 0)
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(0f, (1 * rotateSpeed), 0f);
+        }
+        if (Input.GetAxis("RightThumbStick") > 0)
         {
             modRotateSpeed = rotateSpeed * Input.GetAxis("RightThumbStick");
             transform.Rotate(0f, (1 * modRotateSpeed), 0f);
