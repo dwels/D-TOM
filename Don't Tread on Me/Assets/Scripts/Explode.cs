@@ -57,7 +57,6 @@ public class Explode : MonoBehaviour {
             //if the thing it hit was a tank
             if (hit.gameObject.tag == "Player")
             {
-                print("collision");
                 //calculate damage based on distance to explosion epicenter
                 float damage = 15 - (damageDropoff * ((Vector3.Distance(hit.gameObject.transform.position, pos))/radius));
                 print("Damage: " + damage);
