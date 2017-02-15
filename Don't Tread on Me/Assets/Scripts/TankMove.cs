@@ -13,6 +13,8 @@ public class TankMove : MonoBehaviour {
     private float modRotateSpeed;
     private int angleCurrent;
 
+    public float HP = 100;
+
     // Use this for initialization
     void Start () {
         
@@ -93,6 +95,20 @@ public class TankMove : MonoBehaviour {
                 Cannon.transform.RotateAround(pivot.transform.position, pivot.transform.right, 10 * Time.deltaTime);
                 angleCurrent--;
             }
+        }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        //subtract damage from HP
+        HP -= damage;
+        print("Current HP: " + HP);
+
+        //if no HP
+        if (HP <= 0)
+        {
+            //destroy the tank
+            print("She's dead, Jim");
         }
     }
 }
