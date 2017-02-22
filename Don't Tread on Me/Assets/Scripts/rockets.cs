@@ -51,13 +51,13 @@ public class rockets : MonoBehaviour {
 		Rigidbody clone;
 		if (type == 0) 
 		{
-			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.up), Launcher.transform.rotation) as Rigidbody;
+			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.forward), Launcher.transform.rotation) as Rigidbody;
 		} 
 		else 
 		{
-			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.up), Launcher.transform.rotation) as Rigidbody;
+			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.forward), Launcher.transform.rotation) as Rigidbody;
 		}
-        clone.velocity = transform.TransformDirection(Vector3.up * power);
+        clone.velocity = transform.TransformDirection(Vector3.forward * power);
         Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode)); //clone.AddComponent<Explode>();
         //Destroy(clone);
     }
