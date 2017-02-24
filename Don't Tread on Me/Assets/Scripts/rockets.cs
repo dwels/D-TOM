@@ -15,34 +15,41 @@ public class rockets : MonoBehaviour {
     public float reloadTime = 0.5f;
     private float timeLast = 0.0f;
 
+    GameObject player;
+    PlayerTank playertank;
 
 
     // Use this for initialization
     void Start()
     {
 		rocketTrue = true;
+        player = GameObject.FindGameObjectWithTag("Player");
+        playertank = player.GetComponent<PlayerTank>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButton(0) || Input.GetAxis("RightTrigger") > 0)
-	    {
-            if(Time.time - timeLast > reloadTime)
+        if (!playertank.amDriver)
+        {
+            if (Input.GetMouseButton(0) || Input.GetAxis("RightTrigger") > 0)
             {
-				rocketTrue = true;
-				FireProjectile(0);
-                timeLast = Time.time;
-            }//reload time
-	    }
-		if (Input.GetMouseButton(1))
-		{
-			if(Time.time - timeLast > reloadTime)
-			{
-				rocketTrue = false;
-				FireProjectile(1);
-				timeLast = Time.time;
-			}//reload time
-		}
+                if (Time.time - timeLast > reloadTime)
+                {
+                    rocketTrue = true;
+                    FireProjectile(0);
+                    timeLast = Time.time;
+                }//reload time
+            }
+            if (Input.GetMouseButton(1))
+            {
+                if (Time.time - timeLast > reloadTime)
+                {
+                    rocketTrue = false;
+                    FireProjectile(1);
+                    timeLast = Time.time;
+                }//reload time
+            }
+        }
 		
 	}
 	
