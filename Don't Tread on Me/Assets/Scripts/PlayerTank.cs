@@ -28,8 +28,9 @@ public class PlayerTank : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-        if (amDriver)
+        if (amDriver) //if driver
         {
+            #region driver
             //rotate clockwise
             if (Input.GetAxis("LeftThumbStick") < 0 && Input.GetAxis("RightThumbVertical") > 0)
             {
@@ -75,9 +76,12 @@ public class PlayerTank : MonoBehaviour {
             {
                 rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, -(rotateSpeed * 100 * Time.deltaTime));
             }
-        }//if driver
-        else
+            #endregion
+        }
+        else // else
         {
+            // Paul: commented out for testing with Commander
+            /*
             #region default movement
             //move forward - currently very shitty on keyboard
             if (Input.GetKey(KeyCode.W))
@@ -123,6 +127,7 @@ public class PlayerTank : MonoBehaviour {
                 transform.Rotate(0f, (1 * modRotateSpeed), 0f);
             }
             #endregion
+            */
 
             #region tank top rotation
             //turn Top of Tank to the right
@@ -159,14 +164,14 @@ public class PlayerTank : MonoBehaviour {
                 }
             }
             #endregion
-        }//else
+        }
     }
 
     public void TakeDamage(float damage)
     {
         //subtract damage from HP
         HP -= damage;
-        print("Current HP: " + HP);
+        // print("Current HP: " + HP);
 
         //if no HP
         if (HP <= 0)
