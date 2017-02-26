@@ -12,9 +12,13 @@ public class CameraController : MonoBehaviour
     public float zOffset = 10;
     public int cameraSpeed = 10;
     public float distanceCap = 100;
-    public Camera camera;
+    public Camera mainCamera;
     public GameObject waypoint;
+    public bool amCommander = true;
+    public float reloadTime = 1.0f;
 
+    private GameObject currentWaypoint;
+    private float timeLast = 0.0f;
     private Vector3 oldPosition;
     private Vector3 oldTargetPosition;
 
@@ -35,22 +39,26 @@ public class CameraController : MonoBehaviour
         // old position
         oldPosition = transform.position;
 
-        // apple input
-        if (Input.GetKey(KeyCode.I) || Input.GetButton("Y"))
+        // only take input if commander
+        if (amCommander)
         {
-            transform.Translate(new Vector3(1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.GetKey(KeyCode.K) || Input.GetButton("A"))
-        {
-            transform.Translate(new Vector3(-1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.GetKey(KeyCode.J) || Input.GetButton("X"))
-        {
-            transform.Translate(new Vector3(-1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
-        }
-        if (Input.GetKey(KeyCode.L) || Input.GetButton("B"))
-        {
-            transform.Translate(new Vector3(1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
+            // apple input
+            if (Input.GetKey(KeyCode.I) || Input.GetButton("Y"))
+            {
+                transform.Translate(new Vector3(1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(KeyCode.K) || Input.GetButton("A"))
+            {
+                transform.Translate(new Vector3(-1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(KeyCode.J) || Input.GetButton("X"))
+            {
+                transform.Translate(new Vector3(-1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
+            }
+            if (Input.GetKey(KeyCode.L) || Input.GetButton("B"))
+            {
+                transform.Translate(new Vector3(1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
+            }
         }
 
         // check to see if too far away
@@ -94,23 +102,25 @@ public class CameraController : MonoBehaviour
         oldTargetPosition = target.transform.position;
 
         // create waypoints - in progress
-        /*
-        if (Input.GetButton("LT"))
+        if (Input.GetButton("RightStickClick"))
         {
-            CreateWaypoint();
+            if (Time.time - timeLast > reloadTime)
+            {
+                CreateWaypoint();
+                timeLast = Time.time;
+            }
         }
-        */
     }
 
     // waypoint creator
     void CreateWaypoint()
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(camera.transform.forward);
+        Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
 
         if (Physics.Raycast(ray, out hit))
         {
-            Instantiate(waypoint, hit.transform);
+            currentWaypoint = Instantiate(waypoint, hit.point, Quaternion.identity);
         }
     }
 }
