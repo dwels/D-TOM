@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerTank : MonoBehaviour {
 
     public int speed = 10;
-    public int rotateSpeed = 1;
+    public int rotateSpeed = 100;
     public GameObject TankTop;
     public GameObject Cannon;
     public GameObject cannonPivot;
@@ -15,10 +15,19 @@ public class PlayerTank : MonoBehaviour {
 
     public float HP = 100;
 
+    public int BoostTotal = 300; //5 seconds of boost
+    private int BoostFrames = 300;
+    private int i;
+    public int boostCooldown = 60;
+    private int framesSinceLastBoost;
+    private bool canBoost;
+
     public bool amDriver;
     private Rigidbody rb;
     public GameObject rightTreadPivot;
     public GameObject leftTreadPivot;
+
+
 
     // Use this for initialization
     void Start () {
@@ -31,58 +40,106 @@ public class PlayerTank : MonoBehaviour {
         if (amDriver) //if driver
         {
             #region driver
+            #region boost what a fucking mess
+            //driver's boost
+            if (Input.GetAxis("RightTrigger") == 1 && Input.GetAxis("LeftTrigger") == 1) //are the boost buttons being pressed?
+            {
+                if (BoostFrames > 0 && canBoost == true) //is there boost left, and is it on cooldown?
+                {
+                    //then go fast
+                    speed = 10 * 2;
+                    rotateSpeed = 100 * 2;
+
+                    //but reduce the boost pool
+                    BoostFrames--;
+                }//if
+                else
+                {
+                    speed = 10;
+                    rotateSpeed = 100;
+                }
+            }//if 
+            else if (Input.GetAxis("RightTrigger") != 1 || Input.GetAxis("LeftTrigger") != 1)
+            {
+                speed = 10;
+                rotateSpeed = 100;
+
+                i++;
+                if (i >= 3)
+                {
+                    if (BoostFrames <= BoostTotal)
+                    {
+                        BoostFrames++;
+                    }
+                    i = 0;
+                }
+            }
+
+            if (BoostFrames == 0)
+            {
+                canBoost = false;
+            }
+            if (canBoost == false)
+            {
+                if (BoostFrames >= boostCooldown)
+                {
+                    canBoost = true;
+                }
+            }
+            #endregion
+
             //rotate clockwise
             if (Input.GetAxis("LeftThumbStick") < 0 && Input.GetAxis("RightThumbVertical") > 0)
             {
-                Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, 1, 0) * (rotateSpeed * 100)) * Time.deltaTime);
+                Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, 1, 0) * (rotateSpeed)) * Time.deltaTime);
                 rb.MoveRotation(rb.rotation * deltaRotation);
             }
 
             //rotate counterclockwise
             if (Input.GetAxis("LeftThumbStick") > 0 && Input.GetAxis("RightThumbVertical") < 0)
             {
-                Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, -1, 0) * (rotateSpeed * 100)) * Time.deltaTime);
+                Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, -1, 0) * (rotateSpeed)) * Time.deltaTime);
                 rb.MoveRotation(rb.rotation * deltaRotation);
             }
 
             //move forward
             if (Input.GetAxis("LeftThumbStick") < 0 && Input.GetAxis("RightThumbVertical") < 0)
             {
-                rb.MovePosition(transform.position + transform.forward * Time.deltaTime * speed);
+                    rb.MovePosition(transform.position + transform.forward * Time.deltaTime * speed);
             }
 
             //move backward
             if (Input.GetAxis("LeftThumbStick") > 0 && Input.GetAxis("RightThumbVertical") > 0)
             {
-                rb.MovePosition(transform.position + -transform.forward * Time.deltaTime * speed);
+                    rb.MovePosition(transform.position + -transform.forward * Time.deltaTime * speed);
             }
 
             //left stick only
             if (Input.GetAxis("LeftThumbStick") < 0 && Input.GetAxis("RightThumbVertical") == 0)
             {
-                rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, (rotateSpeed * 100 * Time.deltaTime));
+                rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, (rotateSpeed * Time.deltaTime));
             }
             if (Input.GetAxis("LeftThumbStick") > 0 && Input.GetAxis("RightThumbVertical") == 0)
             {
-                rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, -(rotateSpeed * 100 * Time.deltaTime));
+                rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, -(rotateSpeed * Time.deltaTime));
             }
 
             //right stick only
             if (Input.GetAxis("LeftThumbStick") == 0 && Input.GetAxis("RightThumbVertical") > 0)
             {
-                rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, (rotateSpeed * 100 * Time.deltaTime));
+                rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, (rotateSpeed * Time.deltaTime));
             }
             if (Input.GetAxis("LeftThumbStick") == 0 && Input.GetAxis("RightThumbVertical") < 0)
             {
-                rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, -(rotateSpeed * 100 * Time.deltaTime));
+                rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, -(rotateSpeed * Time.deltaTime));
             }
             #endregion
         }
         else // else
         {
+            #region default movement
             // Paul: commented out for testing with Commander
             /*
-            #region default movement
             //move forward - currently very shitty on keyboard
             if (Input.GetKey(KeyCode.W))
             {
@@ -126,8 +183,8 @@ public class PlayerTank : MonoBehaviour {
                 modRotateSpeed = rotateSpeed * Input.GetAxis("RightThumbStick");
                 transform.Rotate(0f, (1 * modRotateSpeed), 0f);
             }
-            #endregion
             */
+            #endregion
 
             #region tank top rotation
             //turn Top of Tank to the right
