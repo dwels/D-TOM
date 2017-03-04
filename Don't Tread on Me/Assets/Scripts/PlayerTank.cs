@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerTank : MonoBehaviour {
 
+    // these are for main hull rotation
+    public float hullRotateSpeed = 100.0f;
+    private float rotateSpeed;
+
     public int speed = 10;
-    public int rotateSpeed = 100;
-    public GameObject TankTop;
-    public GameObject Cannon;
-    public GameObject cannonPivot;
     private float modSpeed;
     private float modRotateSpeed;
-    private int angleCurrent;
 
     public float HP = 100;
 
@@ -27,11 +26,10 @@ public class PlayerTank : MonoBehaviour {
     public GameObject rightTreadPivot;
     public GameObject leftTreadPivot;
 
-
-
     // Use this for initialization
     void Start () {
         rb = this.GetComponent<Rigidbody>();
+        rotateSpeed = hullRotateSpeed;
 	}
 	
 	// Update is called once per frame
@@ -48,7 +46,7 @@ public class PlayerTank : MonoBehaviour {
                 {
                     //then go fast
                     speed = 10 * 2;
-                    rotateSpeed = 100 * 2;
+                    rotateSpeed = hullRotateSpeed * 2;
 
                     //but reduce the boost pool
                     BoostFrames--;
@@ -56,13 +54,13 @@ public class PlayerTank : MonoBehaviour {
                 else
                 {
                     speed = 10;
-                    rotateSpeed = 100;
+                    rotateSpeed = hullRotateSpeed;
                 }
             }//if 
             else if (Input.GetAxis("RightTrigger") != 1 || Input.GetAxis("LeftTrigger") != 1)
             {
                 speed = 10;
-                rotateSpeed = 100;
+                rotateSpeed = hullRotateSpeed;
 
                 i++;
                 if (i >= 3)
@@ -135,10 +133,10 @@ public class PlayerTank : MonoBehaviour {
             }
             #endregion
         }
-        else // else
+        else
         {
             #region default movement
-            // Paul: commented out for testing with Commander
+            // Paul: commented out because I don't think we need this anymore?
             /*
             //move forward - currently very shitty on keyboard
             if (Input.GetKey(KeyCode.W))
@@ -184,42 +182,6 @@ public class PlayerTank : MonoBehaviour {
                 transform.Rotate(0f, (1 * modRotateSpeed), 0f);
             }
             */
-            #endregion
-
-            #region tank top rotation
-            //turn Top of Tank to the right
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetAxis("DPadLeftRight") > 0)
-            {
-                TankTop.transform.Rotate(0f, (1 * rotateSpeed), 0f);
-            }
-
-            //turn Top of Tank to the left
-            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetAxis("DPadLeftRight") < 0)
-            {
-                TankTop.transform.Rotate(0f, (-1 * rotateSpeed), 0f);
-            }
-            #endregion
-
-            #region cannon angle
-            //point cannon up
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("DPadUpDown") > 0)
-            {
-                if (angleCurrent < 100)
-                {
-                    Cannon.transform.RotateAround(cannonPivot.transform.position, cannonPivot.transform.right, -10 * Time.deltaTime);
-                    angleCurrent++;
-                }
-            }
-
-            //point cannon down
-            if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("DPadUpDown") < 0)
-            {
-                if (angleCurrent > -80)
-                {
-                    Cannon.transform.RotateAround(cannonPivot.transform.position, cannonPivot.transform.right, 10 * Time.deltaTime);
-                    angleCurrent--;
-                }
-            }
             #endregion
         }
     }
