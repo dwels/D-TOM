@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Waypoint : MonoBehaviour {
+public class Marker : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -11,12 +11,12 @@ public class Waypoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(Vector3.up, 100f * Time.deltaTime);
+		
 	}
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Projectile"))
         {
             Destroy(gameObject);
         }

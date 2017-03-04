@@ -8,12 +8,13 @@ public class CameraController : MonoBehaviour
     // target of camera
     public Transform target;
     public float smoothTime = 0.3f;
-    public float xOffset = 10;
-    public float zOffset = 10;
-    public int cameraSpeed = 10;
-    public float distanceCap = 100;
+    public float xOffset = 10f;
+    public float zOffset = 10f;
+    public float cameraSpeed = 10f;
+    public float distanceCap = 100f;
     public Camera mainCamera;
     public GameObject waypoint;
+    public GameObject marker;
     public bool amCommander = true;
     public float reloadTime = 1.0f;
 
@@ -21,6 +22,8 @@ public class CameraController : MonoBehaviour
     private float timeLast = 0.0f;
     private Vector3 oldPosition;
     private Vector3 oldTargetPosition;
+    private float inputStrength = 1.0f;
+    private const float INPUT_STRENGTH = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -43,21 +46,13 @@ public class CameraController : MonoBehaviour
         if (amCommander)
         {
             // apple input
-            if (Input.GetKey(KeyCode.I) || Input.GetButton("Y"))
+            if (Input.GetAxis("LeftThumbStick") != 0.0f)
             {
-                transform.Translate(new Vector3(1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
+                transform.Translate(new Vector3(1, 0, 1) * -Input.GetAxis("LeftThumbStick") * cameraSpeed * inputStrength * Time.deltaTime, Space.World);
             }
-            if (Input.GetKey(KeyCode.K) || Input.GetButton("A"))
+            if (Input.GetAxis("LeftThumbHorizontal") != 0.0f)
             {
-                transform.Translate(new Vector3(-1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
-            }
-            if (Input.GetKey(KeyCode.J) || Input.GetButton("X"))
-            {
-                transform.Translate(new Vector3(-1, 0, 1) * cameraSpeed * Time.deltaTime, Space.World);
-            }
-            if (Input.GetKey(KeyCode.L) || Input.GetButton("B"))
-            {
-                transform.Translate(new Vector3(1, 0, -1) * cameraSpeed * Time.deltaTime, Space.World);
+                transform.Translate(new Vector3(-1, 0, 1) * -Input.GetAxis("LeftThumbHorizontal") * cameraSpeed * inputStrength * Time.deltaTime, Space.World);
             }
         }
 
@@ -70,11 +65,13 @@ public class CameraController : MonoBehaviour
         b.x = b.x - xOffset;
         b.z = b.z - xOffset;
 
+        Vector3 c = oldPosition;
+        c.y = 0;
+
         // because you cant just add staight to the x and z value of transform position
         Vector3 correction = transform.position;
 
-        // math and stuff
-
+        /*
         // Method 1 (rectangular bounds)
         if (Mathf.Abs((a.x - a.z) - (b.x - b.z)) > distanceCap)
         {
@@ -87,12 +84,18 @@ public class CameraController : MonoBehaviour
             correction.x = oldPosition.x;
             correction.z = oldPosition.z;
         }
+        */
 
-        /* Method 2 (circular bounds)
+        /*
         if(Vector3.Distance(a, b) > distanceCap)
         {
-            correction.x = oldPosition.x;
-            correction.z = oldPosition.z;
+            inputStrength = inputStrength * 0.90f;
+
+            if (Vector3.Distance(a, b) < Vector3.Distance(c, b))
+            {
+                inputStrength = INPUT_STRENGTH;
+            }
+
         }
         */
 
@@ -102,12 +105,24 @@ public class CameraController : MonoBehaviour
         oldTargetPosition = target.transform.position;
 
         // create waypoints - in progress
-        if (Input.GetButton("RightStickClick"))
+        if (amCommander)
         {
-            if (Time.time - timeLast > reloadTime)
+            if (Input.GetAxis("LeftTrigger") > 0)
             {
-                CreateWaypoint();
-                timeLast = Time.time;
+                if (Time.time - timeLast > reloadTime)
+                {
+                    CreateWaypoint();
+                    timeLast = Time.time;
+                }
+            }
+
+            if (Input.GetAxis("RightTrigger") > 0)
+            {
+                if (Time.time - timeLast > reloadTime)
+                {
+                    MarkTarget();
+                    timeLast = Time.time;
+                }
             }
         }
     }
@@ -120,7 +135,27 @@ public class CameraController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            currentWaypoint = Instantiate(waypoint, hit.point, Quaternion.identity);
+            if(hit.transform.gameObject.tag == "Plane")
+            {
+                currentWaypoint = Instantiate(waypoint, hit.point, Quaternion.identity);
+            }
+        }
+    }
+
+    void MarkTarget()
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
+
+        Debug.DrawRay(mainCamera.transform.position, mainCamera.transform.forward, Color.green);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if(hit.transform.gameObject.tag != "Plane")
+            {
+                currentWaypoint = Instantiate(marker, hit.point, Quaternion.identity);
+                currentWaypoint.transform.SetParent(hit.transform);
+            }
         }
     }
 }

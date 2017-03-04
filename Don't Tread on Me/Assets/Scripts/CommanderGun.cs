@@ -8,13 +8,16 @@ public class CommanderGun : MonoBehaviour {
     public float rotateSpeed = 1;
     public float deadZone = 0.1f;
     public GameObject bullet;
+    public GameObject tracer;
     public GameObject firePoint;
     public float bulletSpeed = 20.0f;
     public float reloadTime = 0.5f;
+    public int tracerCap = 4;
 
     private float timeLast = 0.0f;
     private float oldX = 0;
     private float oldY = 0;
+    private int tracerCounter = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -51,7 +54,19 @@ public class CommanderGun : MonoBehaviour {
     {
         if (Time.time - timeLast > reloadTime)
         {
-            GameObject newBullet = Instantiate(bullet, firePoint.transform.position, transform.rotation);
+            GameObject newBullet;
+
+            if(tracerCounter == tracerCap)
+            {
+                newBullet = Instantiate(tracer, firePoint.transform.position, transform.rotation);
+                tracerCounter = 0;
+            }
+            else
+            {
+                newBullet = Instantiate(bullet, firePoint.transform.position, transform.rotation);
+                tracerCounter++;
+            }
+
             newBullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
             timeLast = Time.time;
         }
