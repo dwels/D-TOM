@@ -802,11 +802,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
     type: 2}
-  Launcher: {fileID: 332665230}
   power: 50
   detectionRange: 0
   shootingRange: 100
   rocketTrue: 0
+  Launcher: {fileID: 332665230}
   tankBody: {fileID: 0}
   tankTop: {fileID: 0}
   target: {fileID: 0}
@@ -1485,6 +1485,30 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 36497f2904c7bdd4fb4ce55daffe58e4, type: 3}
   m_PrefabInternal: {fileID: 212232410}
+--- !u!114 &716121026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716121025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b756b772e36373499eca2e2ce7cd5c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
+    type: 2}
+  power: 40
+  detectionRange: 100
+  shootingRange: 10
+  rocketTrue: 0
+  Launcher: {fileID: 1913185677}
+  tankBody: {fileID: 716121025}
+  tankTop: {fileID: 1934054291}
+  target: {fileID: 1766980144}
+  speed: 8
+  rotateSpeed: 2.5
+  reloadTime: 3
 --- !u!65 &716121027
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4860,7 +4884,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1913185677}
-  - component: {fileID: 1913185678}
   m_Layer: 0
   m_Name: f
   m_TagString: Untagged
@@ -4881,30 +4904,6 @@ Transform:
   m_Father: {fileID: 1407612546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1913185678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1913185676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b756b772e36373499eca2e2ce7cd5c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
-    type: 2}
-  Launcher: {fileID: 1913185677}
-  power: 40
-  detectionRange: 100
-  shootingRange: 10
-  rocketTrue: 0
-  tankBody: {fileID: 716121025}
-  tankTop: {fileID: 1934054291}
-  target: {fileID: 1766980144}
-  speed: 8
-  rotateSpeed: 2.5
-  reloadTime: 3
 --- !u!1 &1934054291 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100004, guid: 36497f2904c7bdd4fb4ce55daffe58e4, type: 3}
