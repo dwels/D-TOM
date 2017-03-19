@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4206,12 +4206,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hullRotateSpeed: 100
   speed: 10
-  HP: 100
   BoostTotal: 300
   boostCooldown: 60
-  amDriver: 0
+  amDriver: 1
   rightTreadPivot: {fileID: 407564066}
   leftTreadPivot: {fileID: 862594149}
+--- !u!114 &1766980146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766980144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a11298c7c37acb344b78ba615d40413f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHP: 100
 --- !u!4 &1766980149 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
