@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TeamUtility.IO;
 
 public class Gunner : MonoBehaviour {
+
+    public PlayerID gunner;
 
     public bool amGunner;
 
@@ -25,9 +28,9 @@ public class Gunner : MonoBehaviour {
         //turn Top of Tank to the right
         if (amGunner)
         {
-            if (Input.GetAxis("RightThumbStick") != 0.0f)
+            if (InputManager.GetAxis("Right Stick Horizontal", gunner) != 0.0f)
             {
-                this.transform.Rotate(0f, (Input.GetAxis("RightThumbStick") * gunnerRotateSpeed), 0f);
+                this.transform.Rotate(0f, (InputManager.GetAxis("Right Stick Horizontal", gunner) * gunnerRotateSpeed), 0f);
                 oldRotation = this.transform.rotation;
             }
         }
@@ -38,7 +41,7 @@ public class Gunner : MonoBehaviour {
 
         #region cannon angle
         //point cannon up
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetAxis("DPadUpDown") > 0)
+        if (InputManager.GetAxis("Left Stick Vertical", gunner) < 0)
         {
             if (angleCurrent < 100)
             {
@@ -48,7 +51,7 @@ public class Gunner : MonoBehaviour {
         }
 
         //point cannon down
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetAxis("DPadUpDown") < 0)
+        if (InputManager.GetAxis("Left Stick Vertical", gunner) > 0)
         {
             if (angleCurrent > -80)
             {
