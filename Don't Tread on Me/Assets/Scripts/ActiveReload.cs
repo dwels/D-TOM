@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TeamUtility.IO;
 
 public class ActiveReload : MonoBehaviour {
+
+    public PlayerID gunner;
 
     //public Collider2D marker;
     //public Collider2D sweetSpot;
@@ -34,7 +37,7 @@ public class ActiveReload : MonoBehaviour {
         {
             marker.transform.Translate(Vector3.right * Time.deltaTime * reloadSpeed);
 
-            if (Input.GetAxis("LeftTrigger") > 0 && !reloadAttempt) {
+            if (InputManager.GetAxis("Left Trigger", gunner) > 0 && !reloadAttempt) {
 
                 if (marker.transform.position.x < sweetSpot.transform.position.x + spotWidth - 10 &&
                    marker.transform.position.x + markerWidth > sweetSpot.transform.position.x )
