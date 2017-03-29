@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TeamUtility.IO;
 
 public class Engineer : MonoBehaviour {
+
+    public PlayerID engineer;
 
     public bool amEngineer;
 
@@ -38,13 +41,13 @@ public class Engineer : MonoBehaviour {
 
             if (!repairing)
             {
-                if (Input.GetAxis("RightThumbStick") != 0.0f)
+                if (InputManager.GetAxis("Right Stick Vertical", engineer) != 0.0f)
                 {
-                    this.transform.Rotate(0f, Input.GetAxis("RightThumbStick"), 0f);
+                    this.transform.Rotate(0f, InputManager.GetAxis("Right Stick Vertical", engineer), 0f);
                 }
         
                 //print(Input.GetAxis("LeftTrigger"));
-                if (Input.GetButton("B"))
+                if (InputManager.GetButton("Button B", engineer))
                 {
                     if (throwPower <= maxPower)
                     {
@@ -53,7 +56,7 @@ public class Engineer : MonoBehaviour {
                     print("Current PWR: " + throwPower);
                     //print(Input.GetAxis("LeftTrigger"));
                 }
-                else if (Input.GetButtonUp("B"))
+                else if (InputManager.GetButtonUp("Button B", engineer))
                 {
                     ThrowGrenade(throwPower);
                     print("FINALE PWR: " + throwPower);
@@ -62,7 +65,7 @@ public class Engineer : MonoBehaviour {
             }
 
             // Hold to repair
-            if(Input.GetAxis("LeftTrigger") > 0)
+            if(InputManager.GetAxis("Left Trigger", engineer) > 0)
             {
                 repairing = true;
                 //playerTank.HP += Time.deltaTime * 2f;

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   playerTwoDefault: Gunner
   playerThreeDefault: Driver
   playerFourDefault: Engineer
-  dontDestroyOnLoad: 0
+  dontDestroyOnLoad: 1
   ignoreTimescale: 0
 --- !u!4 &604818327
 Transform:
@@ -3138,6 +3138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5d0106273b95b40b055d7162f78345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commander: 0
   target: {fileID: 1766980149}
   smoothTime: 0
   xOffset: 10
@@ -3147,7 +3148,7 @@ MonoBehaviour:
   mainCamera: {fileID: 930555202}
   waypoint: {fileID: 1948834951072236, guid: beb483db79eaf7544b05f63846f26be0, type: 2}
   marker: {fileID: 1506550621261768, guid: 01bf42d9578940f4bbe7cf6400b5fc70, type: 2}
-  amCommander: 0
+  amCommander: 1
   reloadTime: 0.2
 --- !u!81 &930555199
 AudioListener:
@@ -3232,6 +3233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94daec5c6458f1b4e9c8520389ac60f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunner: 1
   amGunner: 1
   Cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
@@ -3247,6 +3249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f8c4d0f7fa1e340a1a6699b26dc0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  engineer: 3
   amEngineer: 1
   Hull: {fileID: 977386577}
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
@@ -5031,6 +5034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunner: 1
   Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
     type: 2}
   Launcher: {fileID: 1523338737}
@@ -5198,6 +5202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunner: 0
   marker: {fileID: 1448268162}
   sweetSpot: {fileID: 1028987891}
   reloading: 0
@@ -5299,6 +5304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823d67f8c781dd049a503345abaefdc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  driver: 2
   hullRotateSpeed: 100
   speed: 10
   HPbar: {fileID: 1337238067}
@@ -6207,7 +6213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8910a14b4fdf2c44dac841a6ed049f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amCommander: 0
+  commander: 0
+  amCommander: 1
   rotateSpeed: 2
   deadZone: 0.05
   bullet: {fileID: 1879954589975294, guid: 4f584fdbb63e64d4abfaf23c87dd6ab8, type: 2}
