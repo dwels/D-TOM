@@ -36,7 +36,7 @@ public class Gunner : MonoBehaviour {
         }
 
         // 100.0f is hardcoded until I figure how to properly deal with parent child rotation
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, oldRotation, Time.deltaTime * 100.0f); 
+        //this.transform.rotation = Quaternion.Lerp(this.transform.rotation, oldRotation, Time.deltaTime * 100.0f); 
         #endregion
 
         #region cannon angle
