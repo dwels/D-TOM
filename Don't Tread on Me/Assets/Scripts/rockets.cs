@@ -7,7 +7,7 @@ using TeamUtility.IO;
 
 public class rockets : MonoBehaviour {
 
-    public PlayerID gunner;
+    private PlayerID gunner;
 
     // Variable Declaration
     public Rigidbody Projectile = null;
@@ -45,6 +45,10 @@ public class rockets : MonoBehaviour {
 
         rld = GameObject.Find("ActiveReload");
         activeReload = rld.GetComponent<ActiveReload>();
+
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 
     void Update()
