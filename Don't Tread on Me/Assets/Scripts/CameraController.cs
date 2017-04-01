@@ -110,9 +110,9 @@ public class CameraController : MonoBehaviour
         // update tank's old position
         oldTargetPosition = target.transform.position;
 
-        // create waypoints - in progress
         if (amCommander)
         {
+            // create waypoints - in progress
             if (InputManager.GetAxis("Left Trigger", commander) > 0)
             {
                 if (Time.time - timeLast > reloadTime)
