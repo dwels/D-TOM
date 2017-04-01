@@ -36,8 +36,6 @@ public class rockets : MonoBehaviour {
     private int[] ammo2 = new int[4] { 2, 3, 4, 1 };
     private int[] ammo3 = new int[4] { 3, 2, 1, 4 };
     private int[] ammo4 = new int[4] { 4, 1, 3, 2 };
-
-
     // Use this for initialization
     void Start()
     {
@@ -109,7 +107,7 @@ public class rockets : MonoBehaviour {
 			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.forward), Launcher.transform.rotation) as Rigidbody;
 		}
         clone.velocity = transform.TransformDirection(Vector3.forward * power);
-        Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode)); //clone.AddComponent<Explode>();
+        //Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode)); //clone.AddComponent<Explode>();
         //Destroy(clone);
     }
 
