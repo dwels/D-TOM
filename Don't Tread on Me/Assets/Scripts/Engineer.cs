@@ -5,7 +5,7 @@ using TeamUtility.IO;
 
 public class Engineer : MonoBehaviour {
 
-    public PlayerID engineer;
+    private PlayerID engineer;
 
     public bool amEngineer;
 
@@ -31,7 +31,11 @@ public class Engineer : MonoBehaviour {
 
         pTnk = GameObject.Find("Player");
         hp = pTnk.GetComponent<HP>();
-	}
+
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        engineer = inputMngr.GetComponent<PlayerRoles>().engineer;
+    }
 	
 	// Update is called once per frame
 	void Update () {

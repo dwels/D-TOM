@@ -5,7 +5,7 @@ using TeamUtility.IO;
 
 public class CommanderGun : MonoBehaviour {
 
-    public PlayerID commander;
+    private PlayerID commander;
 
     public bool amCommander = true;
     public float rotateSpeed = 1;
@@ -24,8 +24,10 @@ public class CommanderGun : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        commander = inputMngr.GetComponent<PlayerRoles>().commander;
+    }
 	
 	// Update is called once per frame
 	void Update () {

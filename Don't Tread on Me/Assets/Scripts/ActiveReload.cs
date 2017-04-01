@@ -6,7 +6,7 @@ using TeamUtility.IO;
 
 public class ActiveReload : MonoBehaviour {
 
-    public PlayerID gunner;
+    private PlayerID gunner;
 
     //public Collider2D marker;
     //public Collider2D sweetSpot;
@@ -28,6 +28,10 @@ public class ActiveReload : MonoBehaviour {
         reloadOn = GameObject.FindGameObjectWithTag("Reloading");
         reloadOn.SetActive(false);
         reloadSpeed = 50;
+
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
 	}
 
     // Update is called once per frame
