@@ -53,33 +53,25 @@ public class rockets : MonoBehaviour {
 
     void Update()
     {
-        if (true) // we have to fix how this works yo
+        // Draws ray from the front of the tank
+        // May want to raycast, though I dont think it would be necessary due to screen size
+        // This needs to move in the future
+        Vector3 forward = Launcher.transform.TransformDirection(Vector3.forward) * 20;
+        Debug.DrawRay(Launcher.transform.position, forward, Color.red);
+
+        if (InputManager.GetAxis("Right Trigger", gunner) > 0)
         {
-            if (InputManager.GetAxis("Right Trigger", gunner) > 0)
+            if (rocketTrue)//(Time.time - timeLast > reloadTime)//(rocketTrue)
             {
-                if (rocketTrue)//(Time.time - timeLast > reloadTime)//(rocketTrue)
-                {
-                    //rocketTrue = true;
-                    FireProjectile(currentAmmoType);
-                    rocketTrue = false;
-                    //timeLast = Time.time;
-                } else if (!rocketTrue) {
-                    rld.SetActive(true);
-                    activeReload.reloading = true;
-                }
-                //reload time
+                //rocketTrue = true;
+                FireProjectile(currentAmmoType);
+                rocketTrue = false;
+                //timeLast = Time.time;
+            } else if (!rocketTrue) {
+                rld.SetActive(true);
+                activeReload.reloading = true;
             }
-            /*
-            if (Input.GetMouseButton(1))
-            {
-                if (Time.time - timeLast > reloadTime)
-                {
-                    rocketTrue = false;
-                    FireProjectile(currentAmmoType);
-                    timeLast = Time.time;
-                }//reload time
-            }
-            */
+            //reload time
         }
 
         if (InputManager.GetButtonDown("Button B", gunner))
