@@ -60,7 +60,7 @@ public class ActiveReload : MonoBehaviour {
                 }
             }
             if (marker.transform.position.x >= 309.0f)//220.0f)
-            {
+            {   
                 //print("Reload Complete" + marker.transform.position.x + "      " + marker.transform.position.y);
                 rockets.rocketTrue = true;
                 marker.transform.position = new Vector3(175f, 46.68f, 0);//Vector3(74f, 68.89f, 0);
@@ -70,8 +70,11 @@ public class ActiveReload : MonoBehaviour {
                 reloadAttempt = false;
                 reloadSpeed = 50;
             }
-            
+        }
 
+        else
+        {
+            // May want to draw line here and have active reload constantly being called?
         }
         
 
