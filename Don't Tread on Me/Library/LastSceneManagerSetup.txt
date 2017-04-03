@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/master-scene.unity
+- path: Assets/Wyatt-UI-Testing.unity
   isLoaded: 1
   isActive: 1
