@@ -19,7 +19,6 @@ public class HP : MonoBehaviour {
     {
         //subtract damage from HP
         CurrHP -= damage;
-        print(this.gameObject.name + " current HP: " + CurrHP);
 
         //if no HP
         if (CurrHP <= 0)
