@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
 
-public class Gunner : PlayerRoles {
+public class Gunner : MonoBehaviour {
     public bool amGunner;
 
     public GameObject Cannon;
@@ -24,13 +24,12 @@ public class Gunner : PlayerRoles {
     public GameObject gunnerPanel;
     private Animator anim;
 
+    GameObject inputMngr;
+    public PlayerID playerID;
+
     // Use this for initialization
     void Start () {
         oldRotation = this.transform.rotation;
-
-        // this code is for managing player roles
-        GameObject inputMngr = GameObject.Find("InputManager");
-        gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
 
         // pull in rockets script and active reload
         rockets = GetComponent<rockets>();
@@ -39,28 +38,31 @@ public class Gunner : PlayerRoles {
         // init UI
         anim = gunnerPanel.GetComponent<Animator>();
         anim.enabled = true;
+
+        inputMngr = GameObject.Find("InputManager");
+        playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (playerID != inputMngr.GetComponent<PlayerRoles>().gunner) return;
+
         #region tank top rotation
         //turn Top of Tank to the right
         if (amGunner)
         {
-            if (InputManager.GetAxis("Right Stick Horizontal", gunner) != 0.0f)
+            if (InputManager.GetAxis("Right Stick Horizontal", playerID) != 0.0f)
             {
-                this.transform.Rotate(0f, (InputManager.GetAxis("Right Stick Horizontal", gunner) * gunnerRotateSpeed), 0f);
+                this.transform.Rotate(0f, (InputManager.GetAxis("Right Stick Horizontal", playerID) * gunnerRotateSpeed), 0f);
                 oldRotation = this.transform.rotation;
             }
         }
-
-        // 100.0f is hardcoded until I figure how to properly deal with parent child rotation
-        //this.transform.rotation = Quaternion.Lerp(this.transform.rotation, oldRotation, Time.deltaTime * 100.0f); 
         #endregion
 
         #region cannon angle
         //point cannon up
-        if (InputManager.GetAxis("Left Stick Vertical", gunner) < 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) < 0)
         {
             if (angleCurrent < 100)
             {
@@ -70,7 +72,7 @@ public class Gunner : PlayerRoles {
         }
 
         //point cannon down
-        if (InputManager.GetAxis("Left Stick Vertical", gunner) > 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) > 0)
         {
             if (angleCurrent > -80)
             {
@@ -89,7 +91,7 @@ public class Gunner : PlayerRoles {
             Vector3 forward = Launcher.transform.TransformDirection(Vector3.forward) * 20;
             Debug.DrawRay(Launcher.transform.position, forward, Color.red);
 
-            if (InputManager.GetAxis("Right Trigger", gunner) == 1)
+            if (InputManager.GetAxis("Right Trigger", playerID) == 1)
             {
                 print("Firing");
                 // ToDo: ammotype needs to be implemented
@@ -107,5 +109,24 @@ public class Gunner : PlayerRoles {
             }
         }
         #endregion
+
+        if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        {
+            Commander commander = GetComponent<Commander>();
+            commander.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
+
+            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
+            inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
+        {
+            Engineer engineer = GetComponent<Engineer>();
+            engineer.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
+
+            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
+            inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
+        }
     }
 }

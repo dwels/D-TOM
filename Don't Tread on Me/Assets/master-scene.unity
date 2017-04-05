@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2326,8 +2326,8 @@ MonoBehaviour:
       axis: 5
       joystick: 3
     isExpanded: 0
-  playerOneDefault: Gunner
-  playerTwoDefault: Commander
+  playerOneDefault: Commander
+  playerTwoDefault: Gunner
   playerThreeDefault: Driver
   playerFourDefault: Engineer
   dontDestroyOnLoad: 1
@@ -3135,6 +3135,9 @@ MonoBehaviour:
   marker: {fileID: 1506550621261768, guid: 01bf42d9578940f4bbe7cf6400b5fc70, type: 2}
   amCommander: 0
   reloadTime: 0.2
+  zoomSpeed: 0.1
+  zoomMin: 2
+  zoomMax: 14
 --- !u!81 &930555199
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3176,7 +3179,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 9
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -3196,13 +3199,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 930555197}
-  m_LocalRotation: {x: 0.31429517, y: 0.35985884, z: -0.13018532, w: 0.8687761}
-  m_LocalPosition: {x: -66.5, y: 75.6, z: -66.5}
+  m_LocalRotation: {x: 0.21952026, y: 0.3717239, z: -0.090928264, w: 0.89742094}
+  m_LocalPosition: {x: -32.03, y: 24.38, z: -32.03}
   m_LocalScale: {x: 1.0208336, y: 1.238802, z: 1.249219}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 20
-  m_LocalEulerAnglesHint: {x: 39.777, y: 45.000004, z: 0}
+  m_LocalEulerAnglesHint: {x: 27.491001, y: 45.000004, z: 0}
 --- !u!1001 &945384621
 Prefab:
   m_ObjectHideFlags: 0
@@ -3260,16 +3263,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94daec5c6458f1b4e9c8520389ac60f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
-  gunner: 0
-  driver: 0
-  engineer: 0
   amGunner: 1
   Cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
   gunnerRotateSpeed: 1
   Launcher: {fileID: 1523338736}
   gunnerPanel: {fileID: 1058977328}
+  playerID: 0
 --- !u!114 &967571671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3321,6 +3321,24 @@ MonoBehaviour:
   currentAmmoType: 1
   selectedAmmoType: 1
   ammoButtonHold: 1
+--- !u!114 &967571674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dda5fce9d7b0fb48abf90c183606dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1766980144}
+  crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
+  reticle: {fileID: 1036955049}
+  translateSpeed: 10
+  crateHeight: 20
+  timerCap: 1
+  playerID: 0
 --- !u!1 &977386577 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
@@ -3437,7 +3455,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1036955051}
   - component: {fileID: 1036955050}
-  - component: {fileID: 1036955052}
   m_Layer: 0
   m_Name: CommanderTarget
   m_TagString: Untagged
@@ -3492,22 +3509,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1036955052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1036955049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dda5fce9d7b0fb48abf90c183606dd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1766980144}
-  crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
-  translateSpeed: 10
-  crateHeight: 20
-  timerCap: 1
 --- !u!1 &1058977328
 GameObject:
   m_ObjectHideFlags: 0

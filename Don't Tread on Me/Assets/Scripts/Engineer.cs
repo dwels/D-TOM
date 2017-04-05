@@ -4,9 +4,6 @@ using UnityEngine;
 using TeamUtility.IO;
 
 public class Engineer : MonoBehaviour {
-
-    private PlayerID engineer;
-
     public bool amEngineer;
 
     public GameObject Hull;
@@ -23,8 +20,11 @@ public class Engineer : MonoBehaviour {
     bool repairing;
     int repairAmount = 1;
 
-	// Use this for initialization
-	void Start () {
+    GameObject inputMngr;
+    public PlayerID playerID;
+
+    // Use this for initialization
+    void Start () {
         throwRate = 8f;
         maxPower = 8f;
         repairing = false;
@@ -33,25 +33,22 @@ public class Engineer : MonoBehaviour {
         hp = pTnk.GetComponent<HP>();
 
         // this code is for managing player roles
-        GameObject inputMngr = GameObject.Find("InputManager");
-        engineer = inputMngr.GetComponent<PlayerRoles>().engineer;
+        inputMngr = GameObject.Find("InputManager");
+        playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        if (playerID != inputMngr.GetComponent<PlayerRoles>().engineer) return;
+
         if (amEngineer)
         {
 
             if (!repairing)
-            {
-                if (InputManager.GetAxis("Right Stick Vertical", engineer) != 0.0f)
-                {
-                    this.transform.Rotate(0f, InputManager.GetAxis("Right Stick Vertical", engineer), 0f);
-                }
-        
+            {        
                 //print(Input.GetAxis("LeftTrigger"));
-                if (InputManager.GetButton("Button B", engineer))
+                if (InputManager.GetButton("Button B", playerID))
                 {
                     if (throwPower <= maxPower)
                     {
@@ -60,7 +57,7 @@ public class Engineer : MonoBehaviour {
                     print("Current PWR: " + throwPower);
                     //print(Input.GetAxis("LeftTrigger"));
                 }
-                else if (InputManager.GetButtonUp("Button B", engineer))
+                else if (InputManager.GetButtonUp("Button B", playerID))
                 {
                     ThrowGrenade(throwPower);
                     print("FINALE PWR: " + throwPower);
@@ -69,7 +66,7 @@ public class Engineer : MonoBehaviour {
             }
 
             // Hold to repair
-            if(InputManager.GetAxis("Left Trigger", engineer) > 0)
+            if(InputManager.GetAxis("Left Trigger", playerID) > 0)
             {
                 repairing = true;
                 //playerTank.HP += Time.deltaTime * 2f;
@@ -83,7 +80,26 @@ public class Engineer : MonoBehaviour {
             }*/
         }
 
-	}
+        if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
+        {
+            Gunner gunner = GetComponent<Gunner>();
+            gunner.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
+
+            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        {
+            Commander commander = GetComponent<Commander>();
+            commander.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
+
+            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
+
+    }
 
 
     void ThrowGrenade(float tPWR)
