@@ -13,10 +13,27 @@ public class Commander : MonoBehaviour {
     public float crateHeight = 100.0f;
     public float timerCap = 1.0f;
 
+    // Gun Properties
+    public float rotateSpeed = 1;
+    public float deadZone = 0.1f;
+    public GameObject bullet;
+    public GameObject tracer;
+    public GameObject firePoint;
+    public float bulletSpeed = 20.0f;
+    public float reloadTime = 0.5f;
+    public int tracerCap = 4;
+    public GameObject gun;
+
+    private float timeLast = 0.0f;
+    private float oldX = 0;
+    private float oldY = 0;
+    private int tracerCounter = 0;
+
+
     private Vector3 oldTargetPosition;
     private float timerLast = 0.0f;
 
-    GameObject inputMngr;
+    protected GameObject inputMngr;
     public PlayerID playerID;
 
     // Use this for initialization
@@ -61,6 +78,9 @@ public class Commander : MonoBehaviour {
             }
         }
 
+        // machine gun
+        UpdateGun();
+
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
             Gunner gunner = GetComponent<Gunner>();
@@ -78,6 +98,53 @@ public class Commander : MonoBehaviour {
 
             inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
             inputMngr.GetComponent<PlayerRoles>().commander = playerID;
+        }
+    }
+
+    // Update Commander Gun
+    void UpdateGun()
+    {
+        float x = InputManager.GetAxis("Right Stick Horizontal", playerID);
+        float y = InputManager.GetAxis("Right Stick Vertical", playerID);
+
+        float angle;
+
+        if (Mathf.Abs(x) < deadZone && Mathf.Abs(y) < deadZone)
+        {
+            angle = Mathf.Atan2(oldX, -oldY);
+        }
+        else
+        {
+            oldX = x;
+            oldY = y;
+            angle = Mathf.Atan2(x, -y);
+            Fire();
+        }
+
+        Quaternion destination = Quaternion.EulerAngles(0, angle, 0) * Quaternion.AngleAxis(45, Vector3.up);
+        gun.transform.rotation = Quaternion.Lerp(gun.transform.rotation, destination, Time.deltaTime * rotateSpeed);
+    }
+
+    // Fire function
+    void Fire()
+    {
+        if (Time.time - timeLast > reloadTime)
+        {
+            GameObject newBullet;
+
+            if (tracerCounter == tracerCap)
+            {
+                newBullet = Instantiate(tracer, firePoint.transform.position, gun.transform.rotation);
+                tracerCounter = 0;
+            }
+            else
+            {
+                newBullet = Instantiate(bullet, firePoint.transform.position, gun.transform.rotation);
+                tracerCounter++;
+            }
+
+            newBullet.GetComponent<Rigidbody>().AddForce(gun.transform.forward * bulletSpeed);
+            timeLast = Time.time;
         }
     }
 }
