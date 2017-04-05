@@ -57,7 +57,6 @@ public class ActiveReload : MonoBehaviour {
                     reloadSpeed = 25;
                 }
             }
-            print(lineRail.transform.position.x);
             if (marker.transform.position.x >= (lineRail.transform.position.x + 109)) // adding half the width of line rail should make this dynamic
             {
                 marker.transform.position = initialPos;

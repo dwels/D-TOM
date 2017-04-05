@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
 
-public class Gunner : MonoBehaviour {
-
-    private PlayerID gunner;
-
+public class Gunner : PlayerRoles {
     public bool amGunner;
 
     public GameObject Cannon;
@@ -22,6 +19,11 @@ public class Gunner : MonoBehaviour {
     private rockets rockets = null;
     private ActiveReload activeReload = null;
 
+    // for UI
+    // http://www.thegamecontriver.com/2014/10/create-sliding-pause-menu-unity-46-gui.html
+    public GameObject gunnerPanel;
+    private Animator anim;
+
     // Use this for initialization
     void Start () {
         oldRotation = this.transform.rotation;
@@ -33,6 +35,10 @@ public class Gunner : MonoBehaviour {
         // pull in rockets script and active reload
         rockets = GetComponent<rockets>();
         activeReload = GetComponent<ActiveReload>();
+
+        // init UI
+        anim = gunnerPanel.GetComponent<Animator>();
+        anim.enabled = true;
     }
 	
 	// Update is called once per frame
@@ -89,6 +95,15 @@ public class Gunner : MonoBehaviour {
                 // ToDo: ammotype needs to be implemented
                 rockets.FireProjectile(0);
                 activeReload.Reload();
+
+                // display reload UI
+                anim.Play("panelSlideIn");
+            }
+
+            else
+            {
+                // hide UI
+                anim.Play("panelSlideOut");
             }
         }
         #endregion
