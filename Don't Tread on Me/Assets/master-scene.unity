@@ -2300,8 +2300,8 @@ MonoBehaviour:
       axis: 5
       joystick: 3
     isExpanded: 0
-  playerOneDefault: Commander
-  playerTwoDefault: Gunner
+  playerOneDefault: Gunner
+  playerTwoDefault: Commander
   playerThreeDefault: Driver
   playerFourDefault: Engineer
   dontDestroyOnLoad: 1
@@ -3267,6 +3267,7 @@ MonoBehaviour:
   Cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
   gunnerRotateSpeed: 1
+  Launcher: {fileID: 1523338736}
 --- !u!114 &967571671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3283,6 +3284,41 @@ MonoBehaviour:
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
     type: 2}
   throwRate: 0
+--- !u!114 &967571672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marker: {fileID: 1448268162}
+  sweetSpot: {fileID: 1028987891}
+  lineRail: {fileID: 174556625}
+  reloadSpeed: 0
+--- !u!114 &967571673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
+    type: 2}
+  Launcher: {fileID: 1523338737}
+  power: 40
+  rocketTrue: 0
+  reloadTime: 0.5
+  currentAmmoType: 1
+  selectedAmmoType: 1
+  ammoButtonHold: 1
 --- !u!1 &967602881
 GameObject:
   m_ObjectHideFlags: 0
@@ -5110,7 +5146,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1523338737}
-  - component: {fileID: 1523338738}
   m_Layer: 0
   m_Name: f
   m_TagString: Untagged
@@ -5131,26 +5166,6 @@ Transform:
   m_Father: {fileID: 977386578}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1523338738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1523338736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
-    type: 2}
-  Launcher: {fileID: 1523338737}
-  power: 40
-  rocketTrue: 0
-  reloadTime: 0.5
-  currentAmmoType: 1
-  selectedAmmoType: 1
-  ammoButtonHold: 1
 --- !u!1 &1604506583
 GameObject:
   m_ObjectHideFlags: 0
@@ -5311,7 +5326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 1448268162}
   sweetSpot: {fileID: 1028987891}
-  reloading: 0
+  lineRail: {fileID: 0}
   reloadSpeed: 0
 --- !u!1 &1743002642
 GameObject:

@@ -19,9 +19,6 @@ public class rockets : MonoBehaviour {
     public float reloadTime = 0.5f;
     private float timeLast = 0.0f;
 
-    GameObject rld;
-    ActiveReload activeReload;
-
     // For changing ammo
     public int currentAmmoType = 1;                         // Ammo being Used
     public int selectedAmmoType = 1;                        // Shows what ammo type is highlighted
@@ -39,41 +36,13 @@ public class rockets : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-		rocketTrue = true;
-        // player = GameObject.FindGameObjectWithTag("Player");
-        // playerTank = player.GetComponent<PlayerTank>();
-
-        rld = GameObject.Find("ActiveReload");
-        activeReload = rld.GetComponent<ActiveReload>();
-
         // this code is for managing player roles
         GameObject inputMngr = GameObject.Find("InputManager");
         gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 
     void Update()
-    {
-        // Draws ray from the front of the tank
-        // May want to raycast, though I dont think it would be necessary due to screen size
-        // This needs to move in the future
-        Vector3 forward = Launcher.transform.TransformDirection(Vector3.forward) * 20;
-        Debug.DrawRay(Launcher.transform.position, forward, Color.red);
-
-        if (InputManager.GetAxis("Right Trigger", gunner) > 0)
-        {
-            if (rocketTrue)//(Time.time - timeLast > reloadTime)//(rocketTrue)
-            {
-                //rocketTrue = true;
-                FireProjectile(currentAmmoType);
-                rocketTrue = false;
-                //timeLast = Time.time;
-            } else if (!rocketTrue) {
-                rld.SetActive(true);
-                activeReload.reloading = true;
-            }
-            //reload time
-        }
-
+    {      
         if (InputManager.GetButtonDown("Button B", gunner))
         {
             print("Current Ammo Type: " + currentAmmoType);
@@ -91,7 +60,7 @@ public class rockets : MonoBehaviour {
 
     }
 	
-	void FireProjectile(int type)
+	public void FireProjectile(int type)
 	{
 		Rigidbody clone;
 		if (type == 0) 

@@ -17,6 +17,11 @@ public class Gunner : MonoBehaviour {
     Quaternion oldRotation;
     public float gunnerRotateSpeed = 1.0f;
 
+    // for main gunner and active reload
+    public GameObject Launcher;
+    private rockets rockets = null;
+    private ActiveReload activeReload = null;
+
     // Use this for initialization
     void Start () {
         oldRotation = this.transform.rotation;
@@ -24,6 +29,10 @@ public class Gunner : MonoBehaviour {
         // this code is for managing player roles
         GameObject inputMngr = GameObject.Find("InputManager");
         gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
+
+        // pull in rockets script and active reload
+        rockets = GetComponent<rockets>();
+        activeReload = GetComponent<ActiveReload>();
     }
 	
 	// Update is called once per frame
@@ -61,6 +70,25 @@ public class Gunner : MonoBehaviour {
             {
                 Cannon.transform.RotateAround(cannonPivot.transform.position, cannonPivot.transform.right, 10 * Time.deltaTime);
                 angleCurrent--;
+            }
+        }
+        #endregion
+
+        #region main gun
+        if (!activeReload.IsReloading())
+        {
+            print("Ready to Fire");
+            // draw line
+            // ToDo: this should be a raycast to help see what it is aiming at
+            Vector3 forward = Launcher.transform.TransformDirection(Vector3.forward) * 20;
+            Debug.DrawRay(Launcher.transform.position, forward, Color.red);
+
+            if (InputManager.GetAxis("Right Trigger", gunner) == 1)
+            {
+                print("Firing");
+                // ToDo: ammotype needs to be implemented
+                rockets.FireProjectile(0);
+                activeReload.Reload();
             }
         }
         #endregion
