@@ -2539,7 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b756b772e36373499eca2e2ce7cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
+  Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
     type: 2}
   power: 40
   detectionRange: 100
@@ -3286,6 +3286,7 @@ MonoBehaviour:
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
     type: 2}
   throwRate: 0
+  playerID: 0
 --- !u!114 &967571672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3297,6 +3298,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amGunner: 0
+  Cannon: {fileID: 0}
+  cannonPivot: {fileID: 0}
+  gunnerRotateSpeed: 1
+  Launcher: {fileID: 0}
+  gunnerPanel: {fileID: 0}
+  playerID: 0
   marker: {fileID: 1448268162}
   sweetSpot: {fileID: 1028987891}
   lineRail: {fileID: 174556625}
@@ -3338,6 +3346,15 @@ MonoBehaviour:
   translateSpeed: 10
   crateHeight: 20
   timerCap: 1
+  rotateSpeed: 1
+  deadZone: 0.1
+  bullet: {fileID: 1879954589975294, guid: 4f584fdbb63e64d4abfaf23c87dd6ab8, type: 2}
+  tracer: {fileID: 1499625894707760, guid: 0ac1cd11c7513db47b553cbc0eba7880, type: 2}
+  firePoint: {fileID: 111710895}
+  bulletSpeed: 1000
+  reloadTime: 0.01
+  tracerCap: 3
+  gun: {fileID: 2107181897}
   playerID: 0
 --- !u!1 &977386577 stripped
 GameObject:
@@ -6295,26 +6312,6 @@ GameObject:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
   m_PrefabInternal: {fileID: 1459266145}
---- !u!114 &2107181901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2107181897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8910a14b4fdf2c44dac841a6ed049f43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amCommander: 1
-  rotateSpeed: 2
-  deadZone: 0.05
-  bullet: {fileID: 1879954589975294, guid: 4f584fdbb63e64d4abfaf23c87dd6ab8, type: 2}
-  tracer: {fileID: 1499625894707760, guid: 0ac1cd11c7513db47b553cbc0eba7880, type: 2}
-  firePoint: {fileID: 111710895}
-  bulletSpeed: 1000
-  reloadTime: 0.01
-  tracerCap: 3
 --- !u!1 &2127801217
 GameObject:
   m_ObjectHideFlags: 0
