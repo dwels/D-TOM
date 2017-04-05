@@ -7,7 +7,7 @@ using TeamUtility.IO;
 
 public class rockets : MonoBehaviour {
 
-    public PlayerID gunner;
+    private PlayerID gunner;
 
     // Variable Declaration
     public Rigidbody Projectile = null;
@@ -18,9 +18,6 @@ public class rockets : MonoBehaviour {
 
     public float reloadTime = 0.5f;
     private float timeLast = 0.0f;
-
-    GameObject rld;
-    ActiveReload activeReload;
 
     // For changing ammo
     public int currentAmmoType = 1;                         // Ammo being Used
@@ -39,45 +36,13 @@ public class rockets : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-		rocketTrue = true;
-        // player = GameObject.FindGameObjectWithTag("Player");
-        // playerTank = player.GetComponent<PlayerTank>();
-
-        rld = GameObject.Find("ActiveReload");
-        activeReload = rld.GetComponent<ActiveReload>();
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 
     void Update()
-    {
-        if (true) // we have to fix how this works yo
-        {
-            if (InputManager.GetAxis("Right Trigger", gunner) > 0)
-            {
-                if (rocketTrue)//(Time.time - timeLast > reloadTime)//(rocketTrue)
-                {
-                    //rocketTrue = true;
-                    FireProjectile(currentAmmoType);
-                    rocketTrue = false;
-                    //timeLast = Time.time;
-                } else if (!rocketTrue) {
-                    rld.SetActive(true);
-                    activeReload.reloading = true;
-                }
-                //reload time
-            }
-            /*
-            if (Input.GetMouseButton(1))
-            {
-                if (Time.time - timeLast > reloadTime)
-                {
-                    rocketTrue = false;
-                    FireProjectile(currentAmmoType);
-                    timeLast = Time.time;
-                }//reload time
-            }
-            */
-        }
-
+    {      
         if (InputManager.GetButtonDown("Button B", gunner))
         {
             print("Current Ammo Type: " + currentAmmoType);
@@ -95,7 +60,7 @@ public class rockets : MonoBehaviour {
 
     }
 	
-	void FireProjectile(int type)
+	public void FireProjectile(int type)
 	{
 		Rigidbody clone;
 		if (type == 0) 

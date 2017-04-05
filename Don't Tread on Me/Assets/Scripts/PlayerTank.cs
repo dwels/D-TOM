@@ -5,7 +5,7 @@ using TeamUtility.IO;
 
 public class PlayerTank : MonoBehaviour {
 
-    public PlayerID driver;
+    private PlayerID driver;
 
     // these are for main hull rotation
     public float hullRotateSpeed = 100.0f;
@@ -44,6 +44,9 @@ public class PlayerTank : MonoBehaviour {
             HPbar.transform.GetChild(e).gameObject.SetActive(true);
         }
 
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        driver = inputMngr.GetComponent<PlayerRoles>().driver;
     }
 	
 	// Update is called once per frame

@@ -32,8 +32,8 @@ public class Explode : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         playertank = player.GetComponent<PlayerTank>();
 
-        //explosion = GetComponent<ParticleSystem>();
-        //explosion.playOnAwake = false;
+        // explosion = GetComponent<ParticleSystem>();
+        // explosion.playOnAwake = false;
 	}
 	
 	// Update is called once per frame
