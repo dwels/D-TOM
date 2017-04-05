@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2356,9 +2356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aa0b3dbdca8f74ca13342735f42365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
+  commander: 2
   gunner: 1
-  driver: 2
+  driver: 0
   engineer: 3
 --- !u!1 &615796025
 GameObject:
@@ -2539,7 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b756b772e36373499eca2e2ce7cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
+  Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
     type: 2}
   power: 40
   detectionRange: 100
@@ -3252,6 +3252,23 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 100006, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
   m_PrefabInternal: {fileID: 1459266145}
+--- !u!114 &967571667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38de404c429d32a498b17946444ed489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hullRotateSpeed: 100
+  speed: 10
+  BoostTotal: 300
+  boostCooldown: 60
+  rightTreadPivot: {fileID: 407564066}
+  leftTreadPivot: {fileID: 862594149}
 --- !u!114 &967571670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3286,6 +3303,7 @@ MonoBehaviour:
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
     type: 2}
   throwRate: 0
+  playerID: 0
 --- !u!114 &967571672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5435,14 +5453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823d67f8c781dd049a503345abaefdc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hullRotateSpeed: 100
-  speed: 10
   HPbar: {fileID: 1337238067}
-  BoostTotal: 300
-  boostCooldown: 60
-  amDriver: 1
-  rightTreadPivot: {fileID: 407564066}
-  leftTreadPivot: {fileID: 862594149}
 --- !u!114 &1766980146
 MonoBehaviour:
   m_ObjectHideFlags: 0
