@@ -5,7 +5,8 @@ using TeamUtility.IO;
 
 public class CameraController : MonoBehaviour
 {
-    public PlayerID commander;
+    private PlayerID commander;
+
     // target of camera
     public Transform target;
     public float smoothTime = 0.3f;
@@ -31,6 +32,10 @@ public class CameraController : MonoBehaviour
     {
         oldPosition = transform.position;
         oldTargetPosition = target.transform.position;
+
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        commander = inputMngr.GetComponent<PlayerRoles>().commander;
     }
 
     // Update is called once per frame
@@ -105,9 +110,9 @@ public class CameraController : MonoBehaviour
         // update tank's old position
         oldTargetPosition = target.transform.position;
 
-        // create waypoints - in progress
         if (amCommander)
         {
+            // create waypoints - in progress
             if (InputManager.GetAxis("Left Trigger", commander) > 0)
             {
                 if (Time.time - timeLast > reloadTime)

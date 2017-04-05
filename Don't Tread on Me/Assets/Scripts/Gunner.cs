@@ -5,7 +5,7 @@ using TeamUtility.IO;
 
 public class Gunner : MonoBehaviour {
 
-    public PlayerID gunner;
+    private PlayerID gunner;
 
     public bool amGunner;
 
@@ -20,6 +20,10 @@ public class Gunner : MonoBehaviour {
     // Use this for initialization
     void Start () {
         oldRotation = this.transform.rotation;
+
+        // this code is for managing player roles
+        GameObject inputMngr = GameObject.Find("InputManager");
+        gunner = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 	
 	// Update is called once per frame

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -647,7 +647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &228142023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1260,6 +1260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 604818327}
   - component: {fileID: 604818326}
+  - component: {fileID: 604818328}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -2318,6 +2319,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &604818328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 604818325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98aa0b3dbdca8f74ca13342735f42365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commander: 0
+  gunner: 1
+  driver: 2
+  engineer: 3
 --- !u!1 &615796025
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,7 +3169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb5d0106273b95b40b055d7162f78345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
   target: {fileID: 1766980149}
   smoothTime: 0
   xOffset: 10
@@ -3163,7 +3178,7 @@ MonoBehaviour:
   mainCamera: {fileID: 930555202}
   waypoint: {fileID: 1948834951072236, guid: beb483db79eaf7544b05f63846f26be0, type: 2}
   marker: {fileID: 1506550621261768, guid: 01bf42d9578940f4bbe7cf6400b5fc70, type: 2}
-  amCommander: 1
+  amCommander: 0
   reloadTime: 0.2
 --- !u!81 &930555199
 AudioListener:
@@ -3248,7 +3263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94daec5c6458f1b4e9c8520389ac60f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunner: 1
   amGunner: 1
   Cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
@@ -3264,7 +3278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45f8c4d0f7fa1e340a1a6699b26dc0ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineer: 3
   amEngineer: 1
   Hull: {fileID: 977386577}
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
@@ -3413,6 +3426,86 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1028987891}
+--- !u!1 &1036955049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1036955051}
+  - component: {fileID: 1036955050}
+  - component: {fileID: 1036955052}
+  m_Layer: 0
+  m_Name: CommanderTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1036955050
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1036955049}
+  m_Enabled: 1
+  serializedVersion: 7
+  m_Type: 0
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 8
+  m_Range: 10
+  m_SpotAngle: 24
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &1036955051
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1036955049}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 3, y: 5.11, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1036955052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1036955049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dda5fce9d7b0fb48abf90c183606dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1766980144}
+  crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
+  translateSpeed: 10
+  crateHeight: 20
+  timerCap: 1
 --- !u!1 &1058977328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5049,7 +5142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunner: 1
   Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
     type: 2}
   Launcher: {fileID: 1523338737}
@@ -5217,7 +5309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunner: 0
   marker: {fileID: 1448268162}
   sweetSpot: {fileID: 1028987891}
   reloading: 0
@@ -5319,7 +5410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823d67f8c781dd049a503345abaefdc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  driver: 2
   hullRotateSpeed: 100
   speed: 10
   HPbar: {fileID: 1337238067}
@@ -6228,7 +6318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8910a14b4fdf2c44dac841a6ed049f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
   amCommander: 1
   rotateSpeed: 2
   deadZone: 0.05
