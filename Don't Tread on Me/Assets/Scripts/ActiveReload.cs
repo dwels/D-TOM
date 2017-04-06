@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using TeamUtility.IO;
 
-public class ActiveReload : Gunner {
+public class ActiveReload : MonoBehaviour {
 
     private PlayerID gunner;
     private bool reloadAttempt = false;

@@ -90,6 +90,15 @@ public class Commander : MonoBehaviour {
             inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
             inputMngr.GetComponent<PlayerRoles>().commander = playerID;
         }
+        else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
+        {
+            Driver driver = GetComponent<Driver>();
+            driver.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
+
+            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
+            inputMngr.GetComponent<PlayerRoles>().commander = playerID;
+        }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
             Engineer engineer = GetComponent<Engineer>();

@@ -4,7 +4,6 @@ using UnityEngine;
 using TeamUtility.IO;
 
 public class Driver : MonoBehaviour {
-    private PlayerID driver;
 
     // these are for main hull rotation
     public float hullRotateSpeed = 100.0f;
@@ -24,22 +23,28 @@ public class Driver : MonoBehaviour {
     private Rigidbody rb;
     public GameObject rightTreadPivot;
     public GameObject leftTreadPivot;
+
+    GameObject inputMngr;
+    public PlayerID playerID;
     // Use this for initialization
     void Start () {
-        rb = this.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         rotateSpeed = hullRotateSpeed;
 
         // this code is for managing player roles
-        GameObject inputMngr = GameObject.Find("InputManager");
-        driver = inputMngr.GetComponent<PlayerRoles>().driver;
+        inputMngr = GameObject.Find("InputManager");
+        playerID = inputMngr.GetComponent<PlayerRoles>().driver;
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (playerID != inputMngr.GetComponent<PlayerRoles>().driver) return;
+
         #region driver
         #region boost what a fucking mess
         //driver's boost
-        if (InputManager.GetAxis("Right Trigger", driver) == 1 && InputManager.GetAxis("Left Trigger", driver) == 1) //are the boost buttons being pressed?
+        if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
         {
             if (BoostFrames > 0 && canBoost == true) //is there boost left, and is it on cooldown?
             {
@@ -56,7 +61,7 @@ public class Driver : MonoBehaviour {
                 rotateSpeed = hullRotateSpeed;
             }
         }//if 
-        else if (InputManager.GetAxis("Right Trigger", driver) != 1 || InputManager.GetAxis("Left Trigger", driver) != 1)
+        else if (InputManager.GetAxis("Right Trigger", playerID) != 1 || InputManager.GetAxis("Left Trigger", playerID) != 1)
         {
             speed = 10;
             rotateSpeed = hullRotateSpeed;
@@ -86,47 +91,47 @@ public class Driver : MonoBehaviour {
         #endregion
 
         //rotate clockwise
-        if (InputManager.GetAxis("Left Stick Vertical", driver) < 0 && InputManager.GetAxis("Right Stick Vertical", driver) > 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) < 0 && InputManager.GetAxis("Right Stick Vertical", playerID) > 0)
         {
             Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, 1, 0) * (rotateSpeed)) * Time.deltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
         }
 
         //rotate counterclockwise
-        if (InputManager.GetAxis("Left Stick Vertical", driver) > 0 && InputManager.GetAxis("Right Stick Vertical", driver) < 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) > 0 && InputManager.GetAxis("Right Stick Vertical", playerID) < 0)
         {
             Quaternion deltaRotation = Quaternion.Euler((new Vector3(0, -1, 0) * (rotateSpeed)) * Time.deltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
         }
 
         //move forward
-        if (InputManager.GetAxis("Left Stick Vertical", driver) < 0 && InputManager.GetAxis("Right Stick Vertical", driver) < 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) < 0 && InputManager.GetAxis("Right Stick Vertical", playerID) < 0)
         {
             rb.MovePosition(transform.position + transform.forward * Time.deltaTime * speed);
         }
 
         //move backward
-        if (InputManager.GetAxis("Left Stick Vertical", driver) > 0 && InputManager.GetAxis("Right Stick Vertical", driver) > 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) > 0 && InputManager.GetAxis("Right Stick Vertical", playerID) > 0)
         {
             rb.MovePosition(transform.position + -transform.forward * Time.deltaTime * speed);
         }
 
         //left stick only
-        if (InputManager.GetAxis("Left Stick Vertical", driver) < 0 && InputManager.GetAxis("Right Stick Vertical", driver) == 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) < 0 && InputManager.GetAxis("Right Stick Vertical", playerID) == 0)
         {
             rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, (rotateSpeed * Time.deltaTime));
         }
-        if (InputManager.GetAxis("Left Stick Vertical", driver) > 0 && InputManager.GetAxis("Right Stick Vertical", driver) == 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) > 0 && InputManager.GetAxis("Right Stick Vertical", playerID) == 0)
         {
             rotateRigidBodyAroundPointBy(rb, rightTreadPivot.transform.position, rightTreadPivot.transform.up, -(rotateSpeed * Time.deltaTime));
         }
 
         //right stick only
-        if (InputManager.GetAxis("Left Stick Vertical", driver) == 0 && InputManager.GetAxis("Right Stick Vertical", driver) > 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) == 0 && InputManager.GetAxis("Right Stick Vertical", playerID) > 0)
         {
             rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, (rotateSpeed * Time.deltaTime));
         }
-        if (InputManager.GetAxis("Left Stick Vertical", driver) == 0 && InputManager.GetAxis("Right Stick Vertical", driver) < 0)
+        if (InputManager.GetAxis("Left Stick Vertical", playerID) == 0 && InputManager.GetAxis("Right Stick Vertical", playerID) < 0)
         {
             rotateRigidBodyAroundPointBy(rb, leftTreadPivot.transform.position, leftTreadPivot.transform.up, -(rotateSpeed * Time.deltaTime));
         }
@@ -135,6 +140,34 @@ public class Driver : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.U))
         {
             flipTank();
+        }
+
+        if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
+        {
+            Gunner gunner = GetComponent<Gunner>();
+            gunner.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
+
+            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
+            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        {
+            Commander commander = GetComponent<Commander>();
+            commander.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
+
+            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
+            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
+        {
+            Engineer engineer = GetComponent<Engineer>();
+            engineer.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
+
+            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
+            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
         }
     }
 

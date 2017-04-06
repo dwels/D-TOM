@@ -8,6 +8,7 @@ public class Engineer : MonoBehaviour {
 
     public GameObject Hull;
     public Rigidbody Projectile = null;
+    public GameObject tankTop;
     Camera mainCamera;
     private const float SPAWN_DISTANCE = 2f;
 
@@ -54,13 +55,10 @@ public class Engineer : MonoBehaviour {
                     {
                         throwPower += Time.deltaTime * throwRate;
                     }
-                    print("Current PWR: " + throwPower);
-                    //print(Input.GetAxis("LeftTrigger"));
                 }
                 else if (InputManager.GetButtonUp("Button B", playerID))
                 {
                     ThrowGrenade(throwPower);
-                    print("FINALE PWR: " + throwPower);
                     throwPower = 0f;
                 }
             }
@@ -89,6 +87,15 @@ public class Engineer : MonoBehaviour {
             inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
             inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
         }
+        else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
+        {
+            Driver driver = GetComponent<Driver>();
+            driver.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
+
+            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
         {
             Commander commander = GetComponent<Commander>();
@@ -104,11 +111,11 @@ public class Engineer : MonoBehaviour {
 
     void ThrowGrenade(float tPWR)
     {
-        Rigidbody clone = Instantiate(Projectile, Hull.transform.position + (SPAWN_DISTANCE * Hull.transform.forward), this.transform.rotation) as Rigidbody;  //Hull.transform.rotation) as Rigidbody;
+        Rigidbody clone = Instantiate(Projectile, Hull.transform.position + (SPAWN_DISTANCE * Hull.transform.forward), tankTop.transform.rotation) as Rigidbody;  //Hull.transform.rotation) as Rigidbody;
 
         Vector3 temp = new Vector3(0, 1, 1);
 
-        clone.velocity = transform.TransformDirection( temp  * tPWR);
+        clone.velocity = tankTop.transform.TransformDirection( temp  * tPWR);
 
         Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode));
     }
