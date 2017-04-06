@@ -2539,7 +2539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b756b772e36373499eca2e2ce7cd5c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projectile: {fileID: 54468724289587186, guid: 93bb95b63c779ec409ad8f880374be93,
+  Projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
     type: 2}
   power: 40
   detectionRange: 100
@@ -3252,6 +3252,24 @@ Prefab:
 GameObject:
   m_PrefabParentObject: {fileID: 100006, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
   m_PrefabInternal: {fileID: 1459266145}
+--- !u!114 &967571667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 554fe648ba273c846bae5822b3fbbe40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hullRotateSpeed: 100
+  speed: 10
+  BoostTotal: 300
+  boostCooldown: 60
+  amDriver: 0
+  rightTreadPivot: {fileID: 407564066}
+  leftTreadPivot: {fileID: 862594149}
 --- !u!114 &967571670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3263,16 +3281,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94daec5c6458f1b4e9c8520389ac60f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
-  gunner: 0
-  driver: 0
-  engineer: 0
   amGunner: 1
   Cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
   gunnerRotateSpeed: 1
   Launcher: {fileID: 1523338736}
   gunnerPanel: {fileID: 1058977328}
+  playerID: 0
 --- !u!114 &967571671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3289,6 +3304,7 @@ MonoBehaviour:
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
     type: 2}
   throwRate: 0
+  playerID: 0
 --- !u!114 &967571672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3300,6 +3316,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amGunner: 0
+  Cannon: {fileID: 0}
+  cannonPivot: {fileID: 0}
+  gunnerRotateSpeed: 1
+  Launcher: {fileID: 0}
+  gunnerPanel: {fileID: 0}
+  playerID: 0
   marker: {fileID: 1448268162}
   sweetSpot: {fileID: 1028987891}
   lineRail: {fileID: 174556625}
@@ -3324,6 +3347,33 @@ MonoBehaviour:
   currentAmmoType: 1
   selectedAmmoType: 1
   ammoButtonHold: 1
+--- !u!114 &967571674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 967571666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dda5fce9d7b0fb48abf90c183606dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1766980144}
+  crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
+  reticle: {fileID: 1036955049}
+  translateSpeed: 10
+  crateHeight: 20
+  timerCap: 1
+  rotateSpeed: 1
+  deadZone: 0.1
+  bullet: {fileID: 1879954589975294, guid: 4f584fdbb63e64d4abfaf23c87dd6ab8, type: 2}
+  tracer: {fileID: 1499625894707760, guid: 0ac1cd11c7513db47b553cbc0eba7880, type: 2}
+  firePoint: {fileID: 111710895}
+  bulletSpeed: 1000
+  reloadTime: 0.01
+  tracerCap: 3
+  gun: {fileID: 2107181897}
+  playerID: 0
 --- !u!1 &977386577 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
@@ -3440,7 +3490,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1036955051}
   - component: {fileID: 1036955050}
-  - component: {fileID: 1036955052}
   m_Layer: 0
   m_Name: CommanderTarget
   m_TagString: Untagged
@@ -3495,22 +3544,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1036955052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1036955049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dda5fce9d7b0fb48abf90c183606dd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1766980144}
-  crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
-  translateSpeed: 10
-  crateHeight: 20
-  timerCap: 1
 --- !u!1 &1058977328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5437,14 +5470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823d67f8c781dd049a503345abaefdc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hullRotateSpeed: 100
-  speed: 10
   HPbar: {fileID: 1337238067}
-  BoostTotal: 300
-  boostCooldown: 60
-  amDriver: 1
-  rightTreadPivot: {fileID: 407564066}
-  leftTreadPivot: {fileID: 862594149}
 --- !u!114 &1766980146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6297,26 +6323,6 @@ GameObject:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
   m_PrefabInternal: {fileID: 1459266145}
---- !u!114 &2107181901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2107181897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8910a14b4fdf2c44dac841a6ed049f43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amCommander: 1
-  rotateSpeed: 2
-  deadZone: 0.05
-  bullet: {fileID: 1879954589975294, guid: 4f584fdbb63e64d4abfaf23c87dd6ab8, type: 2}
-  tracer: {fileID: 1499625894707760, guid: 0ac1cd11c7513db47b553cbc0eba7880, type: 2}
-  firePoint: {fileID: 111710895}
-  bulletSpeed: 1000
-  reloadTime: 0.01
-  tracerCap: 3
 --- !u!1 &2127801217
 GameObject:
   m_ObjectHideFlags: 0
