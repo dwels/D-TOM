@@ -4,13 +4,11 @@ using UnityEngine;
 using TeamUtility.IO;
 
 public class Engineer : MonoBehaviour {
-
-    private PlayerID engineer;
-
     public bool amEngineer;
 
     public GameObject Hull;
     public Rigidbody Projectile = null;
+    public GameObject tankTop;
     Camera mainCamera;
     private const float SPAWN_DISTANCE = 2f;
 
@@ -23,8 +21,11 @@ public class Engineer : MonoBehaviour {
     bool repairing;
     int repairAmount = 1;
 
-	// Use this for initialization
-	void Start () {
+    GameObject inputMngr;
+    public PlayerID playerID;
+
+    // Use this for initialization
+    void Start () {
         throwRate = 8f;
         maxPower = 8f;
         repairing = false;
@@ -33,43 +34,37 @@ public class Engineer : MonoBehaviour {
         hp = pTnk.GetComponent<HP>();
 
         // this code is for managing player roles
-        GameObject inputMngr = GameObject.Find("InputManager");
-        engineer = inputMngr.GetComponent<PlayerRoles>().engineer;
+        inputMngr = GameObject.Find("InputManager");
+        playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
+        if (playerID != inputMngr.GetComponent<PlayerRoles>().engineer) return;
+
         if (amEngineer)
         {
 
             if (!repairing)
-            {
-                if (InputManager.GetAxis("Right Stick Vertical", engineer) != 0.0f)
-                {
-                    this.transform.Rotate(0f, InputManager.GetAxis("Right Stick Vertical", engineer), 0f);
-                }
-        
+            {        
                 //print(Input.GetAxis("LeftTrigger"));
-                if (InputManager.GetButton("Button B", engineer))
+                if (InputManager.GetButton("Button B", playerID))
                 {
                     if (throwPower <= maxPower)
                     {
                         throwPower += Time.deltaTime * throwRate;
                     }
-                    print("Current PWR: " + throwPower);
-                    //print(Input.GetAxis("LeftTrigger"));
                 }
-                else if (InputManager.GetButtonUp("Button B", engineer))
+                else if (InputManager.GetButtonUp("Button B", playerID))
                 {
                     ThrowGrenade(throwPower);
-                    print("FINALE PWR: " + throwPower);
                     throwPower = 0f;
                 }
             }
 
             // Hold to repair
-            if(InputManager.GetAxis("Left Trigger", engineer) > 0)
+            if(InputManager.GetAxis("Left Trigger", playerID) > 0)
             {
                 repairing = true;
                 //playerTank.HP += Time.deltaTime * 2f;
@@ -83,16 +78,44 @@ public class Engineer : MonoBehaviour {
             }*/
         }
 
-	}
+        if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
+        {
+            Gunner gunner = GetComponent<Gunner>();
+            gunner.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
+
+            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
+        {
+            Driver driver = GetComponent<Driver>();
+            driver.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
+
+            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        {
+            Commander commander = GetComponent<Commander>();
+            commander.playerID = playerID;
+            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
+
+            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
+            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+        }
+
+    }
 
 
     void ThrowGrenade(float tPWR)
     {
-        Rigidbody clone = Instantiate(Projectile, Hull.transform.position + (SPAWN_DISTANCE * Hull.transform.forward), this.transform.rotation) as Rigidbody;  //Hull.transform.rotation) as Rigidbody;
+        Rigidbody clone = Instantiate(Projectile, Hull.transform.position + (SPAWN_DISTANCE * Hull.transform.forward), tankTop.transform.rotation) as Rigidbody;  //Hull.transform.rotation) as Rigidbody;
 
         Vector3 temp = new Vector3(0, 1, 1);
 
-        clone.velocity = transform.TransformDirection( temp  * tPWR);
+        clone.velocity = tankTop.transform.TransformDirection( temp  * tPWR);
 
         Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode));
     }
