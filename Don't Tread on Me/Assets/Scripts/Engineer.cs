@@ -6,32 +6,32 @@ using TeamUtility.IO;
 public class Engineer : MonoBehaviour {
     public bool amEngineer;
 
-    public GameObject Hull;
     public Rigidbody Projectile = null;
-    public GameObject tankTop;
+
+    // For Grenade aiming
+    public GameObject target;
+    public GameObject reticle;
+    private Vector3 oldTargetPosition;
+    public float translateSpeed = 10.0f;
+    bool snapBack = true;
+    public float aimDistance;
+
+    // Reload Time
+    float reloadTime;
+    private float timeLast = 0.0f;
+
     Camera mainCamera;
-    private const float SPAWN_DISTANCE = 2f;
-
-    float throwPower;
-    public float throwRate;
-    float maxPower;
-
-    HP hp;
-    GameObject pTnk;
-    bool repairing;
-    int repairAmount = 1;
+    private const float SPAWN_DISTANCE = 3f;
 
     GameObject inputMngr;
     public PlayerID playerID;
 
     // Use this for initialization
     void Start () {
-        throwRate = 8f;
-        maxPower = 8f;
-        repairing = false;
 
-        pTnk = GameObject.Find("Player");
-        hp = pTnk.GetComponent<HP>();
+        aimDistance = 11f;
+        
+        reloadTime = 2f;
 
         // this code is for managing player roles
         inputMngr = GameObject.Find("InputManager");
@@ -45,37 +45,64 @@ public class Engineer : MonoBehaviour {
 
         if (amEngineer)
         {
+            // Reticle follows the tank
+            Vector3 follow = target.transform.position - oldTargetPosition;
+            reticle.transform.Translate(follow, Space.World);
 
-            if (!repairing)
-            {        
-                //print(Input.GetAxis("LeftTrigger"));
-                if (InputManager.GetButton("Button B", playerID))
-                {
-                    if (throwPower <= maxPower)
-                    {
-                        throwPower += Time.deltaTime * throwRate;
-                    }
-                }
-                else if (InputManager.GetButtonUp("Button B", playerID))
-                {
-                    ThrowGrenade(throwPower);
-                    throwPower = 0f;
-                }
-            }
+            oldTargetPosition = target.transform.position;
 
-            // Hold to repair
+            // Hold to allow for Grenade aiming
             if(InputManager.GetAxis("Left Trigger", playerID) > 0)
             {
-                repairing = true;
-                //playerTank.HP += Time.deltaTime * 2f;
-                //print(playerTank.HP);
-            }  
-            // OR Mash a button to repair (while holding LeftTrigger to disable use of other actions)
-            /*if (Input.GetButtonDown("A") || repairing)
+                reticle.SetActive(true);
+
+                // sapBcks the reticle to tank position after pulling let tigger
+                if (snapBack)
+                {
+                    reticle.transform.position = (target.transform.position + new Vector3(0,5.11f,0));
+                    snapBack = false;
+                }
+               // if (Vector3.Distance(reticle.transform.position, target.transform.position) < aimDistance)
+                
+                    if (InputManager.GetAxis("Left Stick Vertical", playerID) != 0.0f)
+                    {
+                        reticle.transform.Translate(new Vector3(1, 0, 1) * -InputManager.GetAxis("Left Stick Vertical", playerID) * translateSpeed * Time.deltaTime, Space.World);
+
+                        // Prevents player from moving reticle past a certain distance from tank. There is probably a better way to do this 
+                        if (Vector3.Distance(reticle.transform.position, target.transform.position) >= aimDistance)
+                        {
+                            reticle.transform.Translate(new Vector3(1, 0, 1) * InputManager.GetAxis("Left Stick Vertical", playerID) * translateSpeed * Time.deltaTime, Space.World);
+                        }
+
+                    }
+                    if (InputManager.GetAxis("Left Stick Horizontal", playerID) != 0.0f)
+                    {
+                        reticle.transform.Translate(new Vector3(-1, 0, 1) * -InputManager.GetAxis("Left Stick Horizontal", playerID) * translateSpeed * Time.deltaTime, Space.World);
+                        
+                        // Prevents player from moving reticle past a certain distance from tank. There is probably a better way to do this 
+                        if (Vector3.Distance(reticle.transform.position, target.transform.position) >= aimDistance)
+                        {
+                            reticle.transform.Translate(new Vector3(-1, 0, 1) * InputManager.GetAxis("Left Stick Horizontal", playerID) * translateSpeed * Time.deltaTime, Space.World);
+                        }
+                    }
+
+                if (InputManager.GetAxis("Right Trigger", playerID) > 0)
+                {
+
+                    if(Time.time - timeLast > reloadTime)
+                    {
+                        ThrowGrenade(2f);
+                        timeLast = Time.time;
+                    }
+                } 
+
+            }
+
+            else
             {
-                playerTank.HP += repairAmount;
-                print(playerTank.HP);
-            }*/
+                reticle.SetActive(false);
+                snapBack = true;
+            } 
         }
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
@@ -111,13 +138,17 @@ public class Engineer : MonoBehaviour {
 
     void ThrowGrenade(float tPWR)
     {
-        Rigidbody clone = Instantiate(Projectile, Hull.transform.position + (SPAWN_DISTANCE * Hull.transform.forward), tankTop.transform.rotation) as Rigidbody;  //Hull.transform.rotation) as Rigidbody;
 
-        Vector3 temp = new Vector3(0, 1, 1);
+        // Gets the direction from tank to reticle. May not be the most optimal way.
+        Vector3 reticleTowards = reticle.transform.position - target.transform.position;
+        float reticleDistance = reticleTowards.magnitude;
+        Vector3 reticleDirection = reticleTowards / reticleDistance;
 
-        clone.velocity = tankTop.transform.TransformDirection( temp  * tPWR);
+        Rigidbody clone = Instantiate(Projectile, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
 
-        Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode));
+        // sets velocity based on reticle distance from tank. May not be the most optimal way.
+        clone.velocity = reticleDirection * (reticleDistance - 3.1f);
+        
     }
 
 
