@@ -18,7 +18,7 @@ public class Gunner : MonoBehaviour {
     public GameObject tankTop;
     public GameObject launcher;
 
-    private rockets rockets = null;
+    private Rockets rockets = null;
 
     public GameObject marker;
     public GameObject sweetSpot;
@@ -45,7 +45,7 @@ public class Gunner : MonoBehaviour {
         oldRotation = tankTop.transform.rotation;
 
         // pull in rockets script
-        rockets = GetComponent<rockets>();
+        rockets = GetComponent<Rockets>();
 
         // init active reload
         initialPos = marker.transform.position;
@@ -69,7 +69,6 @@ public class Gunner : MonoBehaviour {
 
         if (InputManager.GetAxis("Right Stick Horizontal", playerID) != 0.0f)
         {
-            print("rotating");
             tankTop.transform.Rotate(0f, (InputManager.GetAxis("Right Stick Horizontal", playerID) * gunnerRotateSpeed), 0f);
             oldRotation = tankTop.transform.rotation;
         }
@@ -100,7 +99,6 @@ public class Gunner : MonoBehaviour {
         #region main gun
         if (!reloading)
         {
-            print("Ready to Fire");
             // draw line
             // ToDo: this should be a raycast to help see what it is aiming at
             Vector3 forward = launcher.transform.TransformDirection(Vector3.forward) * 20;
@@ -108,7 +106,6 @@ public class Gunner : MonoBehaviour {
 
             if (InputManager.GetAxis("Right Trigger", playerID) == 1)
             {
-                print("Firing");
                 // ToDo: ammotype needs to be implemented
                 rockets.FireProjectile(0);
                 reloading = true;
@@ -142,7 +139,6 @@ public class Gunner : MonoBehaviour {
                 else
                 {
                     attemptedReload = true;
-                    print("Reload Failed");
                     reloadSpeed = 25;
                 }
             }

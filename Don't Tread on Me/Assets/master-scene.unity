@@ -657,6 +657,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36497f2904c7bdd4fb4ce55daffe58e4, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &218636679 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1840753450372316, guid: 5d019ecb5bdba4f4080bd55210446632,
+    type: 2}
+  m_PrefabInternal: {fileID: 1742682490}
 --- !u!1 &228142022
 GameObject:
   m_ObjectHideFlags: 0
@@ -5288,7 +5293,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1840753450372316, guid: 5d019ecb5bdba4f4080bd55210446632, type: 2}
       propertyPath: m_Name
-      value: EngineerTarget
+      value: EngineerReticle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5d019ecb5bdba4f4080bd55210446632, type: 2}
@@ -5403,6 +5408,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
+--- !u!114 &1766980147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766980144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 0}
+  launcher: {fileID: 0}
+  tankTop: {fileID: 0}
+  power: 50
+  rocketTrue: 0
+  reloadTime: 0.5
+  currentAmmoType: 1
+  selectedAmmoType: 1
+  ammoButtonHold: 1
 --- !u!4 &1766980149 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
@@ -5434,17 +5459,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 257.241, y: 206.1579, z: 472.78342}
   m_Center: {x: -0.8859337, y: 93.76774, z: 9.6524935}
---- !u!114 &1766980153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1766980144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3146d8ee6930e78479afbbd260b4b1a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1766980154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5534,10 +5548,10 @@ MonoBehaviour:
   gunnerRotateSpeed: 1
   tankTop: {fileID: 967571666}
   launcher: {fileID: 1523338736}
-  marker: {fileID: 0}
-  sweetSpot: {fileID: 0}
-  lineRail: {fileID: 0}
-  reloadPanel: {fileID: 0}
+  marker: {fileID: 1448268162}
+  sweetSpot: {fileID: 1028987891}
+  lineRail: {fileID: 174556625}
+  reloadPanel: {fileID: 1670567735}
   gunnerPanel: {fileID: 1058977328}
   playerID: 0
 --- !u!114 &1766980158
@@ -5554,8 +5568,8 @@ MonoBehaviour:
   amEngineer: 1
   Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
     type: 2}
-  target: {fileID: 0}
-  reticle: {fileID: 0}
+  target: {fileID: 1766980144}
+  reticle: {fileID: 218636679}
   translateSpeed: 10
   aimDistance: 0
   playerID: 0
