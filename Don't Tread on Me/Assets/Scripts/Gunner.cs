@@ -17,8 +17,20 @@ public class Gunner : MonoBehaviour {
     // for main gunner and active reload
     public GameObject tankTop;
     public GameObject launcher;
+
     private rockets rockets = null;
-    private ActiveReload activeReload = null;
+
+    public GameObject marker;
+    public GameObject sweetSpot;
+    public GameObject lineRail;
+    public GameObject reloadPanel;
+
+    private bool reloading = false;
+    private bool attemptedReload = false;
+    private Vector3 initialPos;
+
+    // for ammo
+    private float reloadSpeed = 50.0f;
 
     // for UI
     // http://www.thegamecontriver.com/2014/10/create-sliding-pause-menu-unity-46-gui.html
@@ -32,9 +44,12 @@ public class Gunner : MonoBehaviour {
     void Start () {
         oldRotation = tankTop.transform.rotation;
 
-        // pull in rockets script and active reload
+        // pull in rockets script
         rockets = GetComponent<rockets>();
-        // activeReload = GetComponent<ActiveReload>();
+
+        // init active reload
+        initialPos = marker.transform.position;
+        reloadPanel.gameObject.SetActive(false);
 
         // init UI
         anim = gunnerPanel.GetComponent<Animator>();
@@ -83,7 +98,7 @@ public class Gunner : MonoBehaviour {
         #endregion
 
         #region main gun
-        if (true) // !activeReload.IsReloading()
+        if (!reloading)
         {
             print("Ready to Fire");
             // draw line
@@ -96,7 +111,8 @@ public class Gunner : MonoBehaviour {
                 print("Firing");
                 // ToDo: ammotype needs to be implemented
                 rockets.FireProjectile(0);
-                // activeReload.Reload();
+                reloading = true;
+                reloadPanel.gameObject.SetActive(true);
 
                 // display reload UI
                 anim.Play("panelSlideIn");
@@ -108,6 +124,38 @@ public class Gunner : MonoBehaviour {
                 anim.Play("panelSlideOut");
             }
         }
+
+        else
+        {
+            marker.transform.Translate(Vector3.right * Time.deltaTime * reloadSpeed);
+
+            if (InputManager.GetAxis("Left Trigger", playerID) > 0 && !attemptedReload)
+            {
+
+                if (marker.transform.position.x < sweetSpot.transform.position.x + 20.0f - 10 &&
+                    marker.transform.position.x + 7.0f > sweetSpot.transform.position.x)
+                {
+                    marker.transform.position = initialPos;
+                    reloading = false;
+                    reloadPanel.gameObject.SetActive(false);
+                }
+                else
+                {
+                    attemptedReload = true;
+                    print("Reload Failed");
+                    reloadSpeed = 25;
+                }
+            }
+            if (marker.transform.position.x >= (lineRail.transform.position.x + 109)) // adding half the width of line rail should make this dynamic
+            {
+                marker.transform.position = initialPos;
+                reloading = false;
+                reloadPanel.gameObject.SetActive(false);
+                attemptedReload = false;
+                reloadSpeed = 50;
+            }
+        }
+        
         #endregion
 
         if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
