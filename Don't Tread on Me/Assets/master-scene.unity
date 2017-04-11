@@ -611,7 +611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 144726794}
   m_Layer: 5
-  m_Name: WeaponSelect
+  m_Name: AmmoSelect
   m_TagString: Reloading
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3867,6 +3867,7 @@ GameObject:
   - component: {fileID: 930555200}
   - component: {fileID: 930555199}
   - component: {fileID: 930555198}
+  - component: {fileID: 930555204}
   m_Layer: 0
   m_Name: IsometricCamera
   m_TagString: Untagged
@@ -3967,6 +3968,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 27.491001, y: 45.000004, z: 0}
+--- !u!114 &930555204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 930555197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 0}
+  launcher: {fileID: 0}
+  tankTop: {fileID: 0}
+  power: 50
+  rocketTrue: 0
+  reloadTime: 0.5
+  currentAmmoType: 1
+  selectedAmmoType: 1
+  ammoButtonHold: 1
 --- !u!1001 &945384621
 Prefab:
   m_ObjectHideFlags: 0
@@ -6316,26 +6337,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHP: 100
---- !u!114 &1766980147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1766980144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 0}
-  launcher: {fileID: 0}
-  tankTop: {fileID: 0}
-  power: 50
-  rocketTrue: 0
-  reloadTime: 0.5
-  currentAmmoType: 1
-  selectedAmmoType: 1
-  ammoButtonHold: 1
 --- !u!4 &1766980149 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: f37e14b120da673409fd28ce8772a4b7, type: 3}
@@ -6367,6 +6368,27 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 257.241, y: 206.1579, z: 472.78342}
   m_Center: {x: -0.8859337, y: 93.76774, z: 9.6524935}
+--- !u!114 &1766980152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1766980144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
+    type: 2}
+  launcher: {fileID: 1523338737}
+  tankTop: {fileID: 967571666}
+  power: 50
+  rocketTrue: 0
+  reloadTime: 0.5
+  currentAmmoType: 1
+  selectedAmmoType: 1
+  ammoButtonHold: 1
 --- !u!114 &1766980154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6400,27 +6422,6 @@ MonoBehaviour:
   tracerCap: 3
   gun: {fileID: 2107181897}
   playerID: 0
---- !u!114 &1766980155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1766980144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
-    type: 2}
-  launcher: {fileID: 1523338737}
-  tankTop: {fileID: 967571666}
-  power: 40
-  rocketTrue: 0
-  reloadTime: 0.5
-  currentAmmoType: 1
-  selectedAmmoType: 1
-  ammoButtonHold: 1
 --- !u!114 &1766980156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6450,7 +6451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94daec5c6458f1b4e9c8520389ac60f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amGunner: 1
   cannon: {fileID: 977386577}
   cannonPivot: {fileID: 1604506583}
   gunnerRotateSpeed: 1
@@ -6460,6 +6460,22 @@ MonoBehaviour:
   sweetSpot: {fileID: 1028987891}
   lineRail: {fileID: 174556625}
   reloadPanel: {fileID: 1670567735}
+  ammoPanel: {fileID: 144726793}
+  standard_shot_buttons:
+  - {fileID: 1149215747}
+  - {fileID: 37444168}
+  - {fileID: 49681928}
+  - {fileID: 444368164}
+  he_shot_buttons:
+  - {fileID: 876972769}
+  - {fileID: 303606338}
+  - {fileID: 1574170169}
+  - {fileID: 2015914732}
+  ap_shot_buttons:
+  - {fileID: 372665621}
+  - {fileID: 358316530}
+  - {fileID: 433097844}
+  - {fileID: 2051601402}
   gunnerPanel: {fileID: 1058977328}
   playerID: 0
 --- !u!114 &1766980158
