@@ -12,8 +12,13 @@ public class PlayerRoles : MonoBehaviour {
     public PlayerID driver;
     public PlayerID engineer;
 
-	// Use this for initialization
-	void Start () {
+    public Texture a;
+    public Texture b;
+    public Texture x;
+    public Texture y;
+
+    // Use this for initialization
+    void Start () {
         
     }
 	
@@ -21,6 +26,40 @@ public class PlayerRoles : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void SetComboTextures(Dictionary<List<string>, GameObject[]> combos)
+    {
+        foreach (KeyValuePair<List<string>, GameObject[]> combo in combos)
+        {
+            if (combo.Key.Count != combo.Value.Length)
+            {
+                print("YOU DONE FUCKED UP!! Size of button collection and combo collection do not match");
+                return;
+            }
+
+            for (int i = 0; i < combo.Value.Length; i++)
+            {
+                switch (combo.Key[i])
+                {
+                    case "Button A":
+                        combo.Value[i].GetComponent<RawImage>().texture = a;
+                        break;
+                    case "Button B":
+                        combo.Value[i].GetComponent<RawImage>().texture = b;
+                        break;
+                    case "Button X":
+                        combo.Value[i].GetComponent<RawImage>().texture = x;
+                        break;
+                    case "Button Y":
+                        combo.Value[i].GetComponent<RawImage>().texture = y;
+                        break;
+                    default:
+                        print("Check the values of your ability combo, unrecognized type found");
+                        break;
+                }
+            }
+        }
+    }
 
     public void DisplayPanel(Animator anim, params GameObject[] panels)
     {

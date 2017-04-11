@@ -34,7 +34,7 @@ public class Gunner : MonoBehaviour {
     private float reloadSpeed = 50.0f;
     private List<string> currentCombo = new List<string>();
 
-    private List<string> standard_shot_combo = new List<string> { "Button A", "Button B", "Button X", "Button X" };
+    private List<string> standard_shot_combo = new List<string> { "Button A", "Button Y", "Button X", "Button X" };
     public GameObject[] standard_shot_buttons = new GameObject[4];
 
     private List<string> he_shot_combo = new List<string> { "Button Y", "Button B", "Button X", "Button A" };
@@ -80,7 +80,9 @@ public class Gunner : MonoBehaviour {
 
         inputMngr = GameObject.Find("InputManager");
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
+
         playerRoles.HidePanel(anim, ammoPanel, reloadPanel);
+        playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
