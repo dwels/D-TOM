@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
 using UnityEngine;
 using TeamUtility.IO;
 
@@ -53,7 +51,8 @@ public class Gunner : MonoBehaviour {
     public GameObject gunnerPanel;
     private Animator anim;
 
-    GameObject inputMngr;
+    private GameObject inputMngr;
+    private PlayerRoles playerRoles;
     public PlayerID playerID;
 
     // Use this for initialization
@@ -65,11 +64,8 @@ public class Gunner : MonoBehaviour {
 
         // init active reload
         initialPos = marker.transform.position;
-        reloadPanel.gameObject.SetActive(false);
 
         // init ammo swap
-        ammoPanel.gameObject.SetActive(false);
-
         ammoCombos.Add("default", standard_shot_combo);
         ammoCombos.Add("he", he_shot_combo);
         ammoCombos.Add("ap", ap_shot_combo);
@@ -78,18 +74,21 @@ public class Gunner : MonoBehaviour {
         comboButtons.Add(ap_shot_combo, ap_shot_buttons);
         comboButtons.Add(he_shot_combo, he_shot_buttons);
 
-        // init UI
+        // init
         anim = gunnerPanel.GetComponent<Animator>();
         anim.enabled = true;
 
         inputMngr = GameObject.Find("InputManager");
+        playerRoles = inputMngr.GetComponent<PlayerRoles>();
+        playerRoles.HidePanel(anim, ammoPanel, reloadPanel);
+
         playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (playerID != inputMngr.GetComponent<PlayerRoles>().gunner) return;
+        if (playerID != playerRoles.gunner) return;
 
         #region tank top rotation
         //turn Top of Tank to the right
@@ -136,10 +135,8 @@ public class Gunner : MonoBehaviour {
                 // ToDo: ammotype needs to be implemented
                 rockets.FireProjectile(0);
                 reloading = true;
-                reloadPanel.gameObject.SetActive(true);
 
-                // display reload UI
-                anim.Play("panelSlideIn");
+                playerRoles.DisplayPanel(anim, reloadPanel);
             }
         }
 
@@ -155,8 +152,8 @@ public class Gunner : MonoBehaviour {
                 {
                     marker.transform.position = initialPos;
                     reloading = false;
-                    reloadPanel.gameObject.SetActive(false);
-                    anim.Play("panelSlideOut");
+
+                    playerRoles.HidePanel(anim, reloadPanel);
                 }
                 else
                 {
@@ -168,10 +165,10 @@ public class Gunner : MonoBehaviour {
             {
                 marker.transform.position = initialPos;
                 reloading = false;
-                reloadPanel.gameObject.SetActive(false);
                 attemptedReload = false;
                 reloadSpeed = 50;
-                anim.Play("panelSlideOut");
+
+                playerRoles.HidePanel(anim, reloadPanel);
             }
         }
 
@@ -181,9 +178,7 @@ public class Gunner : MonoBehaviour {
         if (InputManager.GetButtonDown("Left Bumper", playerID))
         {
             // display the options when pushing left bumper
-            ammoPanel.gameObject.SetActive(true);
-            anim.Play("panelSlideIn");
-
+            playerRoles.DisplayPanel(anim, ammoPanel);
             currentCombo = new List<string>();
         }
 
@@ -191,14 +186,13 @@ public class Gunner : MonoBehaviour {
         {
             if (currentCombo.Count == 4)
             {
-                SelectAmmo(currentCombo, ammoCombos);
+                print(playerRoles.SelectAmmo(currentCombo, ammoCombos)); // right now this just prints but it should be passed into something that changes explosion properties
                 currentCombo = new List<string>();
             }
 
             // display the options when pushing left bumper
-            ammoPanel.gameObject.SetActive(false);
-            anim.Play("panelSlideOut");
-            ResetCombo(comboButtons);
+            playerRoles.HidePanel(anim, ammoPanel);
+            playerRoles.ResetCombo(comboButtons);
         }
 
         if (InputManager.GetButton("Left Bumper", playerID))
@@ -207,26 +201,24 @@ public class Gunner : MonoBehaviour {
             if (InputManager.GetButtonDown("Button A", playerID))
             {
                 currentCombo.Add("Button A");
-                DisplayCombo(currentCombo, comboButtons);
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button B", playerID))
             {
                 currentCombo.Add("Button B");
-                DisplayCombo(currentCombo, comboButtons);
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button X", playerID))
             {
                 currentCombo.Add("Button X");
-                DisplayCombo(currentCombo, comboButtons);
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button Y", playerID))
             {
                 currentCombo.Add("Button Y");
-                DisplayCombo(currentCombo, comboButtons);
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
             }
         }
-
-        
 
         #endregion
 
@@ -234,72 +226,28 @@ public class Gunner : MonoBehaviour {
         {
             Commander commander = GetComponent<Commander>();
             commander.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
+            playerID = playerRoles.commander;
 
-            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
-            inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
+            playerRoles.commander = commander.playerID;
+            playerRoles.gunner = playerID;
         }
         else  if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
         {
             Driver driver = GetComponent<Driver>();
             driver.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
+            playerID = playerRoles.driver;
 
-            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
-            inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
+            playerRoles.driver = driver.playerID;
+            playerRoles.gunner = playerID;
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
             Engineer engineer = GetComponent<Engineer>();
             engineer.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
+            playerID = playerRoles.engineer;
 
-            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
-            inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
-        }
-    }
-
-    void SelectAmmo(List<string> currentCombo, Dictionary<string, List<string>> collection)
-    {
-        foreach(KeyValuePair<string, List<string>> combo in collection)
-        {
-            if (combo.Value.SequenceEqual(currentCombo))
-            {
-                print(combo.Key + " ammo type selected");
-            }
-        }
-    }
-
-    void DisplayCombo(List<string> currentCombo, Dictionary<List<string>, GameObject[]> collection)
-    {
-        foreach(KeyValuePair<List<string>, GameObject[]> buttonCombo in collection)
-        {
-            for (int i = 0; i < currentCombo.Count; i++)
-            {
-                if (currentCombo[i] == buttonCombo.Key[i])
-                {
-                    Color color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-                    buttonCombo.Value[i].GetComponent<RawImage>().color = color;
-                }
-                else
-                {
-                    buttonCombo.Value[i].transform.parent.gameObject.SetActive(false); // need to clean this
-                }
-            }
-        }
-    }
-
-    void ResetCombo(Dictionary<List<string>, GameObject[]> collection)
-    {
-        Color color = new Color(1.0f, 1.0f, 1.0f, 0.39f);
-        foreach (KeyValuePair<List<string>, GameObject[]> buttonCombo in collection)
-        {
-            buttonCombo.Value[0].transform.parent.gameObject.SetActive(true); // only need to do this once but should clean up
-
-            for (int i = 0; i < buttonCombo.Value.Length; i++)
-            {
-                buttonCombo.Value[i].GetComponent<RawImage>().color = color;
-            }
+            playerRoles.engineer = engineer.playerID;
+            playerRoles.gunner = playerID;
         }
     }
 }
