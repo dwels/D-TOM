@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq; 
 using UnityEngine;
 using TeamUtility.IO;
 
 public class Gunner : MonoBehaviour {
-    public bool amGunner;
-
     public GameObject cannon;
     public GameObject cannonPivot;
     private int angleCurrent;
@@ -25,12 +24,27 @@ public class Gunner : MonoBehaviour {
     public GameObject lineRail;
     public GameObject reloadPanel;
 
+    // Weapon Swapping
+    public GameObject ammoPanel;
+
     private bool reloading = false;
     private bool attemptedReload = false;
     private Vector3 initialPos;
 
     // for ammo
     private float reloadSpeed = 50.0f;
+    private List<string> currentCombo = new List<string>();
+
+    private List<string> standard_shot_combo = new List<string> { "Button A", "Button B", "Button X", "Button X" };
+    public GameObject[] standard_shot_buttons = new GameObject[4];
+
+    private List<string> he_shot_combo = new List<string> { "Button Y", "Button B", "Button X", "Button A" };
+    public GameObject[] he_shot_buttons = new GameObject[4];
+
+    private List<string> ap_shot_combo = new List<string> { "Button A", "Button A", "Button X", "Button Y" };
+    public GameObject[] ap_shot_buttons = new GameObject[4];
+
+    private Dictionary<string, List<string>> ammoCombos = new Dictionary<string, List<string>>();
 
     // for UI
     // http://www.thegamecontriver.com/2014/10/create-sliding-pause-menu-unity-46-gui.html
@@ -50,6 +64,12 @@ public class Gunner : MonoBehaviour {
         // init active reload
         initialPos = marker.transform.position;
         reloadPanel.gameObject.SetActive(false);
+
+        // init ammo swap
+        ammoPanel.gameObject.SetActive(false);
+        ammoCombos.Add("default", standard_shot_combo);
+        ammoCombos.Add("he", he_shot_combo);
+        ammoCombos.Add("ap", ap_shot_combo);
 
         // init UI
         anim = gunnerPanel.GetComponent<Animator>();
@@ -114,15 +134,9 @@ public class Gunner : MonoBehaviour {
                 // display reload UI
                 anim.Play("panelSlideIn");
             }
-
-            else
-            {
-                // hide UI
-                anim.Play("panelSlideOut");
-            }
         }
 
-        else
+        else if (reloading)
         {
             marker.transform.Translate(Vector3.right * Time.deltaTime * reloadSpeed);
 
@@ -135,6 +149,7 @@ public class Gunner : MonoBehaviour {
                     marker.transform.position = initialPos;
                     reloading = false;
                     reloadPanel.gameObject.SetActive(false);
+                    anim.Play("panelSlideOut");
                 }
                 else
                 {
@@ -149,9 +164,57 @@ public class Gunner : MonoBehaviour {
                 reloadPanel.gameObject.SetActive(false);
                 attemptedReload = false;
                 reloadSpeed = 50;
+                anim.Play("panelSlideOut");
             }
         }
+
+        #endregion
+
+        #region weapon swapping
+        if (InputManager.GetButtonDown("Left Bumper", playerID))
+        {
+            // display the options when pushing left bumper
+            ammoPanel.gameObject.SetActive(true);
+            anim.Play("panelSlideIn");
+
+            currentCombo = new List<string>();
+        }
+
+        else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
+        {
+            if (currentCombo.Count == 4)
+            {
+                SelectAmmo(currentCombo, ammoCombos);
+            }
+
+            // display the options when pushing left bumper
+            ammoPanel.gameObject.SetActive(false);
+            anim.Play("panelSlideOut");
+        }
+
+        if (InputManager.GetButton("Left Bumper", playerID))
+        {
+            // Add buttons to the current combo
+            if (InputManager.GetButtonDown("Button A", playerID))
+            {
+                currentCombo.Add("Button A");
+            }
+            else if (InputManager.GetButtonDown("Button B", playerID))
+            {
+                currentCombo.Add("Button B");
+            }
+            else if (InputManager.GetButtonDown("Button X", playerID))
+            {
+                currentCombo.Add("Button X");
+            }
+            else if (InputManager.GetButtonDown("Button Y", playerID))
+            {
+                currentCombo.Add("Button Y");
+            }
+        }
+
         
+
         #endregion
 
         if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
@@ -163,8 +226,8 @@ public class Gunner : MonoBehaviour {
             inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
             inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
         }
-       else  if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
-       {
+        else  if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
+        {
             Driver driver = GetComponent<Driver>();
             driver.playerID = playerID;
             playerID = inputMngr.GetComponent<PlayerRoles>().driver;
@@ -180,6 +243,17 @@ public class Gunner : MonoBehaviour {
 
             inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
             inputMngr.GetComponent<PlayerRoles>().gunner = playerID;
+        }
+    }
+
+    void SelectAmmo(List<string> currentCombo, Dictionary<string, List<string>> collection)
+    {
+        foreach(KeyValuePair<string, List<string>> combo in collection)
+        {
+            if (combo.Value.SequenceEqual(currentCombo))
+            {
+                print(combo.Key + " ammo type selected");
+            }
         }
     }
 }
