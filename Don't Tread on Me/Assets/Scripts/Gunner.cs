@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
+using UnityEngine.UI;
 using UnityEngine;
 using TeamUtility.IO;
 
@@ -45,6 +46,7 @@ public class Gunner : MonoBehaviour {
     public GameObject[] ap_shot_buttons = new GameObject[4];
 
     private Dictionary<string, List<string>> ammoCombos = new Dictionary<string, List<string>>();
+    private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
 
     // for UI
     // http://www.thegamecontriver.com/2014/10/create-sliding-pause-menu-unity-46-gui.html
@@ -67,9 +69,14 @@ public class Gunner : MonoBehaviour {
 
         // init ammo swap
         ammoPanel.gameObject.SetActive(false);
+
         ammoCombos.Add("default", standard_shot_combo);
         ammoCombos.Add("he", he_shot_combo);
         ammoCombos.Add("ap", ap_shot_combo);
+
+        comboButtons.Add(standard_shot_combo, standard_shot_buttons);
+        comboButtons.Add(ap_shot_combo, ap_shot_buttons);
+        comboButtons.Add(he_shot_combo, he_shot_buttons);
 
         // init UI
         anim = gunnerPanel.GetComponent<Animator>();
@@ -191,6 +198,7 @@ public class Gunner : MonoBehaviour {
             // display the options when pushing left bumper
             ammoPanel.gameObject.SetActive(false);
             anim.Play("panelSlideOut");
+            ResetCombo(comboButtons);
         }
 
         if (InputManager.GetButton("Left Bumper", playerID))
@@ -199,18 +207,22 @@ public class Gunner : MonoBehaviour {
             if (InputManager.GetButtonDown("Button A", playerID))
             {
                 currentCombo.Add("Button A");
+                DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button B", playerID))
             {
                 currentCombo.Add("Button B");
+                DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button X", playerID))
             {
                 currentCombo.Add("Button X");
+                DisplayCombo(currentCombo, comboButtons);
             }
             else if (InputManager.GetButtonDown("Button Y", playerID))
             {
                 currentCombo.Add("Button Y");
+                DisplayCombo(currentCombo, comboButtons);
             }
         }
 
@@ -254,6 +266,39 @@ public class Gunner : MonoBehaviour {
             if (combo.Value.SequenceEqual(currentCombo))
             {
                 print(combo.Key + " ammo type selected");
+            }
+        }
+    }
+
+    void DisplayCombo(List<string> currentCombo, Dictionary<List<string>, GameObject[]> collection)
+    {
+        foreach(KeyValuePair<List<string>, GameObject[]> buttonCombo in collection)
+        {
+            for (int i = 0; i < currentCombo.Count; i++)
+            {
+                if (currentCombo[i] == buttonCombo.Key[i])
+                {
+                    Color color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    buttonCombo.Value[i].GetComponent<RawImage>().color = color;
+                }
+                else
+                {
+                    buttonCombo.Value[i].transform.parent.gameObject.SetActive(false); // need to clean this
+                }
+            }
+        }
+    }
+
+    void ResetCombo(Dictionary<List<string>, GameObject[]> collection)
+    {
+        Color color = new Color(1.0f, 1.0f, 1.0f, 0.39f);
+        foreach (KeyValuePair<List<string>, GameObject[]> buttonCombo in collection)
+        {
+            buttonCombo.Value[0].transform.parent.gameObject.SetActive(true); // only need to do this once but should clean up
+
+            for (int i = 0; i < buttonCombo.Value.Length; i++)
+            {
+                buttonCombo.Value[i].GetComponent<RawImage>().color = color;
             }
         }
     }
