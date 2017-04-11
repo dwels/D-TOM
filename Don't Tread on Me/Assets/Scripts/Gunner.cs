@@ -185,6 +185,7 @@ public class Gunner : MonoBehaviour {
             if (currentCombo.Count == 4)
             {
                 SelectAmmo(currentCombo, ammoCombos);
+                currentCombo = new List<string>();
             }
 
             // display the options when pushing left bumper
