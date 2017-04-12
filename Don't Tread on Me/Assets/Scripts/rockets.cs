@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using TeamUtility.IO;
 
-public class rockets : MonoBehaviour {
+public class Rockets : MonoBehaviour {
 
     private PlayerID gunner;
 
     // Variable Declaration
-    public Rigidbody Projectile = null;
-    public Transform Launcher = null;
+    public Rigidbody projectile = null;
+    public Transform launcher = null;
+    public GameObject tankTop;
     private const float SPAWN_DISTANCE = 1.0f;
     public int power = 50;
 	public bool rocketTrue;
@@ -65,13 +66,13 @@ public class rockets : MonoBehaviour {
 		Rigidbody clone;
 		if (type == 0) 
 		{
-			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.forward), Launcher.transform.rotation) as Rigidbody;
+			clone = Instantiate (projectile, launcher.transform.position + (SPAWN_DISTANCE * launcher.transform.forward), launcher.transform.rotation) as Rigidbody;
 		} 
 		else 
 		{
-			clone = Instantiate (Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.forward), Launcher.transform.rotation) as Rigidbody;
+			clone = Instantiate (projectile, launcher.transform.position + (SPAWN_DISTANCE * launcher.transform.forward), launcher.transform.rotation) as Rigidbody;
 		}
-        clone.velocity = transform.TransformDirection(Vector3.forward * power);
+        clone.velocity = tankTop.transform.TransformDirection(Vector3.forward * power);
         //Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode)); //clone.AddComponent<Explode>();
         //Destroy(clone);
     }
