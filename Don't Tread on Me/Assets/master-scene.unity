@@ -6595,52 +6595,6 @@ BoxCollider:
 Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 00330708981da324b9348812c75cd928, type: 3}
   m_PrefabInternal: {fileID: 1350865389}
---- !u!1001 &1017686841
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -20.135857
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.1851363
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 100002, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-      propertyPath: m_Name
-      value: Car (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 8d81a43cd32d6ed49a2aca2b3440e1ed, type: 3}
-  m_IsPrefabParent: 0
 --- !u!1 &1018105195
 GameObject:
   m_ObjectHideFlags: 0
@@ -10383,10 +10337,11 @@ MonoBehaviour:
   tankTop: {fileID: 1056532802}
   power: 50
   rocketTrue: 0
+  ammoTypes:
+  - {fileID: 54356015542667930, guid: 034bc32ad19691e4c88086e8d8a429e1, type: 2}
+  - {fileID: 54356015542667930, guid: b1a010a51696a034bb45dd777dc9e308, type: 2}
+  - {fileID: 54356015542667930, guid: a3126b240b5e3324786e6abe17248637, type: 2}
   reloadTime: 0.5
-  currentAmmoType: 1
-  selectedAmmoType: 1
-  ammoButtonHold: 1
 --- !u!114 &1590634373
 MonoBehaviour:
   m_ObjectHideFlags: 0
