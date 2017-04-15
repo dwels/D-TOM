@@ -23,7 +23,11 @@ public class Engineer : MonoBehaviour {
     Camera mainCamera;
     private const float SPAWN_DISTANCE = 3f;
 
-    GameObject inputMngr;
+    public GameObject engineerPanel;
+    private Animator anim;
+
+    private GameObject inputMngr;
+    private PlayerRoles playerRoles;
     public PlayerID playerID;
 
     // Use this for initialization
@@ -33,8 +37,14 @@ public class Engineer : MonoBehaviour {
         
         reloadTime = 2f;
 
-        // this code is for managing player roles
+        // Init
+        anim = engineerPanel.GetComponent<Animator>();
+        anim.enabled = true;
+
         inputMngr = GameObject.Find("InputManager");
+        playerRoles = inputMngr.GetComponent<PlayerRoles>();
+        playerRoles.HidePanel(anim);
+
         playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
     }
 	
