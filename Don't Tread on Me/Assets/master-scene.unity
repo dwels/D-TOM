@@ -1984,7 +1984,7 @@ Transform:
   m_LocalScale: {x: 2.4668827, y: 0.13163507, z: 0.14216644}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &358316530
 GameObject:
@@ -10331,17 +10331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
-    type: 2}
-  launcher: {fileID: 1817051188}
-  tankTop: {fileID: 1056532802}
-  power: 50
-  rocketTrue: 0
-  ammoTypes:
-  - {fileID: 54356015542667930, guid: 034bc32ad19691e4c88086e8d8a429e1, type: 2}
-  - {fileID: 54356015542667930, guid: b1a010a51696a034bb45dd777dc9e308, type: 2}
-  - {fileID: 54356015542667930, guid: a3126b240b5e3324786e6abe17248637, type: 2}
-  reloadTime: 0.5
 --- !u!114 &1590634373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10444,7 +10433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   follow: {fileID: 1590634369}
   crate: {fileID: 1041204669089310, guid: f95fc1030b5031e4d954f98690548785, type: 2}
-  shield: {fileID: 1750315400074072, guid: 095295b0120f8d94dba1b546d81c323b, type: 2}
+  shield: {fileID: 1824874834273488, guid: 095295b0120f8d94dba1b546d81c323b, type: 2}
   mark: {fileID: 1506550621261768, guid: 01bf42d9578940f4bbe7cf6400b5fc70, type: 2}
   airstrike: {fileID: 1253170212617460, guid: 16f5f84b1fefc5641b6fa8b2c41ad044, type: 2}
   target: {fileID: 1712835041}
@@ -11023,7 +11012,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4425819888753528, guid: 5d019ecb5bdba4f4080bd55210446632, type: 2}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1840753450372316, guid: 5d019ecb5bdba4f4080bd55210446632, type: 2}
       propertyPath: m_Name
