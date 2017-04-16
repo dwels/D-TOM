@@ -18,6 +18,9 @@ public class Gunner : MonoBehaviour {
 
     private Rockets rockets = null;
 
+    public enum AmmoTypes { Default, HighExplosive, ArmorPiercing };
+    private int selectedAmmo = (int)AmmoTypes.Default;
+
     public GameObject marker;
     public GameObject sweetSpot;
     public GameObject lineRail;
@@ -43,7 +46,7 @@ public class Gunner : MonoBehaviour {
     private List<string> ap_shot_combo = new List<string> { "Button A", "Button A", "Button X", "Button Y" };
     public GameObject[] ap_shot_buttons = new GameObject[4];
 
-    private Dictionary<string, List<string>> ammoCombos = new Dictionary<string, List<string>>();
+    private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
     private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
 
     // for UI
@@ -66,9 +69,9 @@ public class Gunner : MonoBehaviour {
         initialPos = marker.transform.position;
 
         // init ammo swap
-        ammoCombos.Add("default", standard_shot_combo);
-        ammoCombos.Add("he", he_shot_combo);
-        ammoCombos.Add("ap", ap_shot_combo);
+        ammoCombos.Add(AmmoTypes.Default, standard_shot_combo);
+        ammoCombos.Add(AmmoTypes.HighExplosive, he_shot_combo);
+        ammoCombos.Add(AmmoTypes.ArmorPiercing, ap_shot_combo);
 
         comboButtons.Add(standard_shot_combo, standard_shot_buttons);
         comboButtons.Add(ap_shot_combo, ap_shot_buttons);
@@ -135,7 +138,7 @@ public class Gunner : MonoBehaviour {
             if (InputManager.GetAxis("Right Trigger", playerID) == 1)
             {
                 // ToDo: ammotype needs to be implemented
-                rockets.FireProjectile(0);
+                rockets.FireProjectile(selectedAmmo);
                 reloading = true;
 
                 playerRoles.DisplayPanel(anim, reloadPanel);
@@ -188,7 +191,7 @@ public class Gunner : MonoBehaviour {
         {
             if (currentCombo.Count == 4)
             {
-                print(playerRoles.SelectAmmo(currentCombo, ammoCombos)); // right now this just prints but it should be passed into something that changes explosion properties
+                selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
                 currentCombo = new List<string>();
             }
 

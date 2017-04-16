@@ -79,17 +79,17 @@ public class PlayerRoles : MonoBehaviour {
         anim.Play("panelSlideOut");
     }
 
-    public string SelectAmmo(List<string> currentCombo, Dictionary<string, List<string>> collection)
+    public int SelectAmmo(List<string> currentCombo, Dictionary<Gunner.AmmoTypes, List<string>> collection)
     {
-        foreach (KeyValuePair<string, List<string>> combo in collection)
+        foreach (KeyValuePair<Gunner.AmmoTypes, List<string>> combo in collection)
         {
             if (combo.Value.SequenceEqual(currentCombo))
             {
-                return combo.Key;
+                return (int)combo.Key;
             }
         }
 
-        return "Failed to Select";
+        return -1;
     }
 
     public void DisplayCombo(List<string> currentCombo, Dictionary<List<string>, GameObject[]> collection)

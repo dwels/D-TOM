@@ -75,7 +75,7 @@ public class Explode : MonoBehaviour {
             if ((hit.gameObject.GetComponent("HP") as HP) != null)
             {
                 //calculate individual damage
-                float damage = 15 - (damageDropoff * ((Vector3.Distance(hit.gameObject.transform.position, pos)) / radius));
+                float damage = force - (damageDropoff * ((Vector3.Distance(hit.gameObject.transform.position, pos)) / radius));
 
                 //call the objects takeDamage method
                 hit.gameObject.GetComponent<HP>().TakeDamage(damage);
