@@ -21,6 +21,7 @@ public class Driver : MonoBehaviour {
     private bool canBoost;
 
     public bool flamethrowerActive;
+    public float flameDPS;
     public ParticleSystem flames;
 
     private Rigidbody rb;
@@ -61,12 +62,11 @@ public class Driver : MonoBehaviour {
             //if the player is holding down the buttons
             if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
             {
-                flames.Play();
                 //if the thing in the trigger box has life
                 if ((other.gameObject.GetComponent("HP") as HP) != null)
                 {
                     //call the thing's takeDamage method
-                    other.gameObject.GetComponent<HP>().TakeDamage(5);
+                    other.gameObject.GetComponent<HP>().TakeDamage(Time.deltaTime * flameDPS);
                 }//if life
             }//if buttons
         }//if flamethrower
@@ -77,17 +77,13 @@ public class Driver : MonoBehaviour {
 
         if (playerID != inputMngr.GetComponent<PlayerRoles>().driver) return;
 
-        //if (flamethrowerActive)
-        //{
-        //    if ((InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1))
-        //    {
-        //        flames.Play();
-        //    } 
-        //    else
-        //    {
-        //        flames.Stop();
-        //    }
-        //}
+        if (flamethrowerActive)
+        {
+            if ((InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1))
+            {
+                flames.Emit(5);
+            }
+        }
         else 
         {
             #region boost what a fucking mess
