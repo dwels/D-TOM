@@ -20,6 +20,10 @@ public class Driver : MonoBehaviour {
     private int framesSinceLastBoost;
     private bool canBoost;
 
+    public bool flamethrowerActive;
+    public float flameDPS;
+    public ParticleSystem flames;
+
     private Rigidbody rb;
     public GameObject rightTreadPivot;
     public GameObject leftTreadPivot;
@@ -36,6 +40,8 @@ public class Driver : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         rotateSpeed = hullRotateSpeed;
 
+        flamethrowerActive = true;
+
         // Init
         anim = driverPanel.GetComponent<Animator>();
         anim.enabled = true;
@@ -47,60 +53,88 @@ public class Driver : MonoBehaviour {
         playerID = inputMngr.GetComponent<PlayerRoles>().driver;
     }
 	
+    //if something stays in the trigger box
+    void OnTriggerStay(Collider other)
+    {
+        //if the flamethrower is selected
+        if (flamethrowerActive)
+        {
+            //if the player is holding down the buttons
+            if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
+            {
+                //if the thing in the trigger box has life
+                if ((other.gameObject.GetComponent("HP") as HP) != null)
+                {
+                    //call the thing's takeDamage method
+                    other.gameObject.GetComponent<HP>().TakeDamage(Time.deltaTime * flameDPS);
+                }//if life
+            }//if buttons
+        }//if flamethrower
+    }//onTriggerStay
+
 	// Update is called once per frame
 	void Update () {
 
         if (playerID != inputMngr.GetComponent<PlayerRoles>().driver) return;
 
-        #region driver
-        #region boost what a fucking mess
-        //driver's boost
-        if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
+        if (flamethrowerActive)
         {
-            if (BoostFrames > 0 && canBoost == true) //is there boost left, and is it on cooldown?
+            if ((InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1))
             {
-                //then go fast
-                speed = 10 * 2;
-                rotateSpeed = hullRotateSpeed * 2;
+                flames.Emit(5);
+            }
+        }
+        else 
+        {
+            #region boost what a fucking mess
+            //driver's boost
+            if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
+            {
+                if (BoostFrames > 0 && canBoost == true) //is there boost left, and is it on cooldown?
+                {
+                    //then go fast
+                    speed = 10 * 2;
+                    rotateSpeed = hullRotateSpeed * 2;
 
-                //but reduce the boost pool
-                BoostFrames--;
-            }//if
-            else
+                    //but reduce the boost pool
+                    BoostFrames--;
+                }//if
+                else
+                {
+                    speed = 10;
+                    rotateSpeed = hullRotateSpeed;
+                }
+            }//if 
+            else if (InputManager.GetAxis("Right Trigger", playerID) != 1 || InputManager.GetAxis("Left Trigger", playerID) != 1)
             {
                 speed = 10;
                 rotateSpeed = hullRotateSpeed;
-            }
-        }//if 
-        else if (InputManager.GetAxis("Right Trigger", playerID) != 1 || InputManager.GetAxis("Left Trigger", playerID) != 1)
-        {
-            speed = 10;
-            rotateSpeed = hullRotateSpeed;
 
-            i++;
-            if (i >= 3)
-            {
-                if (BoostFrames <= BoostTotal)
+                i++;
+                if (i >= 3)
                 {
-                    BoostFrames++;
+                    if (BoostFrames <= BoostTotal)
+                    {
+                        BoostFrames++;
+                    }
+                    i = 0;
                 }
-                i = 0;
             }
-        }
 
-        if (BoostFrames == 0)
-        {
-            canBoost = false;
-        }
-        if (canBoost == false)
-        {
-            if (BoostFrames >= boostCooldown)
+            if (BoostFrames == 0)
             {
-                canBoost = true;
+                canBoost = false;
             }
+            if (canBoost == false)
+            {
+                if (BoostFrames >= boostCooldown)
+                {
+                    canBoost = true;
+                }
+            }
+            #endregion
         }
-        #endregion
-
+        #region driver controls
         //rotate clockwise
         if (InputManager.GetAxis("Left Stick Vertical", playerID) < 0 && InputManager.GetAxis("Right Stick Vertical", playerID) > 0)
         {
