@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199168803624272666}
   - component: {fileID: 114580648330949090}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: pSys_Explode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
