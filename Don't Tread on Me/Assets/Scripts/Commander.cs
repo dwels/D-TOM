@@ -37,14 +37,33 @@ public class Commander : MonoBehaviour {
 
     private float oldRetX = 0;
     private float oldRetY = 0;
-    private int currentMode = 0;
 
     private Vector3 oldTargetPosition;
     private float timerLast = 0.0f;
 
+    // mode switching
+    public enum AmmoTypes { CarePackage, Shield, Airstrike };
+    private int selectedMode = (int)AmmoTypes.CarePackage;
+
     public GameObject commanderPanel;
+    public GameObject ammoPanel;
     private Animator anim;
 
+    private List<string> currentCombo = new List<string>();
+
+    private List<string> care_package_combo = new List<string> { "Button A", "Button B", "Button X", "Button X" };
+    public GameObject[] care_package_buttons = new GameObject[4];
+
+    private List<string> shield_combo = new List<string> { "Button Y", "Button B", "Button X", "Button A" };
+    public GameObject[] shield_buttons = new GameObject[4];
+
+    private List<string> airstrike_combo = new List<string> { "Button A", "Button A", "Button X", "Button Y" };
+    public GameObject[] airstrike_buttons = new GameObject[4];
+
+    private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
+    private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
+
+    // player role swapping
     private GameObject inputMngr;
     private PlayerRoles playerRoles;
     public PlayerID playerID;
@@ -53,6 +72,15 @@ public class Commander : MonoBehaviour {
     void Start () {
 
         oldTargetPosition = follow.transform.position;
+
+        // init ammo swap
+        ammoCombos.Add(AmmoTypes.CarePackage, care_package_combo);
+        ammoCombos.Add(AmmoTypes.Shield, shield_combo);
+        ammoCombos.Add(AmmoTypes.Airstrike, airstrike_combo);
+
+        comboButtons.Add(care_package_combo, care_package_buttons);
+        comboButtons.Add(shield_combo, shield_buttons);
+        comboButtons.Add(airstrike_combo, airstrike_buttons);
 
         // Init
         anim = commanderPanel.GetComponent<Animator>();
@@ -109,19 +137,54 @@ public class Commander : MonoBehaviour {
             Mark();
         }
 
-        // switch current drop mode
-        if(InputManager.GetButtonDown("Button A", playerID)) // care package
+        // switch current mode
+        #region weapon swapping
+        if (InputManager.GetButtonDown("Left Bumper", playerID))
         {
-            currentMode = 0;
+            // display the options when pushing left bumper
+            playerRoles.DisplayPanel(anim, ammoPanel);
+            currentCombo = new List<string>();
         }
-        if (InputManager.GetButtonDown("Button B", playerID)) // shield
+
+        else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
         {
-            currentMode = 1;
+            if (currentCombo.Count == 4)
+            {
+                selectedMode = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                currentCombo = new List<string>();
+            }
+
+            // display the options when pushing left bumper
+            playerRoles.HidePanel(anim, ammoPanel);
+            playerRoles.ResetCombo(comboButtons);
         }
-        if (InputManager.GetButtonDown("Button Y", playerID)) // airstrike
+
+        if (InputManager.GetButton("Left Bumper", playerID))
         {
-            currentMode = 2;
+            // Add buttons to the current combo
+            if (InputManager.GetButtonDown("Button A", playerID))
+            {
+                currentCombo.Add("Button A");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button B", playerID))
+            {
+                currentCombo.Add("Button B");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button X", playerID))
+            {
+                currentCombo.Add("Button X");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button Y", playerID))
+            {
+                currentCombo.Add("Button Y");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
         }
+
+        #endregion
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
@@ -229,19 +292,19 @@ public class Commander : MonoBehaviour {
         {
             if (Time.time - timerLast > timerCap)
             {
-                if (currentMode == 0)
+                if (selectedMode == (int)AmmoTypes.CarePackage)
                 {
                     Vector3 crateStart = target.transform.position;
                     crateStart.y = crateHeight;
                     Instantiate(crate, crateStart, Quaternion.identity);
                     timerLast = Time.time;
                 }
-                if(currentMode == 1)
+                if(selectedMode == (int)AmmoTypes.Shield)
                 {
                     Instantiate(shield, reticle.transform.position, reticle.transform.rotation);
                     timerLast = Time.time;
                 }
-                if(currentMode == 2)
+                if(selectedMode == (int)AmmoTypes.Airstrike)
                 {
                     Vector3 strikeStart = target.transform.position;
                     strikeStart.y = airstrikeHeight;
