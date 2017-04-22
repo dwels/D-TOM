@@ -38,13 +38,14 @@ public class CreateWall : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Brick")
         {
             if (!triggered)
             {
                 foreach (Transform child in bricks)
                 {
                     child.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    child.gameObject.GetComponent<Collider>().enabled = true;
                 }
 
                 triggered = true;
