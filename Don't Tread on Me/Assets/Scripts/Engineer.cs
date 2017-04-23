@@ -6,7 +6,10 @@ using TeamUtility.IO;
 public class Engineer : MonoBehaviour {
     public bool amEngineer;
 
-    public Rigidbody Projectile = null;
+    public Rigidbody defaultAmmo = null;
+    public Rigidbody mineAmmo = null;
+    public Rigidbody magnetAmmo = null;
+    public Rigidbody slowAmmo = null;
 
     // For Grenade aiming
     public GameObject target;
@@ -21,7 +24,7 @@ public class Engineer : MonoBehaviour {
     private float timeLast = 0.0f;
 
     Camera mainCamera;
-    private const float SPAWN_DISTANCE = 3f;
+    private const float SPAWN_DISTANCE = 3.5f;
 
     public GameObject engineerPanel;
     private Animator anim;
@@ -30,12 +33,51 @@ public class Engineer : MonoBehaviour {
     private PlayerRoles playerRoles;
     public PlayerID playerID;
 
+
+    public GameObject ammoPanel;
+
+    public enum AmmoTypes { Default, Mine, Magnet, Slow };
+    private int selectedAmmo = (int)AmmoTypes.Default;
+
+    // for ammo
+    //private float reloadSpeed = 50.0f;
+    //private List<string> currentCombo = new List<string>();
+    //
+    //private List<string> standard_grenade_combo = new List<string> { "Button X", "Button A", "Button B", "Button Y" };
+    //public GameObject[] standard_grenade_buttons = new GameObject[4];
+    //
+    //private List<string> mine_grenade_combo = new List<string> { "Button A", "Button A", "Button Y", "Button B" };
+    //public GameObject[] mine_grenade_buttons = new GameObject[4];
+    //
+    //private List<string> magnet_grenade_combo = new List<string> { "Button B", "Button Y", "Button X", "Button A" };
+    //public GameObject[] magnet_grenade_buttons = new GameObject[4];
+    //
+    //private List<string> slow_grenade_combo = new List<string> { "Button Y", "Button X", "Button Y", "Button X" };
+    //public GameObject[] slow_grenade_buttons = new GameObject[4];
+    //
+    //private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
+    //private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
+
+
+
     // Use this for initialization
     void Start () {
 
-        aimDistance = 11f;
+        aimDistance = 13f;
         
         reloadTime = 2f;
+
+        // init ammo swap
+        //ammoCombos.Add(AmmoTypes.Default, standard_grenade_combo);
+        //ammoCombos.Add(AmmoTypes.Mine, mine_grenade_combo);
+        //ammoCombos.Add(AmmoTypes.Magnet, magnet_grenade_combo);
+        //ammoCombos.Add(AmmoTypes.Slow, slow_grenade_combo);
+        //
+        //comboButtons.Add(standard_grenade_combo, standard_grenade_buttons);
+        //comboButtons.Add(mine_grenade_combo, mine_grenade_buttons);
+        //comboButtons.Add(magnet_grenade_combo, magnet_grenade_buttons);
+        //comboButtons.Add(slow_grenade_combo, slow_grenade_buttons);
+
 
         // Init
         anim = engineerPanel.GetComponent<Animator>();
@@ -43,7 +85,8 @@ public class Engineer : MonoBehaviour {
 
         inputMngr = GameObject.Find("InputManager");
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
-        playerRoles.HidePanel(anim);
+        playerRoles.HidePanel(anim, ammoPanel);
+        //playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
     }
@@ -101,7 +144,7 @@ public class Engineer : MonoBehaviour {
 
                     if(Time.time - timeLast > reloadTime)
                     {
-                        ThrowGrenade(2f);
+                        ThrowGrenade();
                         timeLast = Time.time;
                     }
                 } 
@@ -114,6 +157,55 @@ public class Engineer : MonoBehaviour {
                 snapBack = true;
             } 
         }
+
+
+        #region ammo swapping
+       /* if (InputManager.GetButtonDown("Left Bumper", playerID))
+        {
+            // display the options when pushing left bumper
+            playerRoles.DisplayPanel(anim, ammoPanel);
+            currentCombo = new List<string>();
+        }
+        else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
+        {
+            if (currentCombo.Count == 4)
+            {
+                //selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                //currentCombo = new List<string>();
+            }
+
+            // display the options when pushing left bumper
+            playerRoles.HidePanel(anim, ammoPanel);
+            playerRoles.ResetCombo(comboButtons);
+        }
+
+        if (InputManager.GetButton("Left Bumper", playerID))
+        {
+            // Add buttons to the current combo
+            if (InputManager.GetButtonDown("Button A", playerID))
+            {
+                currentCombo.Add("Button A");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button B", playerID))
+            {
+                currentCombo.Add("Button B");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button X", playerID))
+            {
+                currentCombo.Add("Button X");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button Y", playerID))
+            {
+                currentCombo.Add("Button Y");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+        }
+        */
+        #endregion
+
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
@@ -146,7 +238,7 @@ public class Engineer : MonoBehaviour {
     }
 
 
-    void ThrowGrenade(float tPWR)
+    void ThrowGrenade()
     {
 
         // Gets the direction from tank to reticle. May not be the most optimal way.
@@ -154,10 +246,30 @@ public class Engineer : MonoBehaviour {
         float reticleDistance = reticleTowards.magnitude;
         Vector3 reticleDirection = reticleTowards / reticleDistance;
 
-        Rigidbody clone = Instantiate(Projectile, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+        if (selectedAmmo == (int)AmmoTypes.Default)
+        {
+            Rigidbody clone = Instantiate(defaultAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+            // sets velocity based on reticle distance from tank. May not be the most optimal way.
+            clone.velocity = reticleDirection * (reticleDistance - 3.1f);
+        }
+        if (selectedAmmo == (int)AmmoTypes.Mine)
+        {
+            Rigidbody clone = Instantiate(mineAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+            
+        }
+        if (selectedAmmo == (int)AmmoTypes.Magnet)
+        {
+            Rigidbody clone = Instantiate(magnetAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+            clone.velocity = reticleDirection * (reticleDistance - 3.1f);
+        }
+        if (selectedAmmo == (int)AmmoTypes.Slow)
+        {
+            Rigidbody clone = Instantiate(slowAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+            clone.velocity = reticleDirection * (reticleDistance - 3.1f);
+        }
 
-        // sets velocity based on reticle distance from tank. May not be the most optimal way.
-        clone.velocity = reticleDirection * (reticleDistance - 3.1f);
+
+
         
     }
 
