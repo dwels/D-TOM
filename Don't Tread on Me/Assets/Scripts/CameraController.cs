@@ -19,6 +19,9 @@ public class CameraController : MonoBehaviour
     public GameObject marker;
     public bool amCommander = true;
     public float reloadTime = 1.0f;
+    public float zoomSpeed = 0.1f;
+    public float zoomMin = 2.0f;
+    public float zoomMax = 14.0f;
 
     private GameObject currentWaypoint;
     private float timeLast = 0.0f;
@@ -130,6 +133,24 @@ public class CameraController : MonoBehaviour
                     timeLast = Time.time;
                 }
             }
+        }
+
+        // camera zoom
+        if(InputManager.GetButton("Left Bumper", commander))
+        {
+            mainCamera.orthographicSize += zoomSpeed;
+        }
+        if (InputManager.GetButton("Right Bumper", commander))
+        {
+            mainCamera.orthographicSize -= zoomSpeed;
+        }
+        if(mainCamera.orthographicSize < zoomMin)
+        {
+            mainCamera.orthographicSize = zoomMin;
+        }
+        if(mainCamera.orthographicSize > zoomMax)
+        {
+            mainCamera.orthographicSize = zoomMax;
         }
     }
 
