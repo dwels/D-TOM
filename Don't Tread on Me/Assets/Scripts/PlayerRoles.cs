@@ -12,7 +12,11 @@ public class PlayerRoles : MonoBehaviour {
     public PlayerID driver;
     public PlayerID engineer;
 
+    // Used to playerRoles can grab instanced of Driver, Gunner, Engineer, and Commander scripts
     public GameObject player;
+
+    // Used so every role can reference panels
+    public Transform[] panels = new Transform[4];
 
     public Texture a;
     public Texture b;
