@@ -19,8 +19,13 @@ public class EnemyTank : MonoBehaviour
     public GameObject tankTop;
     public GameObject target;
 
+    public bool slowed;
+    public float slowAmount = 2f;
+
     public float speed = 8;
     public float rotateSpeed = 2.5f;
+    float baseSpeed;
+    float baseRotateSpeed;
 
     public float reloadTime = 3.0f;
     private float timeLast = 0.0f;
@@ -31,6 +36,10 @@ public class EnemyTank : MonoBehaviour
     void Start()
     {
         rocketTrue = true;
+        slowed = false;
+
+        baseSpeed = speed;
+        baseRotateSpeed = rotateSpeed;
     }
 
     void Update()
@@ -42,6 +51,17 @@ public class EnemyTank : MonoBehaviour
         {
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(this.gameObject);
+        }
+
+        if (slowed)
+        {
+            speed = 4f;
+            rotateSpeed = 1f;
+        }
+        else
+        {
+            speed = baseSpeed;
+            rotateSpeed = baseRotateSpeed;
         }
     }
 
