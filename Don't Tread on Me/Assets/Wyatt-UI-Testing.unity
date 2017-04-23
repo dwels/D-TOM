@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -539,6 +539,8 @@ MonoBehaviour:
   tankBody: {fileID: 54294768}
   tankTop: {fileID: 1769354333}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -1993,6 +1995,8 @@ MonoBehaviour:
   tankBody: {fileID: 0}
   tankTop: {fileID: 0}
   target: {fileID: 0}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 1
@@ -2638,6 +2642,8 @@ MonoBehaviour:
   tankBody: {fileID: 442180040}
   tankTop: {fileID: 1233207473}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -3079,6 +3085,8 @@ MonoBehaviour:
   tankBody: {fileID: 514659710}
   tankTop: {fileID: 1805668624}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -5908,7 +5916,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 39306e2229da40346bb8d24b3df84fda, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3745268b417c8cb448549f9cdb0e5e8f, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -6283,6 +6291,8 @@ MonoBehaviour:
   tankBody: {fileID: 927514272}
   tankTop: {fileID: 2056437826}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -7146,6 +7156,8 @@ MonoBehaviour:
   tankBody: {fileID: 1105109578}
   tankTop: {fileID: 1480502369}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -8236,6 +8248,8 @@ MonoBehaviour:
   tankBody: {fileID: 1247387815}
   tankTop: {fileID: 1380940668}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -10724,14 +10738,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amEngineer: 1
-  Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
-    type: 2}
+  defaultAmmo: {fileID: 0}
+  mineAmmo: {fileID: 0}
+  magnetAmmo: {fileID: 0}
+  slowAmmo: {fileID: 0}
   target: {fileID: 1590634369}
   reticle: {fileID: 218636679}
   translateSpeed: 10
   aimDistance: 0
   engineerPanel: {fileID: 47147878}
   playerID: 0
+  ammoPanel: {fileID: 0}
 --- !u!114 &1590634376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12430,6 +12447,8 @@ MonoBehaviour:
   tankBody: {fileID: 1908542519}
   tankTop: {fileID: 1915087693}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -13686,6 +13705,8 @@ MonoBehaviour:
   tankBody: {fileID: 2129889575}
   tankTop: {fileID: 820022621}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
