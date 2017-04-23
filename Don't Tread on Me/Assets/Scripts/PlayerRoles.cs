@@ -12,6 +12,8 @@ public class PlayerRoles : MonoBehaviour {
     public PlayerID driver;
     public PlayerID engineer;
 
+    public GameObject player;
+
     public Texture a;
     public Texture b;
     public Texture x;
@@ -137,4 +139,142 @@ public class PlayerRoles : MonoBehaviour {
             }
         }
     }
+    
+    public void SwapPanels(Transform currentPanel, Transform targetPanel)
+    {   
+        // Save references to the position of the panels to avoid issues
+        Vector3 currentPanelPos = currentPanel.position;
+        Vector3 targetPanelPos = targetPanel.position;
+
+        currentPanel.position = targetPanelPos;
+        targetPanel.position = currentPanelPos;
+    }
+
+    #region SwapToGunner
+    public void SwapToGunner(Engineer currentRole)
+    {
+        Gunner targetRole = GetComponent<Gunner>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = gunner;
+
+        gunner = targetRole.playerID;
+        engineer = currentRole.playerID;
+    }
+
+    public void SwapToGunner(Driver currentRole)
+    {
+        Gunner targetRole = GetComponent<Gunner>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = gunner;
+
+        gunner = targetRole.playerID;
+        driver = currentRole.playerID;
+    }
+
+    public void SwapToGunner(Commander currentRole)
+    {
+        Gunner targetRole = GetComponent<Gunner>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = gunner;
+
+        gunner = targetRole.playerID;
+        commander = currentRole.playerID;
+    }
+    #endregion
+
+    #region SwapToEnginner
+    public void SwapToEngineer(Gunner currentRole)
+    {
+        Engineer targetRole = GetComponent<Engineer>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = engineer;
+
+        engineer = targetRole.playerID;
+        gunner = currentRole.playerID;
+    }
+
+    public void SwapToEngineer(Driver currentRole)
+    {
+        Engineer targetRole = GetComponent<Engineer>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = engineer;
+
+        engineer = targetRole.playerID;
+        driver = currentRole.playerID;
+    }
+
+    public void SwapToEngineer(Commander currentRole)
+    {
+        Engineer targetRole = GetComponent<Engineer>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = engineer;
+
+        engineer = targetRole.playerID;
+        commander = currentRole.playerID;
+    }
+    #endregion
+
+    #region SwapToDriver
+    public void SwapToDriver(Gunner currentRole)
+    {
+        Driver targetRole = GetComponent<Driver>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = driver;
+
+        driver = targetRole.playerID;
+        gunner = currentRole.playerID;
+    }
+
+    public void SwapToDriver(Engineer currentRole)
+    {
+        Driver targetRole = GetComponent<Driver>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = driver;
+
+        driver = targetRole.playerID;
+        engineer = currentRole.playerID;
+    }
+
+    public void SwapToDriver(Commander currentRole)
+    {
+        Driver targetRole = GetComponent<Driver>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = driver;
+
+        driver = targetRole.playerID;
+        commander = currentRole.playerID;
+    }
+    #endregion
+
+    #region SwapToCommander
+    public void SwapToCommander(Gunner currentRole)
+    {
+        Commander targetRole = GetComponent<Commander>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = commander;
+
+        commander = targetRole.playerID;
+        gunner = currentRole.playerID;
+    }
+
+    public void SwapToCommander(Engineer currentRole)
+    {
+        Commander targetRole = GetComponent<Commander>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = commander;
+
+        commander = targetRole.playerID;
+        engineer = currentRole.playerID;
+    }
+
+    public void SwapToCommander(Driver currentRole)
+    {
+        Commander targetRole = GetComponent<Commander>();
+        targetRole.playerID = currentRole.playerID;
+        currentRole.playerID = commander;
+
+        commander = targetRole.playerID;
+        driver = currentRole.playerID;
+    }
+    #endregion
 }
