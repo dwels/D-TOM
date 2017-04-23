@@ -8,13 +8,13 @@ public class EnemyTank : MonoBehaviour
 
     // Variable Declaration
     public Rigidbody Projectile = null;
-    public Transform Launcher = null;
     private const float SPAWN_DISTANCE = 1.0f;
     public int power = 20;
     public float detectionRange = 100;
     public float shootingRange = 100;
     public bool rocketTrue;
 
+    public Transform Launcher;
     public GameObject tankBody;
     public GameObject tankTop;
     public GameObject target;
@@ -25,7 +25,7 @@ public class EnemyTank : MonoBehaviour
     public float reloadTime = 3.0f;
     private float timeLast = 0.0f;
 
-
+    public ParticleSystem explosion;
 
     // Use this for initialization
     void Start()
@@ -37,13 +37,12 @@ public class EnemyTank : MonoBehaviour
     {
         Acquire();
 
-        //if (Time.time - timeLast > reloadTime)
-        //{
-        //    rocketTrue = true;
-        //    FireProjectile(0);
-        //    timeLast = Time.time;
-        //}//reload time
-
+        float currentHP = this.gameObject.GetComponent<HP>().getCurrHP();
+        if (currentHP <= 0)
+        {
+            Instantiate(explosion, transform.position, transform.rotation);
+            Destroy(this.gameObject);
+        }
     }
 
     //changed all forces to point up, because for some rason the launcher.transform.forward points down into the ground
@@ -58,8 +57,7 @@ public class EnemyTank : MonoBehaviour
         {
             clone = Instantiate(Projectile, Launcher.transform.position + (SPAWN_DISTANCE * Launcher.transform.up), Launcher.transform.rotation) as Rigidbody;
         }
-        clone.velocity = transform.TransformDirection(Vector3.up * power);
-        Explode explo = (Explode)clone.gameObject.AddComponent(typeof(Explode)); //clone.AddComponent<Explode>();
+        clone.velocity = Launcher.transform.TransformDirection(Vector3.up * power);
         //Destroy(clone);
     }
 
