@@ -324,7 +324,6 @@ GameObject:
   m_Component:
   - component: {fileID: 47147879}
   - component: {fileID: 47147880}
-  - component: {fileID: 47147881}
   m_Layer: 5
   m_Name: Engineer
   m_TagString: Untagged
@@ -343,14 +342,13 @@ RectTransform:
   m_LocalScale: {x: 1.4625226, y: 1.4625226, z: 1.4625226}
   m_Children:
   - {fileID: 434836909}
-  - {fileID: 204475864}
   m_Father: {fileID: 849920632}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.23133336}
-  m_AnchoredPosition: {x: 44, y: 320}
-  m_SizeDelta: {x: 0, y: 680.30786}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 441}
+  m_SizeDelta: {x: 0, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &47147880
 CanvasRenderer:
@@ -358,23 +356,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 47147878}
---- !u!95 &47147881
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 47147878}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 762fe36c5234daf478e08f7c12e1fe71, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &49346752
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +519,8 @@ MonoBehaviour:
   tankBody: {fileID: 54294768}
   tankTop: {fileID: 1769354333}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -591,7 +574,6 @@ GameObject:
   m_Component:
   - component: {fileID: 64015717}
   - component: {fileID: 64015718}
-  - component: {fileID: 64015719}
   m_Layer: 5
   m_Name: Driver
   m_TagString: Untagged
@@ -610,14 +592,13 @@ RectTransform:
   m_LocalScale: {x: 1.4625226, y: 1.4625226, z: 1.4625226}
   m_Children:
   - {fileID: 1799054094}
-  - {fileID: 1858687411}
   m_Father: {fileID: 849920632}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.23133336}
-  m_AnchoredPosition: {x: 67, y: 320}
-  m_SizeDelta: {x: 0, y: 680.30786}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 441}
+  m_SizeDelta: {x: 0, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &64015718
 CanvasRenderer:
@@ -625,23 +606,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 64015716}
---- !u!95 &64015719
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 64015716}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f7b6a1a9cab5891438776ff864b14b3e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &64737103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,14 +1511,14 @@ RectTransform:
   m_GameObject: {fileID: 204475863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.84, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.35, z: 1}
   m_Children: []
-  m_Father: {fileID: 47147879}
+  m_Father: {fileID: 434836909}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -308.7, y: -104}
+  m_AnchoredPosition: {x: -41, y: 47}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &204475865
@@ -1711,6 +1675,7 @@ GameObject:
   - component: {fileID: 264053570}
   - component: {fileID: 264053572}
   - component: {fileID: 264053571}
+  - component: {fileID: 264053573}
   m_Layer: 0
   m_Name: CommanderPanel
   m_TagString: Untagged
@@ -1729,12 +1694,13 @@ RectTransform:
   m_LocalScale: {x: 3, y: 2, z: 1}
   m_Children:
   - {fileID: 368293823}
+  - {fileID: 1407444917}
   m_Father: {fileID: 1964966429}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 422.4, y: -198}
+  m_AnchoredPosition: {x: 500, y: -198}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &264053571
@@ -1769,6 +1735,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 264053569}
+--- !u!95 &264053573
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 264053569}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ae1bc23d3f7cdac4ca356a707cc6f4b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!4 &303114196 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4588817727444312, guid: d914c3de8254b4d4c8f57c24256bc47f,
@@ -1924,6 +1907,8 @@ MonoBehaviour:
   tankBody: {fileID: 0}
   tankTop: {fileID: 0}
   target: {fileID: 0}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 1
@@ -2482,6 +2467,7 @@ GameObject:
   - component: {fileID: 434836909}
   - component: {fileID: 434836911}
   - component: {fileID: 434836910}
+  - component: {fileID: 434836912}
   m_Layer: 5
   m_Name: EngineerPanel
   m_TagString: Untagged
@@ -2500,12 +2486,13 @@ RectTransform:
   m_LocalScale: {x: 3, y: 2, z: 1}
   m_Children:
   - {fileID: 476315511}
+  - {fileID: 204475864}
   m_Father: {fileID: 47147879}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -191.5, y: -198}
+  m_AnchoredPosition: {x: -165, y: -198}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434836910
@@ -2540,6 +2527,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 434836908}
+--- !u!95 &434836912
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 434836908}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ddfa85369bd27774ca492be43479d0c9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &442180040 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 87670c360bf83014fb4a5ef25da59357, type: 3}
@@ -2569,6 +2573,8 @@ MonoBehaviour:
   tankBody: {fileID: 442180040}
   tankTop: {fileID: 1233207473}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -3010,6 +3016,8 @@ MonoBehaviour:
   tankBody: {fileID: 514659710}
   tankTop: {fileID: 1805668624}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -4571,10 +4579,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98aa0b3dbdca8f74ca13342735f42365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  commander: 0
-  gunner: 2
-  driver: 1
-  engineer: 3
+  commander: 3
+  gunner: 0
+  driver: 2
+  engineer: 1
+  player: {fileID: 1590634369}
+  panels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   a: {fileID: 2800000, guid: 06688d875cdf0644fb997ac9bfbfb99b, type: 3}
   b: {fileID: 2800000, guid: eb0237e86ae2dae47848eeb11c52c1a3, type: 3}
   x: {fileID: 2800000, guid: 52cdd80272928da4697d4b9bec9018ae, type: 3}
@@ -6061,12 +6075,13 @@ RectTransform:
   m_Children:
   - {fileID: 1670567736}
   - {fileID: 144726794}
+  - {fileID: 1281421013}
   m_Father: {fileID: 1058977329}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -500.09985, y: -198}
+  m_AnchoredPosition: {x: -500, y: -198}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &922886826
@@ -6108,12 +6123,12 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 922886824}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 70a14da6f0104864daedb3e6b3ba5e70, type: 2}
+  m_Controller: {fileID: 9100000, guid: fd58d117c1a0ae047b5a2ee5563f588d, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -6147,6 +6162,8 @@ MonoBehaviour:
   tankBody: {fileID: 927514272}
   tankTop: {fileID: 2056437826}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -6760,7 +6777,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1058977329}
   - component: {fileID: 1058977330}
-  - component: {fileID: 1058977331}
   m_Layer: 5
   m_Name: Gunner
   m_TagString: Untagged
@@ -6779,14 +6795,13 @@ RectTransform:
   m_LocalScale: {x: 1.4625226, y: 1.4625226, z: 1.4625226}
   m_Children:
   - {fileID: 922886825}
-  - {fileID: 1281421013}
   m_Father: {fileID: 849920632}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.23133336}
-  m_AnchoredPosition: {x: 20, y: 320}
-  m_SizeDelta: {x: 0, y: 680.30786}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 441}
+  m_SizeDelta: {x: 0, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1058977330
 CanvasRenderer:
@@ -6794,23 +6809,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1058977328}
---- !u!95 &1058977331
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1058977328}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ffbdef2b1fcd2e54ca4ab0f21ffa5d22, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1059356060
 GameObject:
   m_ObjectHideFlags: 0
@@ -7009,6 +7007,8 @@ MonoBehaviour:
   tankBody: {fileID: 1105109578}
   tankTop: {fileID: 1480502369}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -8099,6 +8099,8 @@ MonoBehaviour:
   tankBody: {fileID: 1247387815}
   tankTop: {fileID: 1380940668}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -8156,14 +8158,14 @@ RectTransform:
   m_GameObject: {fileID: 1281421012}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.84, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.35, z: 1}
   m_Children: []
-  m_Father: {fileID: 1058977329}
-  m_RootOrder: 1
+  m_Father: {fileID: 922886825}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -615.9, y: -104}
+  m_AnchoredPosition: {x: -41, y: 47}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1281421014
@@ -8933,14 +8935,14 @@ RectTransform:
   m_GameObject: {fileID: 1407444916}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.84, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.35, z: 1}
   m_Children: []
-  m_Father: {fileID: 1964966429}
+  m_Father: {fileID: 264053570}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 302.4, y: -104}
+  m_AnchoredPosition: {x: -41, y: 47}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1407444918
@@ -10458,6 +10460,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ef16a448c8174b851ef30ea584147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectile: {fileID: 54356015542667930, guid: 6b0739d1b820eaf43b9295ec6d6ac6fd,
+    type: 2}
+  launcher: {fileID: 1817051188}
+  tankTop: {fileID: 1056532802}
+  power: 50
+  rocketTrue: 0
+  ammoTypes:
+  - {fileID: 54356015542667930, guid: 034bc32ad19691e4c88086e8d8a429e1, type: 2}
+  - {fileID: 54356015542667930, guid: b1a010a51696a034bb45dd777dc9e308, type: 2}
+  - {fileID: 54356015542667930, guid: a3126b240b5e3324786e6abe17248637, type: 2}
+  reloadTime: 0.5
 --- !u!114 &1590634373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10506,7 +10519,7 @@ MonoBehaviour:
   - {fileID: 358316530}
   - {fileID: 433097844}
   - {fileID: 2051601402}
-  gunnerPanel: {fileID: 1058977328}
+  gunnerPanel: {fileID: 922886824}
   playerID: 0
 --- !u!114 &1590634375
 MonoBehaviour:
@@ -10520,14 +10533,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   amEngineer: 1
-  Projectile: {fileID: 54356015542667930, guid: 98820adae0525c74cbdae39af17ffdf6,
+  defaultAmmo: {fileID: 54356015542667930, guid: 91dfdfbaac6e6de478e71f554c8b4dff,
     type: 2}
+  mineAmmo: {fileID: 54679272695015508, guid: deae6a60a27266e4f9a42052103dd9f9, type: 2}
+  magnetAmmo: {fileID: 54356015542667930, guid: 63751803b355ab14097bc8b026b37c26,
+    type: 2}
+  slowAmmo: {fileID: 54356015542667930, guid: ce3e31169bc368f41bb639e744860ed9, type: 2}
   target: {fileID: 1590634369}
   reticle: {fileID: 218636679}
   translateSpeed: 10
   aimDistance: 0
-  engineerPanel: {fileID: 47147878}
+  engineerPanel: {fileID: 434836908}
   playerID: 0
+  ammoPanel: {fileID: 0}
 --- !u!114 &1590634376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10548,7 +10566,7 @@ MonoBehaviour:
   flames: {fileID: 303114198}
   rightTreadPivot: {fileID: 1541342782}
   leftTreadPivot: {fileID: 1307458731}
-  driverPanel: {fileID: 64015716}
+  driverPanel: {fileID: 1799054093}
   playerID: 0
 --- !u!114 &1590634377
 MonoBehaviour:
@@ -10582,7 +10600,7 @@ MonoBehaviour:
   reloadTime: 0.01
   tracerCap: 3
   gun: {fileID: 201619090}
-  commanderPanel: {fileID: 1964966428}
+  commanderPanel: {fileID: 264053569}
   ammoPanel: {fileID: 368293822}
   care_package_buttons:
   - {fileID: 701497917}
@@ -11393,6 +11411,7 @@ GameObject:
   - component: {fileID: 1799054094}
   - component: {fileID: 1799054096}
   - component: {fileID: 1799054095}
+  - component: {fileID: 1799054097}
   m_Layer: 5
   m_Name: DriverPanel
   m_TagString: Untagged
@@ -11411,12 +11430,13 @@ RectTransform:
   m_LocalScale: {x: 3, y: 2, z: 1}
   m_Children:
   - {fileID: 1292183795}
+  - {fileID: 1858687411}
   m_Father: {fileID: 64015717}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 116.3, y: -198}
+  m_AnchoredPosition: {x: 165, y: -198}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1799054095
@@ -11451,6 +11471,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1799054093}
+--- !u!95 &1799054097
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799054093}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a46c4a1d46f75dc4d9f31b4f554221c4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1804639327
 GameObject:
   m_ObjectHideFlags: 0
@@ -11852,14 +11889,14 @@ RectTransform:
   m_GameObject: {fileID: 1858687410}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.84, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.28, y: 0.35, z: 1}
   m_Children: []
-  m_Father: {fileID: 64015717}
+  m_Father: {fileID: 1799054094}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -104}
+  m_AnchoredPosition: {x: -41, y: 47}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858687412
@@ -12226,6 +12263,8 @@ MonoBehaviour:
   tankBody: {fileID: 1908542519}
   tankTop: {fileID: 1915087693}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3
@@ -12597,7 +12636,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1964966429}
   - component: {fileID: 1964966430}
-  - component: {fileID: 1964966431}
   m_Layer: 5
   m_Name: Commander
   m_TagString: Untagged
@@ -12616,14 +12654,13 @@ RectTransform:
   m_LocalScale: {x: 1.4625226, y: 1.4625226, z: 1.4625226}
   m_Children:
   - {fileID: 264053570}
-  - {fileID: 1407444917}
   m_Father: {fileID: 849920632}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.23133336}
-  m_AnchoredPosition: {x: 97, y: 320}
-  m_SizeDelta: {x: 0, y: 680.30786}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 441}
+  m_SizeDelta: {x: 0, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1964966430
 CanvasRenderer:
@@ -12631,23 +12668,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1964966428}
---- !u!95 &1964966431
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1964966428}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8a486fc65e2703041abf3fb55fc981ee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1971555596
 GameObject:
   m_ObjectHideFlags: 0
@@ -13414,6 +13434,8 @@ MonoBehaviour:
   tankBody: {fileID: 2129889575}
   tankTop: {fileID: 820022621}
   target: {fileID: 1590634369}
+  slowed: 0
+  slowAmount: 2
   speed: 8
   rotateSpeed: 2.5
   reloadTime: 3

@@ -144,141 +144,165 @@ public class PlayerRoles : MonoBehaviour {
         }
     }
     
-    public void SwapPanels(Transform currentPanel, Transform targetPanel)
+    public void SwapPanels(GameObject currentPanel, GameObject targetPanel)
     {   
         // Save references to the position of the panels to avoid issues
-        Vector3 currentPanelPos = currentPanel.position;
-        Vector3 targetPanelPos = targetPanel.position;
+        Vector3 currentPanelPos = currentPanel.transform.position;
+        Vector3 targetPanelPos = targetPanel.transform.position;
 
-        currentPanel.position = targetPanelPos;
-        targetPanel.position = currentPanelPos;
+        currentPanel.transform.position = targetPanelPos;
+        targetPanel.transform.position = currentPanelPos;
     }
 
     #region SwapToGunner
     public void SwapToGunner(Engineer currentRole)
     {
-        Gunner targetRole = GetComponent<Gunner>();
+        Gunner targetRole = player.GetComponent<Gunner>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = gunner;
 
         gunner = targetRole.playerID;
         engineer = currentRole.playerID;
+
+        SwapPanels(currentRole.engineerPanel, targetRole.gunnerPanel);
     }
 
     public void SwapToGunner(Driver currentRole)
     {
-        Gunner targetRole = GetComponent<Gunner>();
+        Gunner targetRole = player.GetComponent<Gunner>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = gunner;
 
         gunner = targetRole.playerID;
         driver = currentRole.playerID;
+
+        SwapPanels(currentRole.driverPanel, targetRole.gunnerPanel);
     }
 
     public void SwapToGunner(Commander currentRole)
     {
-        Gunner targetRole = GetComponent<Gunner>();
+        Gunner targetRole = player.GetComponent<Gunner>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = gunner;
 
         gunner = targetRole.playerID;
         commander = currentRole.playerID;
+
+        SwapPanels(currentRole.commanderPanel, targetRole.gunnerPanel);
     }
     #endregion
 
     #region SwapToEnginner
     public void SwapToEngineer(Gunner currentRole)
     {
-        Engineer targetRole = GetComponent<Engineer>();
+        Engineer targetRole = player.GetComponent<Engineer>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = engineer;
 
         engineer = targetRole.playerID;
         gunner = currentRole.playerID;
+
+        SwapPanels(currentRole.gunnerPanel, targetRole.engineerPanel);
     }
 
     public void SwapToEngineer(Driver currentRole)
     {
-        Engineer targetRole = GetComponent<Engineer>();
+        Engineer targetRole = player.GetComponent<Engineer>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = engineer;
 
         engineer = targetRole.playerID;
         driver = currentRole.playerID;
+
+        SwapPanels(currentRole.driverPanel, targetRole.engineerPanel);
     }
 
     public void SwapToEngineer(Commander currentRole)
     {
-        Engineer targetRole = GetComponent<Engineer>();
+        Engineer targetRole = player.GetComponent<Engineer>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = engineer;
 
         engineer = targetRole.playerID;
         commander = currentRole.playerID;
+
+        SwapPanels(currentRole.commanderPanel, targetRole.engineerPanel);
     }
     #endregion
 
     #region SwapToDriver
     public void SwapToDriver(Gunner currentRole)
     {
-        Driver targetRole = GetComponent<Driver>();
+        Driver targetRole = player.GetComponent<Driver>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = driver;
 
         driver = targetRole.playerID;
         gunner = currentRole.playerID;
+
+        SwapPanels(currentRole.gunnerPanel, targetRole.driverPanel);
     }
 
     public void SwapToDriver(Engineer currentRole)
     {
-        Driver targetRole = GetComponent<Driver>();
+        Driver targetRole = player.GetComponent<Driver>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = driver;
 
         driver = targetRole.playerID;
         engineer = currentRole.playerID;
+
+        SwapPanels(currentRole.engineerPanel, targetRole.driverPanel);
     }
 
     public void SwapToDriver(Commander currentRole)
     {
-        Driver targetRole = GetComponent<Driver>();
+        Driver targetRole = player.GetComponent<Driver>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = driver;
 
         driver = targetRole.playerID;
         commander = currentRole.playerID;
+
+        SwapPanels(currentRole.commanderPanel, targetRole.driverPanel);
     }
     #endregion
 
     #region SwapToCommander
     public void SwapToCommander(Gunner currentRole)
     {
-        Commander targetRole = GetComponent<Commander>();
+        Commander targetRole = player.GetComponent<Commander>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = commander;
 
         commander = targetRole.playerID;
         gunner = currentRole.playerID;
+
+        SwapPanels(currentRole.gunnerPanel, targetRole.commanderPanel);
     }
 
     public void SwapToCommander(Engineer currentRole)
     {
-        Commander targetRole = GetComponent<Commander>();
+        Commander targetRole = player.GetComponent<Commander>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = commander;
 
         commander = targetRole.playerID;
         engineer = currentRole.playerID;
+
+        SwapPanels(currentRole.engineerPanel, targetRole.commanderPanel);
     }
 
     public void SwapToCommander(Driver currentRole)
     {
-        Commander targetRole = GetComponent<Commander>();
+        Commander targetRole = player.GetComponent<Commander>();
         targetRole.playerID = currentRole.playerID;
         currentRole.playerID = commander;
 
         commander = targetRole.playerID;
         driver = currentRole.playerID;
+
+        SwapPanels(currentRole.driverPanel, targetRole.commanderPanel);
     }
     #endregion
 }
