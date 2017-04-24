@@ -111,6 +111,19 @@ public class PlayerRoles : MonoBehaviour {
         return -1;
     }
 
+    public int SelectAmmo(List<string> currentCombo, Dictionary<Driver.AmmoTypes, List<string>> collection)
+    {
+        foreach (KeyValuePair<Driver.AmmoTypes, List<string>> combo in collection)
+        {
+            if (combo.Value.SequenceEqual(currentCombo))
+            {
+                return (int)combo.Key;
+            }
+        }
+
+        return -1;
+    }
+
     public void DisplayCombo(List<string> currentCombo, Dictionary<List<string>, GameObject[]> collection)
     {
         foreach (KeyValuePair<List<string>, GameObject[]> buttonCombo in collection)

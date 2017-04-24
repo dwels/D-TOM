@@ -15,7 +15,6 @@ public class Rockets : MonoBehaviour {
     public GameObject tankTop;
     private const float SPAWN_DISTANCE = 1.0f;
     public int power = 50;
-	public bool rocketTrue;
 
     public Rigidbody[] ammoTypes = new Rigidbody[3];
 
