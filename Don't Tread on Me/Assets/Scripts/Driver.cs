@@ -189,30 +189,15 @@ public class Driver : MonoBehaviour {
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
-            Gunner gunner = GetComponent<Gunner>();
-            gunner.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
-
-            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToGunner(this);
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
         {
-            Commander commander = GetComponent<Commander>();
-            commander.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
-
-            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToEngineer(this);
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
-            Engineer engineer = GetComponent<Engineer>();
-            engineer.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
-
-            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToCommander(this);
         }
     }
 
