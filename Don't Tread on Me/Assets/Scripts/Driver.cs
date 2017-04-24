@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
@@ -41,7 +41,7 @@ public class Driver : MonoBehaviour {
 
     // mode switching
     public enum AmmoTypes { Boost, Flamethrower, Harpoon };
-    private int selectedMode = (int)AmmoTypes.Boost;
+    private int selectedMode = ((int)AmmoTypes.Boost);
 
     public GameObject driverPanel;
     public GameObject ammoPanel;
@@ -49,7 +49,7 @@ public class Driver : MonoBehaviour {
 
     private List<string> currentCombo = new List<string>();
 
-    private List<string> boost_combo = new List<string> { "Button A", "Button B", "Button X", "Button X" };
+    private List<string> boost_combo = new List<string> { "Button A", "Button B", "Button X", "Button A" };
     public GameObject[] boost_buttons = new GameObject[4];
 
     private List<string> flamethrower_combo = new List<string> { "Button Y", "Button B", "Button X", "Button A" };
@@ -83,8 +83,11 @@ public class Driver : MonoBehaviour {
         anim.enabled = true;
 
         inputMngr = GameObject.Find("InputManager");
+      
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
+      
         playerRoles.HidePanel(anim);
+        playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().driver;
     }
@@ -136,7 +139,7 @@ public class Driver : MonoBehaviour {
         else if (selectedMode == 2)
         {
             //press both triggers to launch the harpoon
-            if ((InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1))
+            if ((InputManager.GetAxis("Left Trigger", playerID) == 1))
             {
                 //if a harpoon is not currently out
                 if (!harpoonOut)
@@ -146,7 +149,7 @@ public class Driver : MonoBehaviour {
             }
 
             //press B to destroy hook + release the hooked obj
-            if(InputManager.GetButtonDown("Button B", playerID))
+            if(InputManager.GetAxis("Left Trigger", playerID) <= 0.5f)
             {
                 //if the harpoon is out and has hooked something
                 if (harpoonOut && harpoonClone.GetComponent<Harpoon>().GetHooked())

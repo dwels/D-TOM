@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
@@ -87,8 +87,10 @@ public class Commander : MonoBehaviour {
         anim.enabled = true;
 
         inputMngr = GameObject.Find("InputManager");
+      
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
         playerRoles.HidePanel(anim);
+        playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().commander;
     }

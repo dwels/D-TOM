@@ -10465,7 +10465,6 @@ MonoBehaviour:
   launcher: {fileID: 1817051188}
   tankTop: {fileID: 1056532802}
   power: 50
-  rocketTrue: 0
   ammoTypes:
   - {fileID: 54356015542667930, guid: 034bc32ad19691e4c88086e8d8a429e1, type: 2}
   - {fileID: 54356015542667930, guid: b1a010a51696a034bb45dd777dc9e308, type: 2}
@@ -10545,7 +10544,7 @@ MonoBehaviour:
   aimDistance: 0
   engineerPanel: {fileID: 434836908}
   playerID: 0
-  ammoPanel: {fileID: 0}
+  ammoPanel: {fileID: 476315510}
 --- !u!114 &1590634376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10561,13 +10560,29 @@ MonoBehaviour:
   speed: 10
   BoostTotal: 300
   boostCooldown: 60
-  flamethrowerActive: 1
   flameDPS: 10
   flames: {fileID: 303114198}
+  harpoon: {fileID: 54091552739377066, guid: 8d5f1e0758224f24e9321b3db2dc0e45, type: 2}
   rightTreadPivot: {fileID: 1541342782}
   leftTreadPivot: {fileID: 1307458731}
-  driverPanel: {fileID: 1799054093}
   playerID: 0
+  driverPanel: {fileID: 1799054093}
+  ammoPanel: {fileID: 1292183794}
+  boost_buttons:
+  - {fileID: 593369619}
+  - {fileID: 1618190335}
+  - {fileID: 945268623}
+  - {fileID: 1468533588}
+  flamethrower_buttons:
+  - {fileID: 1074128556}
+  - {fileID: 1835921061}
+  - {fileID: 49346752}
+  - {fileID: 1740562772}
+  harpoon_buttons:
+  - {fileID: 194889421}
+  - {fileID: 64737103}
+  - {fileID: 1691794107}
+  - {fileID: 1008438999}
 --- !u!114 &1590634377
 MonoBehaviour:
   m_ObjectHideFlags: 0
