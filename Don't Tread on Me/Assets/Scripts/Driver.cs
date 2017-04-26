@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
@@ -20,35 +20,74 @@ public class Driver : MonoBehaviour {
     private int framesSinceLastBoost;
     private bool canBoost;
 
-    public bool flamethrowerActive;
     public float flameDPS;
     public ParticleSystem flames;
+
+    private bool harpoonOut;
+    public bool GetHarpoonOut() { return harpoonOut; }
+    public void SetHarpoonOut(bool harp) { harpoonOut = harp; }
+    public Rigidbody harpoon;
+    private Rigidbody harpoonClone;
 
     private Rigidbody rb;
     public GameObject rightTreadPivot;
     public GameObject leftTreadPivot;
 
-    public GameObject driverPanel;
-    private Animator anim;
+
 
     private GameObject inputMngr;
     private PlayerRoles playerRoles;
     public PlayerID playerID;
+
+    // mode switching
+    public enum AmmoTypes { Boost, Flamethrower, Harpoon };
+    private int selectedMode = ((int)AmmoTypes.Boost);
+
+    public GameObject driverPanel;
+    public GameObject ammoPanel;
+    private Animator anim;
+
+    private List<string> currentCombo = new List<string>();
+
+    private List<string> boost_combo = new List<string> { "Button A", "Button B", "Button X", "Button A" };
+    public GameObject[] boost_buttons = new GameObject[4];
+
+    private List<string> flamethrower_combo = new List<string> { "Button Y", "Button B", "Button X", "Button A" };
+    public GameObject[] flamethrower_buttons = new GameObject[4];
+
+    private List<string> harpoon_combo = new List<string> { "Button A", "Button A", "Button X", "Button Y" };
+    public GameObject[] harpoon_buttons = new GameObject[4];
+
+    private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
+    private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
+
 
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
         rotateSpeed = hullRotateSpeed;
 
-        flamethrowerActive = true;
+        //harpoonActive = true;
+
+        // init ammo swap
+        ammoCombos.Add(AmmoTypes.Boost, boost_combo);
+        ammoCombos.Add(AmmoTypes.Flamethrower, flamethrower_combo);
+        ammoCombos.Add(AmmoTypes.Harpoon, harpoon_combo);
+
+        comboButtons.Add(boost_combo, boost_buttons);
+        comboButtons.Add(flamethrower_combo, flamethrower_buttons);
+        comboButtons.Add(harpoon_combo, harpoon_buttons);
 
         // Init
         anim = driverPanel.GetComponent<Animator>();
         anim.enabled = true;
 
         inputMngr = GameObject.Find("InputManager");
+      
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
+      
         playerRoles.HidePanel(anim);
+        playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().driver;
     }
@@ -57,7 +96,7 @@ public class Driver : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         //if the flamethrower is selected
-        if (flamethrowerActive)
+        if (selectedMode == 1)
         {
             //if the player is holding down the buttons
             if (InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1) //are the boost buttons being pressed?
@@ -72,19 +111,54 @@ public class Driver : MonoBehaviour {
         }//if flamethrower
     }//onTriggerStay
 
+    void LaunchHarpoon()
+    {
+        if (!harpoonOut)
+        {
+            harpoonClone = Instantiate(harpoon, transform.position + (5 * transform.forward) + (1 * transform.up), transform.rotation * Quaternion.Euler(90,0,0)) as Rigidbody;
+            //move the projectile via transform
+            //harpoonClone.velocity = transform.TransformDirection(Vector3.forward * 50); //50 as power
+            //move the projectile via rigidbody
+            harpoonClone.AddForce(transform.forward * 2500); //2500 as force
+            harpoonOut = true;
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
 
         if (playerID != inputMngr.GetComponent<PlayerRoles>().driver) return;
 
-        if (flamethrowerActive)
+        if (selectedMode == 1)
         {
             if ((InputManager.GetAxis("Right Trigger", playerID) == 1 && InputManager.GetAxis("Left Trigger", playerID) == 1))
             {
                 flames.Emit(5);
             }
         }
-        else 
+        else if (selectedMode == 2)
+        {
+            //press both triggers to launch the harpoon
+            if ((InputManager.GetAxis("Left Trigger", playerID) == 1))
+            {
+                //if a harpoon is not currently out
+                if (!harpoonOut)
+                {
+                    LaunchHarpoon();
+                }
+            }
+
+            //press B to destroy hook + release the hooked obj
+            if(InputManager.GetAxis("Left Trigger", playerID) <= 0.5f)
+            {
+                //if the harpoon is out and has hooked something
+                if (harpoonOut && harpoonClone.GetComponent<Harpoon>().GetHooked())
+                {
+                    harpoonClone.GetComponent<Harpoon>().ReleaseHook();
+                }
+            }
+        }
+        else if (selectedMode == 0)
         {
             #region boost what a fucking mess
             //driver's boost
@@ -187,33 +261,68 @@ public class Driver : MonoBehaviour {
             flipTank();
         }
 
+        #region weapon swapping
+        if (InputManager.GetButtonDown("Left Bumper", playerID))
+        {
+            // display the options when pushing left bumper
+            playerRoles.DisplayPanel(anim, ammoPanel);
+            currentCombo = new List<string>();
+        }
+
+        else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
+        {
+            if (currentCombo.Count == 4)
+            {
+                selectedMode = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                currentCombo = new List<string>();
+            }
+
+            // display the options when pushing left bumper
+            playerRoles.HidePanel(anim, ammoPanel);
+            playerRoles.ResetCombo(comboButtons);
+        }
+
+        if (InputManager.GetButton("Left Bumper", playerID))
+        {
+            // Add buttons to the current combo
+            if (InputManager.GetButtonDown("Button A", playerID))
+            {
+                currentCombo.Add("Button A");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button B", playerID))
+            {
+                currentCombo.Add("Button B");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button X", playerID))
+            {
+                currentCombo.Add("Button X");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+            else if (InputManager.GetButtonDown("Button Y", playerID))
+            {
+                currentCombo.Add("Button Y");
+                playerRoles.DisplayCombo(currentCombo, comboButtons);
+            }
+        }
+
+        #endregion
+
+        #region role swapping
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
-            Gunner gunner = GetComponent<Gunner>();
-            gunner.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
-
-            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToGunner(this);
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
         {
-            Commander commander = GetComponent<Commander>();
-            commander.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
-
-            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToEngineer(this);
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
-            Engineer engineer = GetComponent<Engineer>();
-            engineer.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
-
-            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
-            inputMngr.GetComponent<PlayerRoles>().driver = playerID;
+            playerRoles.SwapToCommander(this);
         }
+        #endregion
     }
 
     //this is like putting a bandaid on a gunshot wound
