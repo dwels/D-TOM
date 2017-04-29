@@ -53,4 +53,23 @@ public class CreateWall : MonoBehaviour {
         }
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Brick")
+        {
+            if (!triggered)
+            {
+                foreach (Transform child in bricks)
+                {
+                    child.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    child.gameObject.GetComponent<Collider>().enabled = true;
+                }
+
+                triggered = true;
+            }
+
+            this.gameObject.GetComponent<Collider>().enabled = false;
+        }
+    }
 }
