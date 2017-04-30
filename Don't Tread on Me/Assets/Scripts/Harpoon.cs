@@ -17,12 +17,26 @@ public class Harpoon : MonoBehaviour {
     float timeAlive;
     float startTime;
 
+    float lineLength;
+    float lineLengthGivePlus;
+    float lineLengthGiveMinus;
+    bool SlamActive;
+    public bool GetSlamActive()
+    {
+        return SlamActive;
+    }
+    public void SetSlamActive(bool s)
+    {
+        SlamActive = s;
+    }
+
     void Start()
     {
         player = GameObject.Find("Player");
         line = GetComponent<LineRenderer>();
 
         startTime = Time.time;
+        SlamActive = false;
     }
 
     void Update()
@@ -32,6 +46,12 @@ public class Harpoon : MonoBehaviour {
         {
             line.SetPosition(0, player.transform.position + (1 * new Vector3(0,1,0)));
             line.SetPosition(1, transform.position + (1 * -transform.up));
+
+            //simulates a towing effect if the distance between the hook and player is bigger than the 110% of the original distance
+            if (Vector3.Distance(this.transform.position, player.transform.position) > lineLengthGivePlus)
+            {
+                this.gameObject.GetComponent<Rigidbody>().AddForce((player.transform.position - transform.position) * 50, ForceMode.Force); //force is best
+            }
         }
 
         //auto destroy in 5 seconds if you haven't hit anything
@@ -59,8 +79,14 @@ public class Harpoon : MonoBehaviour {
             hooked = true;
             this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
-            line.widthMultiplier = 0.2f;
+            line.widthMultiplier = 0.1f;
         }
+
+        //length of line connecting the hook and the player
+        lineLength = Vector3.Distance(this.transform.position, player.transform.position);
+        //get the slack in the line
+        lineLengthGivePlus = lineLength * 1.1f;
+        lineLengthGiveMinus = lineLength * .9f;
 
         //if the collider's gameobject has the script HP
         if ((hit.gameObject.GetComponent("HP") as HP))
@@ -76,13 +102,24 @@ public class Harpoon : MonoBehaviour {
         //destroy harpoon
         Destroy(this.gameObject);
         //set driver's harpoon bool to false
-        player.gameObject.GetComponent<Driver>().SetHarpoonOut(false);
+        //player.gameObject.GetComponent<Driver>().SetHarpoonOut(false);
         //if the object had HP, set the HP's hooked bool to false, and reset its script
-        if ((hit.gameObject.GetComponent("HP") as HP))
+        if (hit)
         {
-            hit.gameObject.GetComponent<HP>().SetHookedHP(false);
-            hit.gameObject.GetComponent<HP>().UnhookTank();
+            if ((hit.gameObject.GetComponent("HP") as HP))
+            {
+                hit.gameObject.GetComponent<HP>().SetHookedHP(false);
+                hit.gameObject.GetComponent<HP>().UnhookTank();
+            }
         }
+    }
+
+    public void SlamAttack()
+    {
+        SlamActive = true;
+        this.gameObject.GetComponent<Rigidbody>().AddForce((player.transform.position - this.transform.position) * 100, ForceMode.Impulse);
+        player.gameObject.GetComponent<Rigidbody>().AddForce((this.transform.position - player.transform.position) * 100, ForceMode.Impulse);
+        //ReleaseHook();
     }
 
     //helper will attach fixed joints to stuff
