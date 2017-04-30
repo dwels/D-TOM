@@ -234,12 +234,12 @@ public class CameraController : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit))
         {
-            if(hit.transform.gameObject.tag == "Player")
+            if(hit.transform.gameObject.tag == "Plane")
             {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 }
