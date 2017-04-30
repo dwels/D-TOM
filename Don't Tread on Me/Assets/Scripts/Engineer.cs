@@ -40,23 +40,23 @@ public class Engineer : MonoBehaviour {
     private int selectedAmmo = (int)AmmoTypes.Default;
 
     // for ammo
-    //private float reloadSpeed = 50.0f;
-    //private List<string> currentCombo = new List<string>();
-    //
-    //private List<string> standard_grenade_combo = new List<string> { "Button X", "Button A", "Button B", "Button Y" };
-    //public GameObject[] standard_grenade_buttons = new GameObject[4];
-    //
-    //private List<string> mine_grenade_combo = new List<string> { "Button A", "Button A", "Button Y", "Button B" };
-    //public GameObject[] mine_grenade_buttons = new GameObject[4];
-    //
-    //private List<string> magnet_grenade_combo = new List<string> { "Button B", "Button Y", "Button X", "Button A" };
-    //public GameObject[] magnet_grenade_buttons = new GameObject[4];
-    //
-    //private List<string> slow_grenade_combo = new List<string> { "Button Y", "Button X", "Button Y", "Button X" };
-    //public GameObject[] slow_grenade_buttons = new GameObject[4];
-    //
-    //private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
-    //private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
+    private float reloadSpeed = 50.0f;
+    private List<string> currentCombo = new List<string>();
+    
+    private List<string> standard_grenade_combo = new List<string> { "Button X", "Button A", "Button B", "Button Y" };
+    public GameObject[] standard_grenade_buttons = new GameObject[4];
+    
+    private List<string> mine_grenade_combo = new List<string> { "Button A", "Button A", "Button Y", "Button B" };
+    public GameObject[] mine_grenade_buttons = new GameObject[4];
+    
+    private List<string> magnet_grenade_combo = new List<string> { "Button B", "Button Y", "Button X", "Button Y" };
+    public GameObject[] magnet_grenade_buttons = new GameObject[4];
+    
+    private List<string> slow_grenade_combo = new List<string> { "Button Y", "Button X", "Button Y", "Button X" };
+    public GameObject[] slow_grenade_buttons = new GameObject[4];
+    
+    private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
+    private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
 
 
 
@@ -68,15 +68,15 @@ public class Engineer : MonoBehaviour {
         reloadTime = 2f;
 
         // init ammo swap
-        //ammoCombos.Add(AmmoTypes.Default, standard_grenade_combo);
-        //ammoCombos.Add(AmmoTypes.Mine, mine_grenade_combo);
-        //ammoCombos.Add(AmmoTypes.Magnet, magnet_grenade_combo);
-        //ammoCombos.Add(AmmoTypes.Slow, slow_grenade_combo);
-        //
-        //comboButtons.Add(standard_grenade_combo, standard_grenade_buttons);
-        //comboButtons.Add(mine_grenade_combo, mine_grenade_buttons);
-        //comboButtons.Add(magnet_grenade_combo, magnet_grenade_buttons);
-        //comboButtons.Add(slow_grenade_combo, slow_grenade_buttons);
+        ammoCombos.Add(AmmoTypes.Default, standard_grenade_combo);
+        ammoCombos.Add(AmmoTypes.Mine, mine_grenade_combo);
+        ammoCombos.Add(AmmoTypes.Magnet, magnet_grenade_combo);
+        ammoCombos.Add(AmmoTypes.Slow, slow_grenade_combo);
+        
+        comboButtons.Add(standard_grenade_combo, standard_grenade_buttons);
+        comboButtons.Add(mine_grenade_combo, mine_grenade_buttons);
+        comboButtons.Add(magnet_grenade_combo, magnet_grenade_buttons);
+        comboButtons.Add(slow_grenade_combo, slow_grenade_buttons);
 
 
         // Init
@@ -160,7 +160,7 @@ public class Engineer : MonoBehaviour {
 
 
         #region ammo swapping
-        /* if (InputManager.GetButtonDown("Left Bumper", playerID))
+         if (InputManager.GetButtonDown("Left Bumper", playerID))
          {
              // display the options when pushing left bumper
              playerRoles.DisplayPanel(anim, ammoPanel);
@@ -170,8 +170,8 @@ public class Engineer : MonoBehaviour {
          {
              if (currentCombo.Count == 4)
              {
-                 //selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
-                 //currentCombo = new List<string>();
+                 selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                 currentCombo = new List<string>();
              }
 
              // display the options when pushing left bumper
@@ -203,7 +203,7 @@ public class Engineer : MonoBehaviour {
                  playerRoles.DisplayCombo(currentCombo, comboButtons);
              }
          }
-         */
+         
         #endregion
 
 
@@ -239,7 +239,7 @@ public class Engineer : MonoBehaviour {
         }
         if (selectedAmmo == (int)AmmoTypes.Mine)
         {
-            Rigidbody clone = Instantiate(mineAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection), target.transform.rotation) as Rigidbody;
+            Rigidbody clone = Instantiate(mineAmmo, target.transform.position + (SPAWN_DISTANCE * reticleDirection) + new Vector3(0,-2,0), target.transform.rotation) as Rigidbody;
             
         }
         if (selectedAmmo == (int)AmmoTypes.Magnet)
