@@ -23,6 +23,10 @@ public class CameraController : MonoBehaviour
     public float zoomMin = 2.0f;
     public float zoomMax = 14.0f;
 
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    private bool canSeeTarget = false;
+
     private GameObject currentWaypoint;
     private float timeLast = 0.0f;
     private Vector3 oldPosition;
@@ -33,7 +37,8 @@ public class CameraController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        oldPosition = transform.position;
+        originalPosition = mainCamera.transform.position;
+        originalRotation = mainCamera.transform.rotation;
         oldTargetPosition = target.transform.position;
 
         // this code is for managing player roles
@@ -46,8 +51,11 @@ public class CameraController : MonoBehaviour
     {
         // follow the tank
         Vector3 follow = target.transform.position - oldTargetPosition;
-        transform.Translate(follow, Space.World);
+        mainCamera.transform.Translate(follow, Space.World);
+        originalPosition += follow;
 
+        #region unused
+        /*
         // old position
         oldPosition = transform.position;
 
@@ -80,7 +88,6 @@ public class CameraController : MonoBehaviour
         // because you cant just add staight to the x and z value of transform position
         Vector3 correction = transform.position;
 
-        /*
         // Method 1 (rectangular bounds)
         if (Mathf.Abs((a.x - a.z) - (b.x - b.z)) > distanceCap)
         {
@@ -106,9 +113,10 @@ public class CameraController : MonoBehaviour
             }
 
         }
-        */
 
         transform.position = correction;
+        */
+        #endregion
 
         // update tank's old position
         oldTargetPosition = target.transform.position;
@@ -135,12 +143,15 @@ public class CameraController : MonoBehaviour
             }
         }
 
+        // avoid wall clipping
+        AvoidWallClipping2();
+
         // camera zoom
-        if(InputManager.GetButton("Left Bumper", commander))
+        if(InputManager.GetButton("Left Stick Button", commander))
         {
             mainCamera.orthographicSize += zoomSpeed;
         }
-        if (InputManager.GetButton("Right Bumper", commander))
+        if (InputManager.GetButton("Right Stick Button", commander))
         {
             mainCamera.orthographicSize -= zoomSpeed;
         }
@@ -184,5 +195,51 @@ public class CameraController : MonoBehaviour
                 currentWaypoint.transform.SetParent(hit.transform);
             }
         }
+    }
+
+    // rotates if line of sight is obstructed
+    void AvoidWallClipping2()
+    {
+        Vector3 temp = target.position - mainCamera.transform.position;
+        Vector3 abovePos = target.position;
+        abovePos.y = temp.magnitude;
+
+        Vector3 tempB = temp;
+        tempB.y = 0;
+        Quaternion aboveRot = Quaternion.LookRotation(Vector3.down, tempB);
+
+        Vector3 testPosition = Vector3.Lerp(mainCamera.transform.position, abovePos, 0.5f * Time.deltaTime);
+
+        if (!ShouldAdjust(testPosition))
+        {
+            mainCamera.transform.position = testPosition;
+            mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, aboveRot, 0.5f * Time.deltaTime);
+        }
+
+        testPosition = Vector3.Lerp(mainCamera.transform.position, originalPosition, 2.0f * Time.deltaTime);
+
+        if (ShouldAdjust(testPosition))
+        {
+            mainCamera.transform.position = testPosition;
+            mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, originalRotation, 2.0f * Time.deltaTime);
+        }
+    }
+
+    // helper function
+    bool ShouldAdjust(Vector3 position)
+    {
+        RaycastHit hit;
+        Vector3 temp = target.transform.position - position;
+        Ray ray = new Ray(position, temp);
+
+        if(Physics.Raycast(ray, out hit))
+        {
+            if(hit.transform.gameObject.tag == "Player")
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

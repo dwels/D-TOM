@@ -160,79 +160,64 @@ public class Engineer : MonoBehaviour {
 
 
         #region ammo swapping
-       /* if (InputManager.GetButtonDown("Left Bumper", playerID))
-        {
-            // display the options when pushing left bumper
-            playerRoles.DisplayPanel(anim, ammoPanel);
-            currentCombo = new List<string>();
-        }
-        else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
-        {
-            if (currentCombo.Count == 4)
-            {
-                //selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
-                //currentCombo = new List<string>();
-            }
+        /* if (InputManager.GetButtonDown("Left Bumper", playerID))
+         {
+             // display the options when pushing left bumper
+             playerRoles.DisplayPanel(anim, ammoPanel);
+             currentCombo = new List<string>();
+         }
+         else if (InputManager.GetButtonUp("Left Bumper", playerID) || currentCombo.Count == 4)
+         {
+             if (currentCombo.Count == 4)
+             {
+                 //selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                 //currentCombo = new List<string>();
+             }
 
-            // display the options when pushing left bumper
-            playerRoles.HidePanel(anim, ammoPanel);
-            playerRoles.ResetCombo(comboButtons);
-        }
+             // display the options when pushing left bumper
+             playerRoles.HidePanel(anim, ammoPanel);
+             playerRoles.ResetCombo(comboButtons);
+         }
 
-        if (InputManager.GetButton("Left Bumper", playerID))
-        {
-            // Add buttons to the current combo
-            if (InputManager.GetButtonDown("Button A", playerID))
-            {
-                currentCombo.Add("Button A");
-                playerRoles.DisplayCombo(currentCombo, comboButtons);
-            }
-            else if (InputManager.GetButtonDown("Button B", playerID))
-            {
-                currentCombo.Add("Button B");
-                playerRoles.DisplayCombo(currentCombo, comboButtons);
-            }
-            else if (InputManager.GetButtonDown("Button X", playerID))
-            {
-                currentCombo.Add("Button X");
-                playerRoles.DisplayCombo(currentCombo, comboButtons);
-            }
-            else if (InputManager.GetButtonDown("Button Y", playerID))
-            {
-                currentCombo.Add("Button Y");
-                playerRoles.DisplayCombo(currentCombo, comboButtons);
-            }
-        }
-        */
+         if (InputManager.GetButton("Left Bumper", playerID))
+         {
+             // Add buttons to the current combo
+             if (InputManager.GetButtonDown("Button A", playerID))
+             {
+                 currentCombo.Add("Button A");
+                 playerRoles.DisplayCombo(currentCombo, comboButtons);
+             }
+             else if (InputManager.GetButtonDown("Button B", playerID))
+             {
+                 currentCombo.Add("Button B");
+                 playerRoles.DisplayCombo(currentCombo, comboButtons);
+             }
+             else if (InputManager.GetButtonDown("Button X", playerID))
+             {
+                 currentCombo.Add("Button X");
+                 playerRoles.DisplayCombo(currentCombo, comboButtons);
+             }
+             else if (InputManager.GetButtonDown("Button Y", playerID))
+             {
+                 currentCombo.Add("Button Y");
+                 playerRoles.DisplayCombo(currentCombo, comboButtons);
+             }
+         }
+         */
         #endregion
 
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
-            Gunner gunner = GetComponent<Gunner>();
-            gunner.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
-
-            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
-            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+            playerRoles.SwapToGunner(this);
         }
         else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
         {
-            Driver driver = GetComponent<Driver>();
-            driver.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
-
-            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
-            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+            playerRoles.SwapToDriver(this);
         }
-        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
-            Commander commander = GetComponent<Commander>();
-            commander.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().commander;
-
-            inputMngr.GetComponent<PlayerRoles>().commander = commander.playerID;
-            inputMngr.GetComponent<PlayerRoles>().engineer = playerID;
+            playerRoles.SwapToCommander(this);
         }
 
     }

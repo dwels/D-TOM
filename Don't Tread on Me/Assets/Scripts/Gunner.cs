@@ -229,30 +229,15 @@ public class Gunner : MonoBehaviour {
 
         if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
         {
-            Commander commander = GetComponent<Commander>();
-            commander.playerID = playerID;
-            playerID = playerRoles.commander;
-
-            playerRoles.commander = commander.playerID;
-            playerRoles.gunner = playerID;
+            playerRoles.SwapToEngineer(this);
         }
-        else  if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
+        else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
         {
-            Driver driver = GetComponent<Driver>();
-            driver.playerID = playerID;
-            playerID = playerRoles.driver;
-
-            playerRoles.driver = driver.playerID;
-            playerRoles.gunner = playerID;
+            playerRoles.SwapToDriver(this);
         }
         else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
         {
-            Engineer engineer = GetComponent<Engineer>();
-            engineer.playerID = playerID;
-            playerID = playerRoles.engineer;
-
-            playerRoles.engineer = engineer.playerID;
-            playerRoles.gunner = playerID;
+            playerRoles.SwapToCommander(this);
         }
     }
 }

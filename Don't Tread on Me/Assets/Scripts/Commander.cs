@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TeamUtility.IO;
@@ -87,8 +87,10 @@ public class Commander : MonoBehaviour {
         anim.enabled = true;
 
         inputMngr = GameObject.Find("InputManager");
+      
         playerRoles = inputMngr.GetComponent<PlayerRoles>();
         playerRoles.HidePanel(anim);
+        playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().commander;
     }
@@ -188,30 +190,15 @@ public class Commander : MonoBehaviour {
 
         if (InputManager.GetAxis("DPAD Vertical", playerID) == 1)
         {
-            Gunner gunner = GetComponent<Gunner>();
-            gunner.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().gunner;
-
-            inputMngr.GetComponent<PlayerRoles>().gunner = gunner.playerID;
-            inputMngr.GetComponent<PlayerRoles>().commander = playerID;
+            playerRoles.SwapToGunner(this);
+        }
+        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == 1)
+        {
+            playerRoles.SwapToEngineer(this);
         }
         else if (InputManager.GetAxis("DPAD Vertical", playerID) == -1)
         {
-            Driver driver = GetComponent<Driver>();
-            driver.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().driver;
-
-            inputMngr.GetComponent<PlayerRoles>().driver = driver.playerID;
-            inputMngr.GetComponent<PlayerRoles>().commander = playerID;
-        }
-        else if (InputManager.GetAxis("DPAD Horizontal", playerID) == -1)
-        {
-            Engineer engineer = GetComponent<Engineer>();
-            engineer.playerID = playerID;
-            playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
-
-            inputMngr.GetComponent<PlayerRoles>().engineer = engineer.playerID;
-            inputMngr.GetComponent<PlayerRoles>().commander = playerID;
+            playerRoles.SwapToDriver(this);
         }
     }
 
