@@ -8,7 +8,7 @@ public class ExplodeMagnet : MonoBehaviour {
 
     public Rigidbody Projectile = null;
 
-    public float radius = 8f;
+    public float radius = 10f;
     Vector3 pos;
 
     public AudioClip inspiration;
@@ -42,7 +42,7 @@ public class ExplodeMagnet : MonoBehaviour {
 
             foreach (Collider hit in colliders)
             {
-                if ((hit.gameObject.GetComponent("Rigidbody") as Rigidbody) != null )//&& hit.tag.Equals("Enemy")) 
+                if ((hit.gameObject.GetComponent("Rigidbody") as Rigidbody) != null && hit.tag.Equals("Enemy")) 
                 {
                     hit.transform.position = Vector3.MoveTowards(hit.transform.position, transform.position, 5f * Time.deltaTime);
                 }

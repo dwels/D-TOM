@@ -12,6 +12,8 @@ public class Commander : MonoBehaviour {
     public GameObject airstrike;
     public GameObject target;
     public GameObject reticle;
+    public GameObject reticleChild1;
+    public GameObject reticleChild2;
 
     public float translateSpeed = 10.0f;
     public float reticleRotateSpeed = 2.0f;
@@ -31,15 +33,16 @@ public class Commander : MonoBehaviour {
     public GameObject gun;
 
     private float timeLast = 0.0f;
-    private float oldX = 0;
-    private float oldY = 0;
     private int tracerCounter = 0;
 
     private float oldRetX = 0;
     private float oldRetY = 0;
 
+    private float oldRotation;
     private Vector3 oldTargetPosition;
     private float timerLast = 0.0f;
+
+    private LineRenderer myLineRenderer;
 
     // mode switching
     public enum AmmoTypes { CarePackage, Shield, Airstrike };
@@ -72,6 +75,8 @@ public class Commander : MonoBehaviour {
     void Start () {
 
         oldTargetPosition = follow.transform.position;
+        oldRotation = gun.transform.parent.transform.localEulerAngles.y;
+        myLineRenderer = reticle.GetComponent<LineRenderer>();
 
         // init ammo swap
         ammoCombos.Add(AmmoTypes.CarePackage, care_package_combo);
@@ -127,6 +132,8 @@ public class Commander : MonoBehaviour {
         {
             reticle.transform.position = hit.point;
         }
+
+        AdjustReticles();
 
         // manage trigger input
         if (InputManager.GetAxis("Left Trigger", playerID) > 0)
@@ -208,22 +215,23 @@ public class Commander : MonoBehaviour {
         float x = InputManager.GetAxis("Right Stick Horizontal", playerID);
         float y = InputManager.GetAxis("Right Stick Vertical", playerID);
 
-        float angle;
+        float newRotation = gun.transform.parent.transform.localEulerAngles.y;
+        float test = oldRotation - newRotation;
 
-        if (Mathf.Abs(x) < deadZone && Mathf.Abs(y) < deadZone)
+        float angle = 0f;
+
+        if (Mathf.Abs(x) >= deadZone || Mathf.Abs(y) >= deadZone)
         {
-            angle = Mathf.Atan2(oldX, -oldY);
-        }
-        else
-        {
-            oldX = x;
-            oldY = y;
             angle = Mathf.Atan2(x, -y);
             Fire();
+
+            Quaternion destination = Quaternion.EulerAngles(0, angle, 0) * Quaternion.AngleAxis(45, gun.transform.parent.transform.up);
+            gun.transform.rotation = Quaternion.Lerp(gun.transform.rotation, destination, Time.deltaTime * rotateSpeed);
         }
 
-        Quaternion destination = Quaternion.EulerAngles(0, angle, 0) * Quaternion.AngleAxis(45, Vector3.up);
-        gun.transform.rotation = Quaternion.Lerp(gun.transform.rotation, destination, Time.deltaTime * rotateSpeed);
+        gun.transform.Rotate(0f, test, 0f);
+
+        oldRotation = gun.transform.parent.transform.localEulerAngles.y;
     }
 
     // Fire function
@@ -283,7 +291,7 @@ public class Commander : MonoBehaviour {
                 {
                     Vector3 crateStart = target.transform.position;
                     crateStart.y = crateHeight;
-                    Instantiate(crate, crateStart, Quaternion.identity);
+                    Instantiate(crate, crateStart, reticle.transform.rotation);
                     timerLast = Time.time;
                 }
                 if(selectedMode == (int)AmmoTypes.Shield)
@@ -325,5 +333,32 @@ public class Commander : MonoBehaviour {
                 timerLast = Time.time;
             }
         }
+    }
+
+    // adjust position of reticles
+    void AdjustReticles()
+    {
+        float x = 0.0f;
+
+        if (InputManager.GetAxis("Left Trigger", playerID) > 0.0f)
+        {
+            if (selectedMode == (int)AmmoTypes.CarePackage)
+            {
+                x = 0.25f;
+            }
+            if (selectedMode == (int)AmmoTypes.Shield)
+            {
+                x = 0.5f;
+            }
+            if (selectedMode == (int)AmmoTypes.Airstrike)
+            {
+                x = 3.0f;
+            }
+        }
+
+        reticleChild1.transform.localPosition = Vector3.Lerp(reticleChild1.transform.localPosition, new Vector3(-x, 0, 0), Time.deltaTime * 3);
+        reticleChild2.transform.localPosition = Vector3.Lerp(reticleChild2.transform.localPosition, new Vector3(x, 0, 0), Time.deltaTime * 3);
+        myLineRenderer.SetPosition(0, reticleChild1.transform.localPosition);
+        myLineRenderer.SetPosition(1, reticleChild2.transform.localPosition);
     }
 }

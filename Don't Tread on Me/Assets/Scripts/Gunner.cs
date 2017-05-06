@@ -9,7 +9,7 @@ public class Gunner : MonoBehaviour {
     private int angleCurrent;
 
     // for gunner rotation
-    Quaternion oldRotation;
+    float oldRotation;
     public float gunnerRotateSpeed = 1.0f;
 
     // for main gunner and active reload
@@ -60,7 +60,7 @@ public class Gunner : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        oldRotation = tankTop.transform.rotation;
+        oldRotation = tankTop.transform.parent.transform.localEulerAngles.y;
 
         // pull in rockets script
         rockets = GetComponent<Rockets>();
@@ -96,13 +96,18 @@ public class Gunner : MonoBehaviour {
         if (playerID != playerRoles.gunner) return;
 
         #region tank top rotation
-        //turn Top of Tank to the right
+
+        float newRotation = tankTop.transform.parent.transform.localEulerAngles.y;
+        float test = oldRotation - newRotation;
+
+        tankTop.transform.Rotate(0f, test, 0f);
 
         if (InputManager.GetAxis("Right Stick Horizontal", playerID) != 0.0f)
         {
             tankTop.transform.Rotate(0f, (InputManager.GetAxis("Right Stick Horizontal", playerID) * gunnerRotateSpeed), 0f);
-            oldRotation = tankTop.transform.rotation;
         }
+
+        oldRotation = tankTop.transform.parent.transform.localEulerAngles.y;
         #endregion
 
         #region cannon angle
@@ -132,8 +137,8 @@ public class Gunner : MonoBehaviour {
         {
             // draw line
             // ToDo: this should be a raycast to help see what it is aiming at
-            Vector3 forward = launcher.transform.TransformDirection(Vector3.forward) * 20;
-            Debug.DrawRay(launcher.transform.position, forward, Color.red);
+            // Vector3 forward = launcher.transform.TransformDirection(Vector3.forward) * 20;
+            // Debug.DrawRay(launcher.transform.position, forward, Color.red);
 
             if (InputManager.GetAxis("Right Trigger", playerID) == 1)
             {
@@ -142,6 +147,7 @@ public class Gunner : MonoBehaviour {
                 reloading = true;
 
                 playerRoles.DisplayPanel(anim, reloadPanel);
+                launcher.GetComponent<LineRenderer>().enabled = false;
             }
         }
 
@@ -159,6 +165,7 @@ public class Gunner : MonoBehaviour {
                     reloading = false;
 
                     playerRoles.HidePanel(anim, reloadPanel);
+                    launcher.GetComponent<LineRenderer>().enabled = true;
                 }
                 else
                 {
@@ -174,6 +181,7 @@ public class Gunner : MonoBehaviour {
                 reloadSpeed = 50;
 
                 playerRoles.HidePanel(anim, reloadPanel);
+                launcher.GetComponent<LineRenderer>().enabled = true;
             }
         }
 
