@@ -178,7 +178,13 @@ public class Driver : MonoBehaviour {
             //press b to initiate slam attack for the glorious union
             if (InputManager.GetButtonDown("Button B", playerID))
             {
-                harpoonClone.GetComponent<Harpoon>().SlamAttack();
+                if (harpoonOut)
+                {
+                    if (harpoonClone.GetComponent<Harpoon>().GetHooked())
+                    {
+                        harpoonClone.GetComponent<Harpoon>().SlamAttack();
+                    }
+                }
             }
         }
         else if (selectedMode == 0)

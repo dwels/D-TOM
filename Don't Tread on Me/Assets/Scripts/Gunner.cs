@@ -137,8 +137,8 @@ public class Gunner : MonoBehaviour {
         {
             // draw line
             // ToDo: this should be a raycast to help see what it is aiming at
-            Vector3 forward = launcher.transform.TransformDirection(Vector3.forward) * 20;
-            Debug.DrawRay(launcher.transform.position, forward, Color.red);
+            // Vector3 forward = launcher.transform.TransformDirection(Vector3.forward) * 20;
+            // Debug.DrawRay(launcher.transform.position, forward, Color.red);
 
             if (InputManager.GetAxis("Right Trigger", playerID) == 1)
             {
@@ -147,6 +147,7 @@ public class Gunner : MonoBehaviour {
                 reloading = true;
 
                 playerRoles.DisplayPanel(anim, reloadPanel);
+                launcher.GetComponent<LineRenderer>().enabled = false;
             }
         }
 
@@ -164,6 +165,7 @@ public class Gunner : MonoBehaviour {
                     reloading = false;
 
                     playerRoles.HidePanel(anim, reloadPanel);
+                    launcher.GetComponent<LineRenderer>().enabled = true;
                 }
                 else
                 {
@@ -179,6 +181,7 @@ public class Gunner : MonoBehaviour {
                 reloadSpeed = 50;
 
                 playerRoles.HidePanel(anim, reloadPanel);
+                launcher.GetComponent<LineRenderer>().enabled = true;
             }
         }
 

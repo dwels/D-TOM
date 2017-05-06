@@ -291,7 +291,7 @@ public class Commander : MonoBehaviour {
                 {
                     Vector3 crateStart = target.transform.position;
                     crateStart.y = crateHeight;
-                    Instantiate(crate, crateStart, Quaternion.identity);
+                    Instantiate(crate, crateStart, reticle.transform.rotation);
                     timerLast = Time.time;
                 }
                 if(selectedMode == (int)AmmoTypes.Shield)
