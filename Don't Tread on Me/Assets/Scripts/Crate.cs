@@ -7,13 +7,17 @@ public class Crate : MonoBehaviour {
     public float parachuteDrag = 8.0f;
     public float deploymentHeight = 6.0f;
     public float windForce = 1.0f;
+    public GameObject strings;
+    public GameObject chute;
 
+    private Vector3 windDirection = Vector3.left;
     private bool deployed = false;
     private Rigidbody rigidBody;
 
 	// Use this for initialization
 	void Start () {
         rigidBody = this.GetComponent<Rigidbody>();
+        windDirection = this.transform.forward;
     }
 	
 	// Update is called once per frame
@@ -27,10 +31,12 @@ public class Crate : MonoBehaviour {
             {
                 deployed = true;
                 rigidBody.drag = parachuteDrag;
+                strings.GetComponent<MeshRenderer>().enabled = true;
+                chute.GetComponent<MeshRenderer>().enabled = true;
             }
         }
 
-        Vector3 wind = Vector3.left * windForce;
+        Vector3 wind = windDirection * windForce;
         rigidBody.AddForce(wind);
 	}
 
@@ -45,6 +51,8 @@ public class Crate : MonoBehaviour {
         else
         {
             rigidBody.drag = 0.0f;
+            strings.GetComponent<MeshRenderer>().enabled = false;
+            chute.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 }
