@@ -111,6 +111,19 @@ public class Driver : MonoBehaviour {
         }//if flamethrower
     }//onTriggerStay
 
+    //boy i hope this doesnt count the flamethrower box
+    void OnCollisionEnter(Collision other)
+    {
+        //if you are currently slamming, have a harpoon out and what you hit is an enemy tank
+        if (other.gameObject.GetComponent<EnemyTank>() && harpoonOut && harpoonClone.GetComponent<Harpoon>().GetSlamActive())
+        {
+            //remove the harpoon, tell it the slamming is over and wipe the enemy off the face of the planet
+            harpoonClone.GetComponent<Harpoon>().ReleaseHook();
+            harpoonClone.GetComponent<Harpoon>().SetSlamActive(false);
+            other.gameObject.GetComponent<HP>().TakeDamage(200);
+        }
+    }
+
     void LaunchHarpoon()
     {
         if (!harpoonOut)
@@ -138,7 +151,7 @@ public class Driver : MonoBehaviour {
         }
         else if (selectedMode == 2)
         {
-            //press both triggers to launch the harpoon
+            //press and hold left trigger to launch harpoon
             if ((InputManager.GetAxis("Left Trigger", playerID) == 1))
             {
                 //if a harpoon is not currently out
@@ -148,14 +161,24 @@ public class Driver : MonoBehaviour {
                 }
             }
 
-            //press B to destroy hook + release the hooked obj
+            //release to destroy hook + release the hooked obj
             if(InputManager.GetAxis("Left Trigger", playerID) <= 0.5f)
             {
                 //if the harpoon is out and has hooked something
-                if (harpoonOut && harpoonClone.GetComponent<Harpoon>().GetHooked())
+                if (harpoonOut)
                 {
-                    harpoonClone.GetComponent<Harpoon>().ReleaseHook();
+                    harpoonOut = false;
+                    if (harpoonClone)
+                    {
+                        harpoonClone.GetComponent<Harpoon>().ReleaseHook();
+                    }
                 }
+            }
+
+            //press b to initiate slam attack for the glorious union
+            if (InputManager.GetButtonDown("Button B", playerID))
+            {
+                harpoonClone.GetComponent<Harpoon>().SlamAttack();
             }
         }
         else if (selectedMode == 0)
