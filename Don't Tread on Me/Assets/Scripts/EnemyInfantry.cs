@@ -44,6 +44,8 @@ public class EnemyInfantry : MonoBehaviour {
         slowed = false;
         baseSpeed = speed;
 
+        target = GameObject.Find("Player");
+
         //this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
         //this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
     }
@@ -102,7 +104,7 @@ public class EnemyInfantry : MonoBehaviour {
                 //print("target within range");
                 /*aim at target*/
                 transform.LookAt(target.transform.position);
-                print(this.gameObject.name + " shooting");
+                // print(this.gameObject.name + " shooting");
                 //print("taking aim");
                 /*and fire*/
                 //print("firing");
@@ -115,7 +117,7 @@ public class EnemyInfantry : MonoBehaviour {
             }
             else
             {
-                print("repositioning");
+                // print("repositioning");
                 /*else aim tank bottom at target*/
                 transform.LookAt(target.transform.position);
                 /*and drive forward(deltatime)*/

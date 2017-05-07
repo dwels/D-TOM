@@ -44,7 +44,8 @@ public class EnemyTank : MonoBehaviour
         gameManager = gm.GetComponent<GameManager>();
 
         pointWorth = 50;
-
+        
+        target = GameObject.Find("Player");
         rocketTrue = true;
         slowed = false;
 
