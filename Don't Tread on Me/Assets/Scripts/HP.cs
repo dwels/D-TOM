@@ -49,4 +49,13 @@ public class HP : MonoBehaviour {
             print("She's dead, Jim");
         }
     }//take damage
+
+    public void Repair(float heal)
+    {
+        CurrHP += heal;
+        if (CurrHP > MaxHP)
+        {
+            CurrHP = MaxHP;
+        }
+    }
 }

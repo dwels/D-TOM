@@ -11,16 +11,21 @@ public class PlayerTank : MonoBehaviour {
 
     void Start () {
         totalHP = this.gameObject.GetComponent<HP>().MaxHP;
-        for (int e = 0; e < 10; e++)
-        {
-            HPbar.transform.GetChild(e).gameObject.SetActive(true);
-        }
+        RefillHPBar();
     }
 	
 	void FixedUpdate () {
         currentHP = this.gameObject.GetComponent<HP>().getCurrHP();
         percentHP = currentHP / totalHP;
         CalcHPBar(percentHP);
+    }
+
+    public void RefillHPBar()
+    {
+        for (int e = 0; e < 10; e++)
+        {
+            HPbar.transform.GetChild(e).gameObject.SetActive(true);
+        }
     }
 
     //method to calculate what pips to show in HP; probably not the most efficient solution

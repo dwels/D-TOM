@@ -45,6 +45,8 @@ public class Crate : MonoBehaviour {
         if (collision.transform.CompareTag("Player"))
         {
             Destroy(gameObject);
+            collision.gameObject.GetComponent<HP>().Repair(25);
+            collision.gameObject.GetComponent<PlayerTank>().RefillHPBar();
         }
         else
         {
