@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TeamUtility.IO;
 
 public class Engineer : MonoBehaviour {
@@ -10,6 +11,8 @@ public class Engineer : MonoBehaviour {
     public Rigidbody mineAmmo = null;
     public Rigidbody magnetAmmo = null;
     public Rigidbody slowAmmo = null;
+
+    
 
     // For Grenade aiming
     public GameObject target;
@@ -33,6 +36,8 @@ public class Engineer : MonoBehaviour {
     private PlayerRoles playerRoles;
     public PlayerID playerID;
 
+    public GameObject abilityIcon;
+    public Sprite[] abilityIcons = new Sprite[4];
 
     public GameObject ammoPanel;
 
@@ -57,6 +62,8 @@ public class Engineer : MonoBehaviour {
     
     private Dictionary<AmmoTypes, List<string>> ammoCombos = new Dictionary<AmmoTypes, List<string>>();
     private Dictionary<List<string>, GameObject[]> comboButtons = new Dictionary<List<string>, GameObject[]>();
+
+    public GameObject playerIcon;
 
 
 
@@ -89,12 +96,16 @@ public class Engineer : MonoBehaviour {
         //playerRoles.SetComboTextures(comboButtons);
 
         playerID = inputMngr.GetComponent<PlayerRoles>().engineer;
+
+        abilityIcon.GetComponent<Image>().sprite = abilityIcons[selectedAmmo];
     }
 	
 	// Update is called once per frame
 	void Update () {
 
         if (playerID != inputMngr.GetComponent<PlayerRoles>().engineer) return;
+
+        playerIcon.GetComponent<Image>().sprite = playerRoles.helmets[(int)playerID];
 
         if (amEngineer)
         {
@@ -170,8 +181,9 @@ public class Engineer : MonoBehaviour {
          {
              if (currentCombo.Count == 4)
              {
-                 selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
-                 currentCombo = new List<string>();
+                selectedAmmo = playerRoles.SelectAmmo(currentCombo, ammoCombos);
+                abilityIcon.GetComponent<Image>().sprite = abilityIcons[selectedAmmo];
+                currentCombo = new List<string>();
              }
 
              // display the options when pushing left bumper

@@ -26,13 +26,25 @@ public class EnemyInfantry : MonoBehaviour {
     public float reloadTime = 3.0f;
     private float timeLast = 0.0f;
 
+    GameManager gameManager;
+    GameObject gm;
+
+    public int pointWorth;
+
     public ParticleSystem explosion;
 
     // Use this for initialization
     void Start()
     {
+        gm = GameObject.Find("GameManager");
+        gameManager = gm.GetComponent<GameManager>();
+
+        pointWorth = 10;
+
         slowed = false;
         baseSpeed = speed;
+
+        target = GameObject.Find("Player");
 
         //this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX;
         //this.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationZ;
@@ -47,6 +59,7 @@ public class EnemyInfantry : MonoBehaviour {
         {
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             Instantiate(explosion, transform.position, transform.rotation);
+            gameManager.SetScore(pointWorth);
             Destroy(this.gameObject);
         }
 
@@ -91,7 +104,7 @@ public class EnemyInfantry : MonoBehaviour {
                 //print("target within range");
                 /*aim at target*/
                 transform.LookAt(target.transform.position);
-                print(this.gameObject.name + " shooting");
+                // print(this.gameObject.name + " shooting");
                 //print("taking aim");
                 /*and fire*/
                 //print("firing");
@@ -104,7 +117,7 @@ public class EnemyInfantry : MonoBehaviour {
             }
             else
             {
-                print("repositioning");
+                // print("repositioning");
                 /*else aim tank bottom at target*/
                 transform.LookAt(target.transform.position);
                 /*and drive forward(deltatime)*/
